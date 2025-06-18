@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "Phetsarath";
+    src: url("/fonts/Phetsarath.ttf") format("truetype");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0E80-0EFF;
+  }
+  @font-face {
+    font-family: "TimesNewRoman";
+    src: url("/fonts/OPTITimes-Roman.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-007F;
+  }
+
+  @layer utilities {
+    .text-balance {
+      text-wrap: balance;
+    }
+  }
+  .font-TimesNewRoman {
+    font-family: "TimesNewRoman", serif;
+  }
+
+  html {
+    font-family: "Phetsarath", system-ui, sans-serif;
+  }
+  .font-Phetsarath {
+    font-family: "Phetsarath", system-ui, sans-serif;
+  }
+  p {
+    font-family: 'Phetsarath', 'Times New Roman', serif;
+  }
+  * {
+    @apply border-border;
+  }
+  body {
+    font-family: Phetsarath, system-ui, sans-serif;
+  }
+  h1 {
+    @apply text-4xl;
+    @apply font-bold;
+  }
+  h2 {
+    @apply text-3xl;
+    @apply font-bold;
+  }
+  h3 {
+    @apply text-2xl;
+    @apply font-bold;
+  }
+  h4 {
+    @apply text-xl;
+    @apply font-semibold;
+  }
+  h5 {
+    @apply text-lg;
+    @apply font-semibold;
+  }
+  h6 {
+    @apply text-sm;
+    @apply font-semibold;
+  }
+  ul {
+    @apply list-disc;
+  }
+  ol {
+    @apply list-decimal;
+  }
+  
+  
+
+:root  {
+  --background: 198.6 100% 88%;
+  --foreground: 198.6 5% 0%;
+  --card: 198.6 50% 90%;
+  --card-foreground: 198.6 5% 10%;
+  --popover: 198.6 100% 95%;
+  --popover-foreground: 198.6 100% 0%;
+  --primary: 198.6 88.7% 48.4%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 198.6 30% 70%;
+  --secondary-foreground: 0 0% 0%;
+  --muted: 160.6 30% 85%;
+  --muted-foreground: 198.6 5% 35%;
+  --accent: 160.6 30% 80%;
+  --accent-foreground: 198.6 5% 10%;
+  --destructive: 0 100% 30%;
+  --destructive-foreground: 198.6 5% 90%;
+  --border: 198.6 30% 50%;
+  --input: 198.6 30% 18%;
+  --ring: 198.6 88.7% 48.4%;
+  --radius: 0.5rem;
+}
+.dark  {
+  --background: 198.6 50% 5%;
+  --foreground: 198.6 5% 90%;
+  --card: 198.6 50% 0%;
+  --card-foreground: 198.6 5% 90%;
+  --popover: 198.6 50% 5%;
+  --popover-foreground: 198.6 5% 90%;
+  --primary: 198.6 88.7% 48.4%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 198.6 30% 10%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 160.6 30% 15%;
+  --muted-foreground: 198.6 5% 60%;
+  --accent: 160.6 30% 15%;
+  --accent-foreground: 198.6 5% 90%;
+  --destructive: 0 100% 30%;
+  --destructive-foreground: 198.6 5% 90%;
+  --border: 198.6 30% 18%;
+  --input: 198.6 30% 18%;
+  --ring: 198.6 88.7% 48.4%;
+  --radius: 0.5rem;
+}
+
+
+
+}
+
