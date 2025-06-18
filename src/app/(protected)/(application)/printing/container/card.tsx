@@ -63,7 +63,7 @@ export function StayPermitCard({ application, bgOptions, barCodeOptions, classNa
 
 export function ProfileSection({ application }: { application?: IApplication }) {
   const { firstName = "", lastName = "", dateOfBirth = "", identityType = "", gender } = application?.profile || {};
-  const title = (gender === "MALE" || gender === "M") ? "MS" : "MR"
+  const title = (gender === "MALE" || gender === "M") ? "MR" : "MS"
   return (
     <div className="w-[165px] leading-[0.98] print:leading-[1.14] print:tracking-tight font-bold">
       <div>
@@ -139,7 +139,7 @@ export function BarcodeSection({
   return (
     <div >
       {isQRcode ? (
-        <div className="absolute bottom-[5px] print:bottom-[6px] left-1 z-0 text-[#000000] flex items-center gap-[28px] print:gap-[40.5px]">
+        <div className="absolute bottom-[3px] print:bottom-[5px] left-2 print:left-2 z-0 text-[#000000] flex items-center gap-[23px] print:gap-[36.5px]">
           {applicationType ? (
             <div className="barcode">
               <QRcode barcode={fullBarcode} bg={"#f56565"}/>
