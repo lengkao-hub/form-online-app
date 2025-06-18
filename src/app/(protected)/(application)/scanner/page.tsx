@@ -90,11 +90,11 @@ export default function BarcodeScannerPage() {
           <div className="w-full flex flex-col gap-52 mt-3">
             <div className="">
               <div className="font-bold text-sm">ຮູບພາບຕິດ (ຮູບໃໝ່)</div>
-              <StayPermitCard application={dataWithImage?.[0]} />
+              <StayPermitCard application={dataWithImage?.[0]} className="scale-100 bg-[#fff1d6]" />
             </div>
             <div className="">
               <div className="font-bold text-sm">ຮູບພາບຕິດ (ຮູບເກົ່າ)</div>
-              <StayPermitCard application={dataWithOldImage?.[0]} />
+              <StayPermitCard application={dataWithOldImage?.[0]} className="scale-100 bg-[#fff1d6]" />
             </div>
             <div></div>
             <ModernPermitCard data={result?.[0]} />

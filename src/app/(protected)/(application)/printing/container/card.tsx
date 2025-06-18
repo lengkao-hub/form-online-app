@@ -3,8 +3,9 @@ import Image from "next/image";
 import { IApplication } from "../../application/type";
 import { Barcode, formatDateString2, formatDateString, QRcode } from "./barcode";
 import { useSession } from "next-auth/react";
+import { cn } from "@/lib/utils";
 
-export function StayPermitCard({ application, bgOptions, barCodeOptions }: { application?: IApplication, bgOptions?: string, barCodeOptions?: string }) {
+export function StayPermitCard({ application, bgOptions, barCodeOptions, className }: { application?: IApplication, bgOptions?: string, barCodeOptions?: string, className?: string }) {
   const { expirationDate = "", issueDate = "" } = application || {};
   const profile = application?.profile?.image
   const bgColor = bgOptions === "print:bg-[#B69E80]"? "bg-amber-200": "";
@@ -12,7 +13,7 @@ export function StayPermitCard({ application, bgOptions, barCodeOptions }: { app
   return (
     <div className='flex justify-center box-border font-Phetsarath'>
       <div className='grid justify-center text-[#000000]'>
-        <div className={`${bgColor} text-[10.8px] scale-[1.9] print:scale-100 relative box-border border border-gray-500 print:border-none p-[6px] pl-[8.55px] w-[323.5px] h-[204px] mix-blend-multiply rounded-lg print:w-fit print:h-[101%] print:absolute print:top-[-2.5px] print:left-[2px] print:m-0 print:rounded-none ${bgOptions} print:px-[7px]`}>
+        <div className={cn(`${bgColor} text-[10.8px] scale-[1.9] print:scale-100 relative box-border border border-gray-500 print:border-none p-[6px] pl-[8.55px] w-[323.5px] h-[204px] mix-blend-multiply rounded-lg print:w-fit print:h-[101%] print:absolute print:top-[-2.5px] print:left-[2px] print:m-0 print:rounded-none ${bgOptions} print:px-[7px]`, className && `${className}`)}>
           <div className="p-0 pb-[4px]">
             <div className='leading-[1]'>
               <div className="text-center font-bold tracking-tight leading-[1.2] text-[10pt]">ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</div>
@@ -32,7 +33,7 @@ export function StayPermitCard({ application, bgOptions, barCodeOptions }: { app
                 <div className="w-[66.1px] h-[83.5px] print:w-[80px] print:h-[98px]">
                   {profile ? (
                     <Image
-                      src={"person.jpeg"}
+                      src={profile}
                       alt="ຮູບພາບບຸກຄົນ"
                       width={66.5}
                       height={85}
