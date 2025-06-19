@@ -139,7 +139,7 @@ export function BarcodeSection({
   return (
     <div >
       {isQRcode ? (
-        <div className="absolute bottom-[3px] print:bottom-[5px] left-2 print:left-2 z-0 text-[#000000] flex items-center gap-[23px] print:gap-[36.5px]">
+        <div className="absolute bottom-[3px] print:bottom-[5px] left-2 print:left-1 z-0 text-[#000000] flex items-center gap-[23px] print:gap-[40.5px]">
           {applicationType ? (
             <div className="barcode">
               <QRcode barcode={fullBarcode} bg={"#f56565"}/>

@@ -33,10 +33,10 @@ export const FolderForm: React.FC<FolderFormProps> = ({ form, onSubmit }) => {
           <Form.Field name="name" control={form.control} label="ຊື່ແຟ້ມ">
             <Form.Input.Input placeholder="ຊື່ແຟ້ມ" />
           </Form.Field>
-          <Form.Field name="billDate" control={form.control} label="ວັນທີອອກບິນຮັບເງີນ">
+          <Form.Field name="billDate" control={form.control} label="ວັນທີອອກບິນຮັບເງີນ" required={false}>
             <Form.Input.DateTimePicker name="billDate"/>
           </Form.Field>
-          <Form.Field name="billNumber" control={form.control} label="ວັນທີອອກບິນຮັບເງີນ">
+          <Form.Field name="billNumber" control={form.control} label="ເລກທີບິນ" required={false}>
             <Form.Input.Input placeholder="ເລກທີບິນ"/>
           </Form.Field>
         </div>
