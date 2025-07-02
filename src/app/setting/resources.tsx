@@ -161,7 +161,7 @@ export const resources: IResources[] = [
         icon: <BadgeDollarSign size={18} />,
       },
       {
-        title: "report",
+        title: "ລາຍງານ",
         subject: "report",
         href: "/report",
         icon: <ChartNoAxesCombined size={18} />,
