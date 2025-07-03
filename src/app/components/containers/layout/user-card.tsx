@@ -30,7 +30,7 @@ export function UserCard({ isCollapsed }: { isCollapsed?: boolean }) {
                             </div>
                             <div className="flex flex-col min-w-0">
                                 <p className="font-medium truncate">{firstName || "User"}</p>
-                                <Badge variant={"outline"}>{role && <p className="text-xs text-muted-foreground mt-1 truncate">{username}: {getRoleLabel}</p>}</Badge>
+                                <Badge variant={"outline"}>{role && <p className="text-xs text-muted-foreground mt-1 w-full">{username}: {getRoleLabel}</p>}</Badge>
                             </div>
                         </div>
                     </div>

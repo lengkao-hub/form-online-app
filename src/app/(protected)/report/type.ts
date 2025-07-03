@@ -4,8 +4,14 @@ interface Summary {
     name: string;
     sum: {
         total: number;
+        policeTotal: number;
         currency: ICurrency;
     }[];
+    currencyCounts?: {
+        THB: number,
+        USD: number,
+        CNY: number,
+    }
 }
 
 interface NumberAggregation {
@@ -32,4 +38,3 @@ export interface INumberAggregation {
     summary: Summary;
     data: NumberAggregation[];
 }
-
