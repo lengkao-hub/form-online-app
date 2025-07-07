@@ -5,7 +5,7 @@ import { hookLoginForm } from "./hook";
 export function LoginForm() {
   const { form, onSubmit, isLoading } = hookLoginForm();
   return (
-    <div className="">
+    <div className="mx-10">
       <Form formInstance={form} onSubmit={onSubmit} showButton={false} className="m-auto flex w-full flex-col justify-center space-y-2 sm:w-[350px] bg-card rounded-lg">
         <div className="flex flex-col space-y-2 text-left">
           <h1 className="text-2xl font-semibold tracking-tight font-noto-lao">

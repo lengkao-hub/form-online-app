@@ -7,13 +7,13 @@ import type { RoleLabels } from "src/app/(protected)/user/container/interface"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui"
 
-export function UserCard({ isCollapsed }: { isCollapsed?: boolean }) {
+export function UserCard({ isCollapsed, className }: { isCollapsed?: boolean, className?: string }) {
     const { data: session } = useSession()
     const { firstName, role, username } = session?.user ?? {}
     const getRoleLabel = roleLabels[role as keyof RoleLabels]
-
+    // "hidden sm:block"
     return (
-        <div className="hidden sm:block">
+        <div className={className}>
             {isCollapsed && (
                 <div className="bg-card p-1 text-card-foreground pl-3">
                 <UserNav />

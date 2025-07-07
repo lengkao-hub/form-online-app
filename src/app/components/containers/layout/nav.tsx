@@ -21,6 +21,7 @@ import { Button, buttonVariants } from "../button"
 import { cn } from "@/lib/utils"
 import { type IResources } from "@/setting/resources"
 import useCheckActiveNav from "../../hooks/use-check-active-nav"
+import { UserCard } from "./user-card"
 
 interface NavProps extends React.HTMLAttributes<HTMLDivElement> {
   isCollapsed: boolean
@@ -57,7 +58,7 @@ export default function Nav({
     <div
       data-collapsed={isCollapsed}
       className={cn(
-        " group border-b bg-background py-2 transition-[max-height,padding] duration-500 data-[collapsed=true]:py-2 md:border-none",
+        " group border-b bg-background py-2 transition-[max-height,padding] duration-500 data-[collapsed=true]:py-2 md:border-none flex flex-col justify-between",
         className,
       )}
     >
@@ -66,6 +67,7 @@ export default function Nav({
           {links.map(renderLink)}
         </nav>
       </TooltipProvider>
+      <UserCard isCollapsed={isCollapsed} className="block md:hidden"/>
     </div>
   )
 }

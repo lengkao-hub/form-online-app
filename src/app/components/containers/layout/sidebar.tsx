@@ -115,7 +115,7 @@ export default function Sidebar({
             className={`h-5 w-5 ${isCollapsed ? "rotate-180" : ""}`}
           />
         </Button>
-        <UserCard isCollapsed={isCollapsed}/>
+        <UserCard isCollapsed={isCollapsed} className="hidden sm:block"/>
       </Layout>
     </aside>
   )
