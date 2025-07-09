@@ -150,7 +150,7 @@ function FolderListPoliceOfficer() {
             <FolderToolbar updateSearch={updateSearchApproved} filter={filterApproved} showStatus={false} />
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 '>
               {resultApproved?.map((folder) => (
-                <FolderCardView folder={folder} status="FINANCE_UNDER_REVIEW" key={folder?.id} action={{ statusText: "ສົ່ງເອກກະສານ", showDetail: "ລາຍລະອຽດ" }} />
+                <FolderCardView folder={folder} status="POLICE_UNDER_REVIEW" key={folder?.id} action={{ statusText: "ສົ່ງເອກກະສານ", showDetail: "ລາຍລະອຽດ" }} />
               ))}
             </div>
             {aggregationApproved.total > 9 && (
@@ -201,7 +201,7 @@ function FolderListVersificationOfficer() {
             <FolderToolbar updateSearch={updateSearch} filter={filter} showStatus={false} />
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 '>
               {resultDefault?.map((folder) => (
-                <FolderCardView folder={folder} status= "PENDING" key={folder.id} action={{ editText: "ແກ້ໄຂ", acceptText: "ສົ່ງເອກກະສານ", showDetail: "ລາຍລະອຽດ" }} />
+                <FolderCardView folder={folder} status= "FINANCE_UNDER_REVIEW" key={folder.id} action={{ editText: "ແກ້ໄຂ", acceptText: "ສົ່ງເອກກະສານ", showDetail: "ລາຍລະອຽດ" }} />
               ))}
             </div>
             {aggregationDefault.total > 9 && (
