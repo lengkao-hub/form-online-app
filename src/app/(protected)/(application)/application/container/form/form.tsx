@@ -208,7 +208,6 @@ const ProfileCard = ({ profileId, onSendAppNumber }: { profileId: number, onSend
       onSendAppNumber(applicationNumber);
     }
   }, [applicationNumber, onSendAppNumber])
-  console.log(image)
   return (
     <div className=" mx-auto  space-y-6">
       <Card className="w-full">

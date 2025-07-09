@@ -87,16 +87,17 @@ export default function BarcodeScannerPage() {
           </CardFooter>
         </Card>
         {result.length > 0 && (
-          <div className="w-full flex flex-col gap-52 mt-3">
-            <div className="">
-              <div className="font-bold text-sm">ຮູບພາບຕິດ (ຮູບໃໝ່)</div>
-              <StayPermitCard application={dataWithImage?.[0]} className="scale-100 bg-[#fff1d6]" />
+          <div className="w-full flex flex-col gap-20 mt-3">
+            <div className="flex gap-5 flex-col md:flex-row">
+              <div className="flex flex-col gap-2">
+                <div className="font-bold text-sm">ຮູບພາບຕິດ (ຮູບໃໝ່)</div>
+                <StayPermitCard application={dataWithImage?.[0]} className="scale-100 bg-[#fff1d6]" />
+              </div>
+              <div className="flex flex-col gap-2">
+                <div className="font-bold text-sm">ຮູບພາບຕິດ (ຮູບເກົ່າ)</div>
+                <StayPermitCard application={dataWithOldImage?.[0]} className="scale-100 bg-[#fff1d6]" />
+              </div>
             </div>
-            <div className="">
-              <div className="font-bold text-sm">ຮູບພາບຕິດ (ຮູບເກົ່າ)</div>
-              <StayPermitCard application={dataWithOldImage?.[0]} className="scale-100 bg-[#fff1d6]" />
-            </div>
-            <div></div>
             <ModernPermitCard data={result?.[0]} />
           </div>
         )}

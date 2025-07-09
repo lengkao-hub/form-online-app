@@ -53,5 +53,8 @@ export const rolePermissions: Record<Role, Array<{ action: Actions; subject: Sub
   ],
   VERSIFICATION_OFFICER: [
     { action: "read", subject: "scanner" },
+    { action: "read", subject: "folder" },
+    { action: "manage", subject: "create-folder" },
+    { action: "read", subject: "blacklist" },
   ],
 };

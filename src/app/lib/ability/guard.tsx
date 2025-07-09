@@ -55,7 +55,7 @@ export default function AuthGuard({
       if (status === "unauthenticated" && !isPublicRoute) {
         router.push(`/login`);
       } else if (status === "authenticated" && isPublicRoute && session?.user?.accessToken && role === "VERSIFICATION_OFFICER") {
-        router.push("/scanner");
+        router.push("/folder");
       } else if (status === "authenticated" && isPublicRoute && session?.user?.accessToken) {
         router.push("/dashboard");
       } else {

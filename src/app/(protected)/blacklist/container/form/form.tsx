@@ -9,6 +9,7 @@ import { useUpdateDefaultValues } from "@/lib/update-default-values";
 interface BlacklistProfileFormProps {
   form: UseFormReturn<z.infer<typeof checkBlacklistFormSchema>>;
   onSubmit: (data: z.infer<typeof checkBlacklistFormSchema>) => Promise<void>;
+  statusMessage?: string | null;
 }
 
 const IdentifyOptions = [
@@ -17,7 +18,7 @@ const IdentifyOptions = [
   { value: "driverLicense", label: "ໃບຂັບຂີ່" },
 ];
 
-const BlacklistProfileForm: React.FC<BlacklistProfileFormProps> = ({ form, onSubmit }) => {
+const BlacklistProfileForm: React.FC<BlacklistProfileFormProps> = ({ form, onSubmit, statusMessage }) => {
   const { errors } = form.formState;
   useUpdateDefaultValues({ form, fieldName: "identityType", value: "nationalId", shouldUpdate: true });
   return (
@@ -30,6 +31,12 @@ const BlacklistProfileForm: React.FC<BlacklistProfileFormProps> = ({ form, onSub
               <li key={key}>{error?.message || key}</li>
             ))}
           </ul>
+        </div>
+      )}
+      {statusMessage && (
+        <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+          <h3 className="text-lg font-medium text-green-800 mb-2">ຜົນກວດສອບ</h3>
+          <p className="text-green-600">{statusMessage}</p>
         </div>
       )}
       <div className="space-y-4">
@@ -54,7 +61,7 @@ const BlacklistProfileForm: React.FC<BlacklistProfileFormProps> = ({ form, onSub
       <Button
         loading={form?.formState.isSubmitting}
         disabled={form?.formState.isSubmitting}
-      >ໄປຕໍ່</Button>
+      >ກວດ</Button>
     </Form>
   );
 };

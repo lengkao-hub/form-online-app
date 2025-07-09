@@ -25,6 +25,7 @@ import {
   CircleDollarSign,
   ChartCandlestick,
   ChartNoAxesCombined,
+  ShieldBan,
 } from "lucide-react";
 
 export interface NavLink {
@@ -108,6 +109,12 @@ export const resources: IResources[] = [
         icon: <ScanBarcode size={18} />,
       },
     ],
+  },
+  {
+    title: "ກວດບັນຊີດໍາ",
+    subject: "blacklist",
+    href: "/blacklist/check",
+    icon: <ShieldBan size={18}/>,
   },
   {
     title: "ຮູບພາບ",

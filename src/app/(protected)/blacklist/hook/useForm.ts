@@ -5,6 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import type * as z from "zod";
 import { blacklistDefaultValues, blacklistFormCreateSchema, type BlacklistFormCreateType, checkBlacklistFormSchema, defaultValues } from "../container/form/schema";
+import { useState } from "react";
 
 export const useBlacklistProfileForm = ({ handleNext }: { handleNext: () => void }) => {
   const form = useForm<z.infer<typeof checkBlacklistFormSchema>>({
@@ -42,6 +43,45 @@ export const useBlacklistProfileForm = ({ handleNext }: { handleNext: () => void
     }
   };
   return { form, onSubmit };
+};
+export const useBlacklistCheck = () => {
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+  const form = useForm<z.infer<typeof checkBlacklistFormSchema>>({
+    defaultValues,
+    resolver: zodResolver(checkBlacklistFormSchema),
+  });
+  const onSubmit = async (data: z.infer<typeof checkBlacklistFormSchema>) => {
+    try {
+      const { identityNumber, identityType } = data;
+      const response = await apiClient.get<ApiResponse<string>>("/backlist-check", { params: data });
+      if (response.status === "exists" || response.status === "blacklisted") {
+        form.setError("root", { type: "manual", message: response.message });
+        setStatusMessage(null)
+      } else {
+        setStatusMessage("✅ ບຸກຄົນນີ້ບໍ່ໄດ້ຕິດບັນຊີດໍາ");
+        form.clearErrors("root");
+      }
+      const checkResponse: any = await apiClient.post("/profile-check-existence", {
+        data: { identityNumber, identityType },
+      });
+      if (checkResponse?.data?.identityExists) {
+        return;
+      }
+    } catch(error: any) {
+      showToast({ type: "error", title: "ລະບົບຂັດຂ້ອງ" });
+      if (error.data.identityNumber || error.data.identityType ) {
+        form.setError("identityNumber", {
+          type: "manual",
+          message: `${error.data.identityNumber}`,
+        });
+        form.setError("identityType", {
+          type: "manual",
+          message: `${error.data.identityType}`,
+        });
+      }
+    }
+  };
+  return { form, onSubmit, statusMessage };
 };
 
 export const useBlacklistProfileCreateForm = () => {
