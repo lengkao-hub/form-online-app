@@ -51,10 +51,10 @@ const ApplicationFormEdit: React.FC<ApplicationFormProps> = ({ form, onSubmit, p
           <div className="grid gap-4 sm:grid-cols-1">
             <div className="grid gap-4 sm:grid-cols-2">
               <Form.Field name="folderId" control={form.control} label="ເລືອກແຟ້ມ">
-                <Form.Input.Combobox placeholder="ແຟ້ມ" className="w-96" options={folderOptions} />
+                <Form.Input.Combobox placeholder="ແຟ້ມ" className="w-96" options={folderOptions} disabled/>
               </Form.Field>
               <Form.Field name="numberId" control={form.control} label={`ເລືອກຟອມເລກທີ`} >
-                <Form.Input.Combobox placeholder="ຟອມເລກທິ" className="w-96" options={numberOptions} />
+                <Form.Input.Combobox placeholder="ຟອມເລກທິ" className="w-96" options={numberOptions} disabled/>
               </Form.Field>
             </div>
             <Form.Field name="applicationNumber" control={form.control} label="ເລກທີໃບຄໍາຮ້ອງ" >

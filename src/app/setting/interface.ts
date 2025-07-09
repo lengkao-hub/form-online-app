@@ -35,5 +35,6 @@ export type Subjects =
   | "office"
   | "add-blacklist-btn"
   | "blacklist"
+  | "create-folder"
 
 export type AppAbility = MongoAbility<[Actions, Subjects]>;
