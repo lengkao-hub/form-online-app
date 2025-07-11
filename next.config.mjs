@@ -2,6 +2,11 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
+  experimental: {
+    turbo: {
+      loader: {},
+    },
+  },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'starter.skillgener.com' },

@@ -55,6 +55,6 @@ export const rolePermissions: Record<Role, Array<{ action: Actions; subject: Sub
     { action: "read", subject: "scanner" },
     { action: "read", subject: "folder" },
     { action: "manage", subject: "create-folder" },
-    { action: "read", subject: "blacklist" },
+    // { action: "read", subject: "blacklist" },
   ],
 };

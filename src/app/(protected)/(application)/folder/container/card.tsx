@@ -228,7 +228,7 @@ function FolderOptionsDropdown({
                 }}
               >
                 <MessageSquareX className="mr-2 h-4 w-4" />
-                <span>ສົ່ງເອກກະສານສົ່ງກັບຄືນ</span>
+                <span>ສົ່ງເອກກະສານກັບຄືນ</span>
               </DropdownMenuItem>
             </DialogTrigger>
             <DialogContent>

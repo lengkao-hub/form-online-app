@@ -103,8 +103,10 @@ function FolderListPoliceOfficer() {
   const officeListIds = getOfficeId()
   const { result: resultApproved, updateSearch: updateSearchApproved, filter: filterApproved, limit: approvedLimit } = useFolderTable({ status: "APPROVED_BY_POLICE", officeId: officeListIds  });
   const { result: resultPending, updateSearch: updateSearchPending, filter: filterPending, limit: pendingLimit } = useFolderTable({ status: "PENDING", officeId: officeListIds  });
+  const { result: resultRejected, updateSearch: updateSearchRejected, filter: filterRejected, limit: rejectedLimit } = useFolderTable({ status: "REJECTED_BY_COMMANDER", officeId: officeListIds  });
   const { result: aggregationPending } = useFolderAggregation({ status: "PENDING" });
   const { result: aggregationApproved } = useFolderAggregation({ status: "APPROVED_BY_POLICE" });
+  const { result: aggregationRejected } = useFolderAggregation({ status: "REJECTED_BY_COMMANDER" });
   return (
     <div className="pl-4 space-y-2">
       <div className="flex justify-between items-center">
@@ -121,6 +123,10 @@ function FolderListPoliceOfficer() {
             <Badge variant="secondary" className="ml-1"> {aggregationApproved.total} </Badge>
           </TabsTrigger>
           <TabsTrigger value="tab-3" className="group">
+            <RefreshCw className="-ms-0.5 me-1.5 opacity-60" size={16} strokeWidth={2} aria-hidden="true" /> {"ແຟ້ມທີ່​ຖຶກປະຕິເສດ"}
+            <Badge variant="secondary" className="ml-1"> {aggregationRejected.total} </Badge>
+          </TabsTrigger>
+          <TabsTrigger value="tab-4" className="group">
             <MessageSquareX className="-ms-0.5 me-1.5 opacity-60" size={16} strokeWidth={2} aria-hidden="true" /> {"ແຟ້ມທັງໝົດ"}
           </TabsTrigger>
         </TabsList>
@@ -161,6 +167,24 @@ function FolderListPoliceOfficer() {
           </div>
         </TabsContent>
         <TabsContent value="tab-3">
+          <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-3'>
+            <AggregationCard value={aggregationRejected?.total || 0 } title="ແຟ້ມທີ່​ຖຶກປະຕິເສດ" icon={<FolderOpenDot />} label="ແຟ້ມ" />
+          </div>
+          <div className='space-y-4'>
+            <FolderToolbar updateSearch={updateSearchRejected} filter={filterRejected} showStatus={false} />
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 '>
+              {resultRejected?.map((folder) => (
+                <FolderCardView folder={folder} status="POLICE_UNDER_REVIEW" key={folder?.id} action={{ statusText: "ສົ່ງເອກກະສານ", showDetail: "ລາຍລະອຽດ" }} />
+              ))}
+            </div>
+            {aggregationRejected.total > 9 && (
+              <div className="w-full flex justify-end">
+                <Button className="bg-none" onClick={() => rejectedLimit.setLimit(rejectedLimit.limit += 9) }>ສະແດງເພີ່ມເຕີມ</Button>
+              </div>
+            )}
+          </div>
+        </TabsContent>
+        <TabsContent value="tab-4">
           <div className='space-y-4'>
             <AllFolderTable />
           </div>
@@ -399,7 +423,7 @@ function FolderListPoliceCommander() {
         <FolderToolbar updateSearch={updateSearch} filter={filter} showStatus={false} />
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 '>
           {result?.map((folder) => (
-            <FolderCardView folder={folder} status= "IN_PRODUCTION" key={folder?.id} action={{ statusText: "ອະນຸມັດ", showDetail: "ລາຍລະອຽດ" }} />
+            <FolderCardView folder={folder} status= "IN_PRODUCTION" key={folder?.id} action={{ statusText: "ອະນຸມັດ", showDetail: "ລາຍລະອຽດ", reject: "reject" }} />
           ))}
         </div>
         {aggregationReviewed.total > 9 && (

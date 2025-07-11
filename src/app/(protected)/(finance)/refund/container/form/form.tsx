@@ -1,7 +1,8 @@
+/* eslint-disable no-magic-numbers */
 "use client";
 
 import { Form } from "@/components/containers/form";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { type UseFormReturn } from "react-hook-form";
 import { type z } from "zod";
 import { type refundFormSchema } from "./schema";
@@ -11,7 +12,8 @@ import { formatDate } from "@/lib/format-date";
 import { IRefund } from "../../type";
 import { Search, User, DollarSign, Folder, Hash, Calendar, IdCard, PhoneCall } from "lucide-react"
 import { useSession } from "next-auth/react";
-import useProfileBarcode from "src/app/(protected)/(application)/renew/hook";
+import { useList } from "@/hooks/useList";
+import { useDebounce } from "use-debounce";
 
 interface PriceFormProps {
   form: UseFormReturn<z.infer<typeof refundFormSchema>>;
@@ -22,13 +24,23 @@ interface PriceFormProps {
 const RefundForm: React.FC<PriceFormProps> = ({ form, onSubmit, refundData }) => {
   const { data: session } = useSession();
   const [person, setPerson] = useState<IProfile>()
-  const { result, updateSearch, loading } = useProfileBarcode();
+  const [searchText, setSearchText] = useState("");
+  const [search, setSearch] = useState<boolean>(false)
+  const [debouncedSearchText] = useDebounce(searchText, 500);
+  const { result, updateSearch, loading }:{ result:IProfile[], updateSearch:any, loading:boolean } = useList({ resource: "profile", enabled: search });
+  useEffect(() => {
+    if (debouncedSearchText) {
+      updateSearch(debouncedSearchText);
+      setSearch(true);
+    }
+  }, [debouncedSearchText]);
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateSearch(e.target.value);
+    setSearchText(e.target.value);
   };
   const handleSelectPerson = (person: IProfile) => {
     setPerson(person);
     form.setValue("profileId", person.id)
+    updateSearch(undefined)
   };
   const { errors } = form.formState;
   const WarningMessage = `ທ່ານ ${session?.user?.firstName} ${session?.user?.lastName}, ເປັນຜູ້ອະນຸມັດ !`;

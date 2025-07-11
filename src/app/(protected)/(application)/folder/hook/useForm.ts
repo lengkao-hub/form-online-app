@@ -11,6 +11,7 @@ import { apiClient } from "@/lib/axios";
 import { formDefaultValues, formSchema, rejectFormDefaultValues, rejectFormSchema, RejectFormSchemaType } from "../container/schema";
 import { type IFolder } from "../type";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 export const useFolderForm = () => {
   const router = useRouter();
@@ -43,14 +44,15 @@ export const useFolderRejectForm = ({ folderId, setDialogOpen }: { setDialogOpen
     defaultValues: rejectFormDefaultValues,
     resolver: zodResolver(rejectFormSchema),
   });
-
+  const { data } = useSession()
+  const userRole = data?.user.role === "POLICE_COMMANDER"
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: RejectFormSchemaType) => {
     try {
       setIsLoading(true);
       await apiClient.post<IFolder>("/folder-reject", { data });
-      await apiClient.patch(`/folder/${folderId}/progress`, { data: { status: "REJECTED" } });
+      await apiClient.patch(`/folder/${folderId}/progress`, { data: { status: userRole ? "REJECTED_BY_COMMANDER" : "REJECTED" } });
       showToast({ type: "success", title: "ສົ່ງແຟ້ມກັບຄືນສໍາເລັດ" });
       queryClient.invalidateQueries({ queryKey: ["folders"] });
       queryClient.invalidateQueries({ queryKey: ["folder-aggregation"] });
