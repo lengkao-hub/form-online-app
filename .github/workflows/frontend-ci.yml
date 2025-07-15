@@ -47,7 +47,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: LIT-SOULUTION/k8s
-          ref: main
+          ref: staging
           token: ${{ secrets.K8S_REPO_TOKEN }}
           path: k8srepo
 
@@ -62,4 +62,4 @@ jobs:
           git config user.email "actions@github.com"
           git add staypermit-bc/spm.frontend.yaml
           git commit -m "Update frontend image to app-0.0.1"
-          git push origin main
+          git push origin staging
