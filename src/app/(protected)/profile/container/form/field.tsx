@@ -67,7 +67,7 @@ export const PersonalInfoSection: React.FC<IFormProps & {
   );
 };
 
-export const IdentitySection: React.FC<IFormProps> = ({ form }) => {
+export const IdentitySection: React.FC<IFormProps> = ({ form, identityType }) => {
   useUpdateDefaultValues({ form, fieldName: "identityType", value: "nationalId", shouldUpdate: true });
   const currentDay = new Date();  
   const year = currentDay.getUTCFullYear();
@@ -80,12 +80,13 @@ export const IdentitySection: React.FC<IFormProps> = ({ form }) => {
     const isoString = currentDay.toISOString();
     form.setValue("identityExpiryDate", isoString);
   }, []);
+
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium">ຂໍ້ມູນເອກະສານຢັ້ງຢືນ</h3>
       <div className="grid gap-4 sm:grid-cols-4">
         <Form.Field name="identityType" control={form.control} label="ປະເພດເອກະສານ" >
-          <Form.Input.Select options={IdentifyOptions} className='w-full' onKeyDown={handleEnterFocusNext} defaultValue="nationalId"/>
+          <Form.Input.Select options={IdentifyOptions} className='w-full' onKeyDown={handleEnterFocusNext} defaultValue={identityType}/>
         </Form.Field>
         <Form.Field name="identityNumber" control={form.control} label="ເລກທີເອກະສານ">
           <Form.Input.Input placeholder="ປ້ອນເລກເອກະສານ" onKeyDown={handleEnterFocusNext}/>

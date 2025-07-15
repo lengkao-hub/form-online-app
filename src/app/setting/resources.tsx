@@ -176,6 +176,12 @@ export const resources: IResources[] = [
     ],
   },
   {
+    title: "ລາຍງານ",
+    subject: "profile-report",
+    href: "/profile-report",
+    icon: <ChartNoAxesCombined size={18} />,
+  },
+  {
     title: "ຕັ້ງຄ່າ",
     href: "setting",
     subject: "/setting",

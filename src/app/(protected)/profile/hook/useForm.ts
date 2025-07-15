@@ -43,6 +43,7 @@ export const useProfileForm = ({ handleNext }: { handleNext: () => void }) => {
       form.setValue("overseasProvince", data.overseasProvince);
       form.setValue("identityIssueDate", data.identityIssueDate);
       form.setValue("identityExpiryDate", data.identityExpiryDate);
+      form.setValue("identityType", data.identityType);
       handleNext();
     } catch(error: any) {
       showToast({ type: "error", title: "ບໍ່ສາມາດລົງທະບຽນບຸກຄົນໃໝ່ໄດ້" });

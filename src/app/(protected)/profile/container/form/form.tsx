@@ -18,7 +18,7 @@ interface ProfileFormProps {
   blackProfile?: z.infer<typeof checkBlacklistFormSchema>;
 }
 const ProfileForm: React.FC<ProfileFormProps> = ({ form, onSubmit, action = "create", blackProfile, handlePrevious }) => {
-  const { firstName, lastName, dateOfBirth, identityNumber } = blackProfile ?? {};
+  const { firstName, lastName, dateOfBirth, identityNumber, identityType } = blackProfile ?? {};
   const disabled = action === "create";
   const [isAddingVillage, setIsAddingVillage] = useState<boolean>(false); 
   const nextButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -33,7 +33,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ form, onSubmit, action = "cre
     <>
       <Form formInstance={form} onSubmit={onSubmit} className="border-none shadow-none p-0" showButton={false}>
         <PersonalInfoSection form={form} disabled={disabled}  />
-        <IdentitySection form={form} />
+        <IdentitySection form={form} identityType={identityType} />
         <CurrentAddressSection form={form} setIsAddingVillage={handleSetIsAddingVillage}/>
         <OverseasAddressSection form={form} />
         <div className=" space-x-3">

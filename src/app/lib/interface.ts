@@ -28,6 +28,7 @@ export interface IFormProps {
     watch: any;
     control: any;
   };
+  identityType?: string
 }
 export interface IFormDistrictProps {
   form: {
