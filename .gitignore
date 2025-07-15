@@ -40,9 +40,9 @@ node_modules
 # next.js build files
 .next
 # environment variables
-.env
-.env.*
-!.env.example
+# .env
+# .env.*
+# !.env.example
 # junk
 .idea
 .DS_Store
