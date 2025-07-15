@@ -46,7 +46,7 @@ jobs:
       - name: Checkout k8s repository
         uses: actions/checkout@v3
         with:
-          repository: lit-tdev/k8s
+          repository: LIT-SOULUTION/k8s
           ref: main
           token: ${{ secrets.K8S_REPO_TOKEN }}
           path: k8srepo
