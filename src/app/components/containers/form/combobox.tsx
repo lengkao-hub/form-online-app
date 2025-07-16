@@ -129,7 +129,6 @@ export const Combobox = forwardRef<
       // Finally, sort alphabetically if no strong relevance
       return aLabelLower.localeCompare(bLabelLower);
     });
-    console.log(searchValue)
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
