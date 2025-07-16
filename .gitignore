@@ -47,7 +47,7 @@ node_modules
 .idea
 .DS_Store
 coverage
-package-lock.json
+# package-lock.json
 yarn.lock
 .env.prod.sh
 dist

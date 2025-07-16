@@ -1,0 +1,65 @@
+name: Frontend CI
+
+on:
+  push:
+    branches: [staging]
+  pull_request:
+    branches: [staging]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint code with ESLint
+        run: ./node_modules/.bin/eslint . --ext .ts,.tsx,.js,.jsx
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: devlit/staypermit-bc-app:app-0.0.2
+
+      - name: Checkout k8s repository
+        uses: actions/checkout@v3
+        with:
+          repository: LIT-SOULUTION/k8s
+          ref: staging
+          token: ${{ secrets.K8S_REPO_TOKEN }}
+          path: k8srepo
+
+      - name: Update image tag in manifest
+        run: |
+          sed -i "s|image: .*|image: devlit/staypermit-bc-app:app-0.0.2|" k8srepo/staypermit-bc/spm.frontend.yaml
+
+      - name: Commit and push manifest update
+        run: |
+          cd k8srepo
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add staypermit-bc/spm.frontend.yaml
+          git commit -m "Update frontend image to app-0.0.2"
+          git push origin staging
