@@ -229,6 +229,12 @@ export const resources: IResources[] = [
         href: "/office",
         icon: <Landmark size={18} />,
       },
+      {
+        title: "ປະເພດວິຊ່າ",
+        subject: "visa",
+        href: "/visa",
+        icon: <Landmark size={18} />,
+      },
     ],
   },
 ];

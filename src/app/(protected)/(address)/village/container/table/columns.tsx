@@ -18,10 +18,6 @@ export const columnsVillage: Array<ColumnDef<IVillage>> = [
     header: "ຊື່ພາສາລາວ",
   },
   {
-    accessorKey: "villageEnglish",
-    header: "ຊື່ພາສາອັງກິດ",
-  },
-  {
     accessorKey: "district.districtLao",
     header: "ເມືອງ",
   },

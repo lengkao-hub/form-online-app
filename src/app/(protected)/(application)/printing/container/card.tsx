@@ -16,11 +16,11 @@ export function StayPermitCard({ application, bgOptions, barCodeOptions, classNa
         <div className={cn(`${bgColor} text-[10.8px] scale-[1.9] print:scale-100 relative box-border border border-gray-500 print:border-none p-[6px] pl-[8.55px] w-[323.5px] h-[204px] mix-blend-multiply rounded-lg print:w-fit print:h-[101%] print:absolute print:top-[-2.5px] print:left-[2px] print:m-0 print:rounded-none ${bgOptions} print:px-[7px]`, className && `${className}`)}>
           <div className="p-0 pb-[4px]">
             <div className='leading-[1]'>
-              <div className="text-center font-bold tracking-tight leading-[1.2] text-[10pt]">ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</div>
-              <div className="text-center font-bold pb-[2px] print:pb-[2px] leading-[1] print:leading-[1.25] font-TimesNewRoman text-[7.5pt] print:text-[8pt]">Lao People&apos;s Democratic Republic</div>
-              <div className="text-center font-bold tracking-normal flex justify-center text-[8pt] print:text-[8.5pt] text-[#000000]">
+              <div className="text-center font-thin tracking-tight leading-[1.2] text-[10pt]">ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</div>
+              <div className="text-center font-thin pb-[2px] print:pb-[2px] leading-[1] print:leading-[1.25] font-TimesNewRoman text-[7.5pt] print:text-[8pt]">Lao People&apos;s Democratic Republic</div>
+              <div className="text-center font-thin tracking-normal flex justify-center text-[8pt] print:text-[8.5pt] text-[#000000]">
                 ບັດອະນຸຍາດພັກເຊົາ&nbsp;/&nbsp;
-                <div className="text-center font-bold tracking-tight font-TimesNewRoman text-[#000000]">Stay permit Card</div>
+                <div className="text-center font-thin tracking-tight font-TimesNewRoman text-[#000000]">Stay permit Card</div>
               </div>
             </div>
             <div className="absolute top-2 left-3 print:top-2 print:left-3">
@@ -51,7 +51,7 @@ export function StayPermitCard({ application, bgOptions, barCodeOptions, classNa
             </div>
             <BarcodeSection expirationDate={expirationDate} issueDate={issueDate} barcode={application?.profile?.barcode} isQRcode={isQRcode} />
             <DateSection expirationDate={expirationDate} issueDate={issueDate} isQRcode={isQRcode} barcode={application?.profile?.barcode}/>
-            <div className="absolute flex flex-col items-center right-2 print:right-3 bottom-[6px] print:bottom-[8px] z-0 leading-[0.7] font-bold">
+            <div className="absolute flex flex-col items-center right-2 print:right-3 bottom-[6px] print:bottom-[8px] z-0 leading-[0.7] font-thin">
               <Image src={"/immigration2.png"} alt="Logo" width={100} height={100} className="print:w-[120px] print:h=[120px]"/>
             </div>
           </div>
@@ -65,37 +65,37 @@ export function ProfileSection({ application }: { application?: IApplication }) 
   const { firstName = "", lastName = "", dateOfBirth = "", identityType = "", gender } = application?.profile || {};
   const title = (gender === "MALE" || gender === "M") ? "MR" : "MS"
   return (
-    <div className="w-[165px] leading-[0.98] print:leading-[1.14] print:tracking-tight font-bold">
+    <div className="w-[165px] leading-[0.98] print:leading-[1.14] print:tracking-tight font-thin">
       <div>
         <div>
-          <p className="text-start text-[7pt] mb-[2.5px]">ຊື່/Name
+          <p className="text-start font-thin text-[7pt] mb-[2.5px]">ຊື່/Name
             <br></br>
             <span className="font-TimesNewRoman uppercase text-[7.5pt]">
               {title}&nbsp;{firstName}
             </span>
           </p>
-          <p className="text-start text-[7pt] mb-[2.5px] text-[#000000]">ນາມສະກຸນ/Surname
+          <p className="text-start font-thin text-[7pt] mb-[2.5px] text-[#000000]">ນາມສະກຸນ/Surname
             <br></br>
-            <span className="font-TimesNewRoman uppercase text-[7.5pt] text-[#000000]">{lastName}</span>
+            <span className="font-TimesNewRoman font-thin uppercase text-[7.5pt] text-[#000000]">{lastName}</span>
           </p>
         </div>
       </div>
       <div className="flex gap-1 items-center mb-[1px] print:mb-[2px] text-[#000000]">
         <div>
-          <p className="text-start text-[7pt] print:text-[7.5pt]">ວັນເດືອນປີເກີດ/Date of Birth:</p>
-          <p className="text-start text-[7pt] print:text-[7.5pt]">{formatDateString2(dateOfBirth)}</p>
+          <p className="text-start font-thin text-[7pt] print:text-[7.5pt]">ວັນເດືອນປີເກີດ/Date of Birth:</p>
+          <p className="text-start font-thin text-[7pt] print:text-[7.5pt]">{formatDateString2(dateOfBirth)}</p>
         </div>
       </div>
       <div className="flex gap-1 items-center mb-[1px] print:mb-[2px] text-[#000000]">
         <div>
-          <p className="text-start text-[7pt] print:text-[7.5pt] tracking-tighter">ເອກະສານເດີນທາງ/Travel document:</p>
-          <p className="text-start text-[7pt] print:text-[7.5pt]">{documentType.find((item) => item.value === identityType)?.label || ""}</p>
+          <p className="text-start font-thin text-[7pt] print:text-[7.5pt] tracking-tighter">ເອກະສານເດີນທາງ/Travel document:</p>
+          <p className="text-start font-thin text-[7pt] print:text-[7.5pt]">{documentType.find((item) => item.value === identityType)?.label || ""}</p>
         </div>
       </div>
       <div className="flex items-center justify-start relative mb-[1px] print:mb-[2px] text-[#000000]">
         <div >
-          <p className="text-start text-[7pt] print:text-[7.5pt]">ສະຖານທີ່ພັກເຊົາ/Living place:</p>
-          <p className="text-start text-[7pt] print:text-[7.5pt] w-[140px] print:w-[146px] overflow-hidden line-clamp-2 pt-[3px]">
+          <p className="text-start font-thin text-[7pt] print:text-[7.5pt]">ສະຖານທີ່ພັກເຊົາ/Living place:</p>
+          <p className="text-start font-thin text-[7pt] print:text-[7.5pt] w-[140px] print:w-[146px] overflow-hidden line-clamp-2 pt-[3px]">
             {/* eslint-disable-next-line no-magic-numbers */}
             {application?.company?.name ? (
               /* eslint-disable-next-line no-magic-numbers */
@@ -107,7 +107,7 @@ export function ProfileSection({ application }: { application?: IApplication }) 
           </p>
         </div>
       </div>
-      <p className="text-start text-[7pt] print:text-[7.5pt]">ໜ້າທີ່/Position: <span className="font-TimesNewRoman text-[#000000]"></span>
+      <p className="text-start font-thin text-[7pt] print:text-[7.5pt]">ໜ້າທີ່/Position: <span className="font-TimesNewRoman text-[#000000]"></span>
         {application?.position?.laoName}
       </p>
     </div>
@@ -150,19 +150,19 @@ export function BarcodeSection({
             </div>
           )}
           <div className="pt-[18px]">
-            <p className="text-[7pt] leading-[1] font-bold flex">ອອກໃຫ້ວັນທີ&#x3a;&nbsp;
+            <p className="text-[7pt] leading-[1] font-thin flex">ອອກໃຫ້ວັນທີ&#x3a;&nbsp;
               <p className="text-[red]">{formatDateString(issueDate)}</p>
             </p>
-            <p className="text-[7pt] leading-[1] font-bold flex">ໝົດອາຍຸວັນທີ&#x3a;&nbsp;
+            <p className="text-[7pt] leading-[1] font-thin flex">ໝົດອາຍຸວັນທີ&#x3a;&nbsp;
               <p className="text-[red]">{formatDateString(expirationDate)}</p>
             </p>
           </div>
         </div>
       ):(
-        <div className="absolute bottom-[6px] print:bottom-[8.5px] left-2 print:left-[8px] z-0 font-bold text-[#000000]">
+        <div className="absolute bottom-[6px] print:bottom-[8.5px] left-2 print:left-[8px] z-0 font-thin text-[#000000]">
           <div>
-            <p className="text-[6pt] print:text-[6.5pt] leading-[1.1] text-[#000000]">ເລກທີ/ຄຕທ</p>
-            <p className="text-[5.39pt] print:text-[6pt] leading-[1.1] font-TimesNewRoman text-[#000000]">{fullBarcode}</p>
+            <p className="text-[6pt] font-thin print:text-[6.5pt] leading-[1.1] text-[#000000]">ເລກທີ/ຄຕທ</p>
+            <p className="text-[5.39pt] font-thin print:text-[6pt] leading-[1.1] font-TimesNewRoman text-[#000000]">{fullBarcode}</p>
           </div>
           <div className="barcode w-[160px] h-[25px]">
             <Barcode barcode={fullBarcode} />
@@ -192,15 +192,15 @@ export function DateSection({
   return (
     <div >
       {isQRcode ? (
-        <div className="flex items-center gap-[2px] absolute top-14 right-2 print:leading-tight print:tracking-tight font-bold">
-          <p className="text-[7pt] flex items-center leading-[1] text-[#000000] font-bold">ເລກທີ&#x3a;&nbsp;{fullBarcode}/ຄຕທ</p>
+        <div className="flex items-center gap-[2px] absolute top-14 right-2 print:leading-tight print:tracking-tight font-thin">
+          <p className="text-[7pt] font-thin flex items-center leading-[1] text-[#000000]">ເລກທີ&#x3a;&nbsp;{fullBarcode}/ຄຕທ</p>
         </div>
       ):(
-        <div className="flex items-center gap-[2px] absolute top-12 right-2 print:leading-tight print:tracking-tight font-bold">
-          <p className="text-start leading-3 text-[7pt] text-[#000000]">ກໍານົດອາຍຸ/<span className="font-TimesNewRoman">Exp :</span></p>
+        <div className="flex items-center gap-[2px] absolute top-12 right-2 print:leading-tight print:tracking-tight font-thin">
+          <p className="text-start font-thin leading-3 text-[7pt] text-[#000000]">ກໍານົດອາຍຸ/<span className="font-TimesNewRoman">Exp :</span></p>
           <div className='print:tracking-tighter text-[#000000]'>
-            <p className="text-[red] text-[6pt] print:text-[6.5pt] font-TimesNewRoman">{formatDateString(issueDate)}</p>
-            <p className="text-[red] text-[6pt] print:text-[6.5pt] font-TimesNewRoman">{formatDateString(expirationDate)}</p>
+            <p className="text-[red] font-thin text-[6pt] print:text-[6.5pt] font-TimesNewRoman">{formatDateString(issueDate)}</p>
+            <p className="text-[red] font-thin text-[6pt] print:text-[6.5pt] font-TimesNewRoman">{formatDateString(expirationDate)}</p>
           </div>
         </div>
       )}
@@ -211,35 +211,35 @@ export function DateSection({
 export function ContactSection({ application }: { application?: IApplication }) {
   const { ethnicity, nationality, identityNumber = "" } = application?.profile || {};
   return (
-    <div className='w-[100px] print:leading-[1.39] pt-6 pl-4 font-bold'>
+    <div className='w-[100px] print:leading-[1.39] pt-6 pl-4 font-thin'>
       <div className="pb-[2px] text-[#000000]">
         <div className="flex items-center">
-          <p className="flex items-center text-start text-[7pt] print:text-[7.5pt] leading-[1.2]">ເຊື້ອຊາດ/
-            <span className="text-[7pt] font-TimesNewRoman">Race:</span>
+          <p className="flex items-center font-thin text-start text-[7pt] print:text-[7.5pt] leading-[1.2]">ເຊື້ອຊາດ/
+            <span className="text-[7pt] font-thin font-TimesNewRoman">Race:</span>
           </p>
           {/* <p >Race:</p> */}
         </div>
         <div>
-          <p className="text-start text-[7pt] print:text-[7.5pt] font-TimesNewRoman leading-[1.2] text-[#000000]">{ethnicity?.code}</p>
+          <p className="text-start font-thin text-[7pt] print:text-[7.5pt] font-TimesNewRoman leading-[1.2] text-[#000000]">{ethnicity?.code}</p>
         </div>
       </div>
       <div className="items-center pb-[2px] text-[#000000]">
         <div>
-          <p className="flex text-start text-[7pt] print:text-[7.5pt] leading-[1.2]">ສັນຊາດ/
-            <p className="text-start text-[7pt] print:text-[7.5pt] font-TimesNewRoman">Nationality:</p>
+          <p className="flex text-start font-thin text-[7pt] print:text-[7.5pt] leading-[1.2]">ສັນຊາດ/
+            <p className="text-start font-thin text-[7pt] print:text-[7.5pt] font-TimesNewRoman">Nationality:</p>
           </p>
         </div>
         <div>
-          <p className="text-start text-[7pt] print:text-[7.5pt] font-TimesNewRoman leading-[1.2]">{nationality?.nationality}</p>
+          <p className="text-start font-thin text-[7pt] print:text-[7.5pt] font-TimesNewRoman leading-[1.2]">{nationality?.nationality}</p>
         </div>
       </div>
       <div className="items-center print:mb-[5px] pb-[2px] text-[#000000]">
         <div>
-          <p className="flex text-start text-[7pt] print:text-[7.5pt] leading-[1.2]">ເລກທີ/<p className="text-[8px] font-TimesNewRoman">No:</p></p>
+          <p className="flex text-start font-thin text-[7pt] print:text-[7.5pt] leading-[1.2]">ເລກທີ/<p className="text-[8px] font-TimesNewRoman">No:</p></p>
           {/* <p className="text-start text-[8px] font-TimesNewRoman">No:</p> */}
         </div>
         <div>
-          <p className="text-start text-[8px] print:text-[8.5pt] leading-[1.2]">{identityNumber}</p>
+          <p className="text-start font-thin text-[8px] print:text-[8.5pt] leading-[1.2]">{identityNumber}</p>
         </div>
       </div>
     </div>

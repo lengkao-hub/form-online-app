@@ -16,9 +16,9 @@ export const useProfileForm = ({ handleNext }: { handleNext: () => void }) => {
   });
   const onSubmit = async (data: z.infer<typeof profileFormSchema>) => {
     try {
-      const { identityNumber, identityType, applicationNumber } = data;
+      const { identityNumber, identityType } = data;
       const checkResponse: any = await apiClient.post("/profile-check-existence", {
-        data: { identityNumber, identityType, applicationNumber },
+        data: { identityNumber, identityType },
       });
       if (checkResponse?.data?.identityExists) {
         return;
@@ -38,7 +38,6 @@ export const useProfileForm = ({ handleNext }: { handleNext: () => void }) => {
       showToast({ type: "success", title: "ລົງທະບຽນບຸກຄົນໃໝ່ສໍາເລັດ" });
       queryClient.invalidateQueries({ queryKey: ["profiles"] });
       form.reset();
-      form.setValue("applicationNumber", data.applicationNumber);
       form.setValue("phoneNumber", data.phoneNumber);
       form.setValue("overseasProvince", data.overseasProvince);
       form.setValue("identityIssueDate", data.identityIssueDate);
@@ -55,12 +54,6 @@ export const useProfileForm = ({ handleNext }: { handleNext: () => void }) => {
         form.setError("identityType", {
           type: "manual",
           message: `${error.data.identityType}`,
-        });
-      }
-      if (error.data.applicationNumber) {
-        form.setError("applicationNumber", {
-          type: "manual",
-          message: `${error.data.applicationNumber}`,
         });
       }
     }

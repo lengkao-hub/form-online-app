@@ -8,29 +8,29 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { defaultValues, villageFormSchema } from "../container/form/schema";
-import { type IVillage } from "../type";
+import { defaultValues, visaFormSchema } from "../container/form/schema";
+import { type IVisaType } from "../type";
 import { useOne } from "@/hooks/useOne";
 
-export interface IVillageData {
+export interface IVisaData {
   status: string;
-  result: IVillage[];
+  result: IVisaType[];
 }
-export const useVillageEditForm = ({ id }: { id: number }) => {
+export const useVisaEditForm = ({ id }: { id: number }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { data, isLoading: loading } = useOne<IVillage>({ resource: "village", id });
-  const village = data?.result ?? null;
-  const form = useForm<z.infer<typeof villageFormSchema>>({
-    resolver: zodResolver(villageFormSchema),
+  const { data, isLoading: loading } = useOne<IVisaType>({ resource: "visa", id });
+  const visa = data?.result ?? null;
+  const form = useForm<z.infer<typeof visaFormSchema>>({
+    resolver: zodResolver(visaFormSchema),
     defaultValues,
   });
-  useFormReset({ village, loading, formReset: form.reset });
-  const onSubmit = async (data: z.infer<typeof villageFormSchema>) => {
+  useFormReset({ visa, loading, formReset: form.reset });
+  const onSubmit = async (data: z.infer<typeof visaFormSchema>) => {
     try {
-      await apiClient.put<IVillage>(`/village/${id}`, { data });
+      await apiClient.put<IVisaType>(`/visa/${id}`, { data });
       showToast({ type: "success", title: "ແກ້ໄຂຂໍ້ມູບ້ານສໍາເລັດ" });
-      queryClient.invalidateQueries({ queryKey: ["villages"] });
+      queryClient.invalidateQueries({ queryKey: ["visas"] });
       form.reset();
       router.back();
     } catch {
@@ -41,28 +41,27 @@ export const useVillageEditForm = ({ id }: { id: number }) => {
 };
 
 const useFormReset = ({
-  village,
+  visa,
   loading,
   formReset,
 }: {
-  village: IVillage | null;
+  visa: IVisaType | null;
   loading: boolean,
-  formReset: UseFormReset<z.infer<typeof villageFormSchema>>
+  formReset: UseFormReset<z.infer<typeof visaFormSchema>>
 }) => {
   useEffect(() => {
-    const shouldResetForm = village && !loading;
+    const shouldResetForm = visa && !loading;
     if (!shouldResetForm) {
       return;
     }
-    const formValues: Partial<z.infer<typeof villageFormSchema>> = {
-      villageLao: village.villageLao,
-      status: village.status,
-      districtId: village.districtId,
+    const formValues: Partial<z.infer<typeof visaFormSchema>> = {
+      typeCode: visa.typeCode,
+      description: visa.description,
     };
     formReset(formValues, {
       keepDefaultValues: true,
       keepErrors: false,
     });
-  }, [village, loading, formReset]);
+  }, [visa, loading, formReset]);
 };
 

@@ -44,10 +44,7 @@ export const PersonalInfoSection: React.FC<IFormProps & {
           <Form.Field name="dateOfBirth" control={form.control} label="ວັນເດືອນປີເກີດ">
             <Form.Input.DateTimePicker disabled={disabled} />
           </Form.Field>
-          <Form.Field name="applicationNumber" control={form.control} label="ເລກທີໃບຄໍາຮ້ອງ" >
-            <Form.Input.Input placeholder="ເລກທີໃບຄໍາຮ້ອງ" onKeyDown={handleEnterFocusNext}/>
-          </Form.Field>
-          <Form.Field name="phoneNumber" control={form.control} label="ເບີໂທລະສັບ">
+          <Form.Field name="phoneNumber" control={form.control} label="ເບີໂທລະສັບ" required={false}>
             <Form.Input.Input placeholder="ປ້ອນເບີໂທ" onKeyDown={handleEnterFocusNext}/>
           </Form.Field>
           <Form.Field name="gender" control={form.control} label="ເພດ">
@@ -68,7 +65,7 @@ export const PersonalInfoSection: React.FC<IFormProps & {
 };
 
 export const IdentitySection: React.FC<IFormProps> = ({ form, identityType }) => {
-  useUpdateDefaultValues({ form, fieldName: "identityType", value: "nationalId", shouldUpdate: true });
+  useUpdateDefaultValues({ form, fieldName: "identityType", value: identityType, shouldUpdate: true });
   const currentDay = new Date();  
   const year = currentDay.getUTCFullYear();
   const month = currentDay.getUTCMonth() + 1;
@@ -151,7 +148,7 @@ export const OverseasAddressSection: React.FC<IFormProps> = ({ form }) => {
         <Form.Field name="overseasCountryId" control={form.control} label="ປະເທດ">
           <Form.Input.Combobox placeholder="ປະເທດ" className="w-full" options={ethnicityOptions} onKeyDown={handleEnterFocusNext}/>
         </Form.Field>
-        <Form.Field name="overseasProvince" control={form.control} label="ແຂວງ">
+        <Form.Field name="overseasProvince" control={form.control} label="ແຂວງ" required={false}>
           <Form.Input.Input placeholder="ປ້ອນແຂວງ" onKeyDown={handleEnterFocusNext}/>
         </Form.Field>
       </div>
