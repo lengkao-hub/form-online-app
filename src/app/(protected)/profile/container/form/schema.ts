@@ -29,8 +29,9 @@ export const profileFormSchema = z.object({
   lastName: z.string().min(1, { message: "ກະລຸນາໃສ່ນາມສະກຸນ" }),
   phoneNumber: z
     .string()
-    .min(1, { message: "ກະລຸນາໃສ່ເບີໂທຂອງບຸກຄົນນີ້" })
-    .regex(/^\d{8,}$/, { message: "ເບີໂທທີ່ປ້ອນບໍ່ຖືກຕ້ອງ" }),
+    .regex(/^\d{8,}$/, { message: "ເບີໂທທີ່ປ້ອນບໍ່ຖືກຕ້ອງ" })
+    .optional()
+    .or(z.literal("")),
   dateOfBirth: z
     .union([z.date(), z.string()])
     .refine((value) => value !== null && value !== "", {
@@ -68,8 +69,7 @@ export const profileFormSchema = z.object({
   currentDistrict: z.number().min(1, { message: "ກະລຸນາໃສ່ເມືອງປັດຈຸບັນ" }),
   currentVillageId: z.number().min(1, { message: "ກະລຸນາເລືອກບ້ານ" }),
   overseasCountryId: z.number().min(1, { message: "ກະລຸນາໃສ່ປະເທດ" }),
-  overseasProvince: z.string().min(1, { message: "ກະລຸນາໃສ່ແຂວງ" }),
-  applicationNumber: z.string().min(1, { message: "ກະລຸນາໃສ່ເອກທິຟອມ" }),
+  overseasProvince: z.string().optional(),
 }).transform((data) => {
   if (data.applicationFile) {
     const companyFileIds = extractApplicationFileIds(data.applicationFile)
@@ -99,6 +99,5 @@ export const defaultValues = {
   overseasCountryId: 1,
   overseasDistrict: "",
   overseasProvince: "",
-  applicationNumber: "",
   applicationFile: [],
 };

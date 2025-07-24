@@ -102,7 +102,6 @@ const useFormReset = ({
       currentVillageId: profile.currentVillageId ?? 0,
       overseasProvince: profile.overseasProvince,
       overseasCountryId: profile.overseasCountryId ?? 0,
-      applicationNumber: profile.applicationNumber,
     };
     formReset(formValues, {
       keepDefaultValues: true,

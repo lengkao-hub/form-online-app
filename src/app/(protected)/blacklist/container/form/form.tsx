@@ -20,7 +20,7 @@ const IdentifyOptions = [
 
 const BlacklistProfileForm: React.FC<BlacklistProfileFormProps> = ({ form, onSubmit, statusMessage }) => {
   const { errors } = form.formState;
-  useUpdateDefaultValues({ form, fieldName: "identityType", value: "nationalId", shouldUpdate: true });
+  useUpdateDefaultValues({ form, fieldName: "identityType", value: "passport", shouldUpdate: true });
   return (
     <Form formInstance={form} onSubmit={onSubmit} className="border-none shadow-none p-0" showButton={false}>
       {Object.keys(errors).length > 0 && (
@@ -51,7 +51,7 @@ const BlacklistProfileForm: React.FC<BlacklistProfileFormProps> = ({ form, onSub
             <Form.Input.DateTimePicker/>
           </Form.Field>
           <Form.Field name="identityType" control={form.control} label="ປະເພດເອກະສານ">
-            <Form.Input.Select options={IdentifyOptions} defaultValue="nationalId"/>
+            <Form.Input.Select options={IdentifyOptions} defaultValue="passport"/>
           </Form.Field>
           <Form.Field name="identityNumber" control={form.control} label="ເລກທີເອກະສານ">
             <Form.Input.Input placeholder="ເລທີເອກະສານ"/>
