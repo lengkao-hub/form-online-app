@@ -21,6 +21,7 @@ export const rolePermissions: Record<Role, Array<{ action: Actions; subject: Sub
     { action: "read", subject: "add-blacklist-btn" },
     { action: "read", subject: "gallery" },
     { action: "read", subject: "take-photo" },
+    { action: "read", subject: "visa" },
   ],
   FINANCE: [
     { action: "read", subject: "folder" },

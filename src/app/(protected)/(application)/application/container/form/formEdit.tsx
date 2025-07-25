@@ -57,9 +57,6 @@ const ApplicationFormEdit: React.FC<ApplicationFormProps> = ({ form, onSubmit, p
                 <Form.Input.Combobox placeholder="ຟອມເລກທິ" className="w-96" options={numberOptions} disabled/>
               </Form.Field>
             </div>
-            <Form.Field name="applicationNumber" control={form.control} label="ເລກທີໃບຄໍາຮ້ອງ" >
-              <Form.Input.Input placeholder="ເລກທີໃບຄໍາຮ້ອງ" />
-            </Form.Field>
           </div>
         </div>
         <div className="space-y-4">

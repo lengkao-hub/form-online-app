@@ -70,7 +70,6 @@ const useFormReset = ({
       type: application.type,
       expirationTerm: application.expirationTerm,
       issueDate: application.issueDate,
-      applicationNumber: application.applicationNumber,
       expirationDate: application.expirationDate,
       status: application.status,
       numberId: application.numberId,

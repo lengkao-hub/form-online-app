@@ -34,10 +34,6 @@ export const columnsProfile: Array<ColumnDef<IProfile>> = [
     cell: ({ row }) => <FullNameCell row={row} />,
   },
   {
-    accessorKey: "applicationNumber",
-    header: "ເອກທິຟອມ",
-  },
-  {
     accessorKey: "barcode",
     header: "ບາໂຄດ",
   },
@@ -48,6 +44,9 @@ export const columnsProfile: Array<ColumnDef<IProfile>> = [
   {
     accessorKey: "phoneNumber",
     header: "ເບີໂທລະສັບ",
+    cell: ({ row }) => {
+      return <p>{row.original.phoneNumber || "ບໍ່ມີເບີໂທ"}</p>
+    },
   },
   {
     accessorKey: "dateOfBirth",

@@ -22,6 +22,7 @@ import useFolderCombobox from "../../../folder/hook/useCombobox";
 import { useEffect, useState } from "react";
 import { IApplication, IApplicationFile } from "../../type";
 import { DocsDialog, UploadDocsDialog } from "../table/docsPreviewDialog";
+import useVisaCombobox from "src/app/(protected)/visa/hook/useVisaCombobox";
 
 const formTitle = "ອອກບັດໃຫມ່";
 const formTitle2 = "ອອກບັດຄືນ";
@@ -48,6 +49,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
   const numberId = form.watch("numberId");
   const dependBy = form.watch("dependBy");
   const { result: folderOptions } = useFolderCombobox({ status: "APPROVED_BY_POLICE", officeId });
+  const { result: visaoptions } = useVisaCombobox();
   const { result: numberOptions, count } = useeNumberCombobox({ folderId: folder });
   const foundNumber = numberOptions.find((item) => item.value === numberId);
   useUpdateDefaultValues({ form, fieldName: "expirationTerm", value: foundNumber?.duration, shouldUpdate: foundNumber?.value });
@@ -90,8 +92,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
                 <Form.Input.Combobox placeholder="ຟອມເລກທິ" className="w-96" options={numberOptions} />
               </Form.Field>
             </div>
-            <Form.Field name="applicationNumber" control={form.control} label="ເລກທີໃບຄໍາຮ້ອງ" >
-              <Form.Input.Input placeholder="ເລກທີໃບຄໍາຮ້ອງ" />
+            <Form.Field name="visaTypeId" control={form.control} label="ປະເພດວິຊ່າ" >
+              <Form.Input.Combobox placeholder="ວິຊ່າ" className="w-96" options={visaoptions} />
             </Form.Field>
           </div>
         </div>

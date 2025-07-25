@@ -27,6 +27,9 @@ export const applicationSchema = z.object({
   positionId: z.number().positive({
     message: "ກະລຸນາເລືອກຕຳແໜ່ງ",
   }),
+  visaTypeId: z.number().positive({
+    message: "ກະລຸນາເລືອກປະເພດວິຊ່າ",
+  }),
   companyId: z.number({
     message: "ກະລຸນາເລືອກຫົວໜ່ວຍທຸລະກິດ",
   }).optional(),
@@ -53,7 +56,6 @@ export const applicationSchema = z.object({
   status: z.string().min(1, {
     message: "Status is required.",
   }),
-  applicationNumber: z.string().min(1, { message: "ກະລຸນາລະບຸເລກທີໃບຄໍາຮ້ອງ" }),
   applicationFile: z.array(
     z.object({
       file: z
@@ -122,5 +124,6 @@ export const applicationDefaultValues = {
   type: "NEW",
   status: "DEFAULT",
   numberId: 0,
+  visaTypeId: 0,
   applicationFile: [],
 };

@@ -21,8 +21,8 @@ const DocumentIdentityCell = ({ row }: IProfileColumns) => {
   const number = row?.original?.identityNumber;
   return (
     <div className="">
-      <p className="font-semibold text-sm text-muted-foreground">{identityType}</p>
-      <p className="font-semibold">{number}</p>
+      <p className="text-sm text-muted-foreground">{identityType}</p>
+      <p className="">{number}</p>
     </div>
   );
 };

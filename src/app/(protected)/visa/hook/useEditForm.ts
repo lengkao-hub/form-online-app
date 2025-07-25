@@ -7,7 +7,6 @@ import { apiClient } from "@/lib/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { defaultValues, visaFormSchema } from "../container/form/schema";
 import { type IVisaType } from "../type";
 import { useOne } from "@/hooks/useOne";
@@ -16,9 +15,8 @@ export interface IVisaData {
   status: string;
   result: IVisaType[];
 }
-export const useVisaEditForm = ({ id }: { id: number }) => {
+export const useVisaEditForm = ({ id, onOpenChange }: { id: number, onOpenChange: (open: boolean) => void }) => {
   const queryClient = useQueryClient();
-  const router = useRouter();
   const { data, isLoading: loading } = useOne<IVisaType>({ resource: "visa", id });
   const visa = data?.result ?? null;
   const form = useForm<z.infer<typeof visaFormSchema>>({
@@ -31,8 +29,7 @@ export const useVisaEditForm = ({ id }: { id: number }) => {
       await apiClient.put<IVisaType>(`/visa/${id}`, { data });
       showToast({ type: "success", title: "ແກ້ໄຂຂໍ້ມູບ້ານສໍາເລັດ" });
       queryClient.invalidateQueries({ queryKey: ["visas"] });
-      form.reset();
-      router.back();
+      onOpenChange(false);
     } catch {
       showToast({ type: "error", title: "ບໍ່ສາມາດແກ້ໄຂຂໍ້ມູນບ້ານໄດ້" });
     }

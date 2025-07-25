@@ -20,6 +20,8 @@ export const useApplicationForm = ({ profileId, type ="NEW" }: { profileId: numb
       folderId: 0,
       positionId: 0,
       companyId: 0,
+      numberId: 0,
+      visaTypeId: 0,
       type,
       expirationTerm: "",
       issueDate: "",
