@@ -102,6 +102,14 @@ export const Combobox = forwardRef<
     onChange?.('' as string);
   };
 
+  // auto scroll to center
+  const handleFocus = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
 
   // Custom Filtering and Sorting Logic
   const filteredAndSortedOptions = options
@@ -130,12 +138,13 @@ export const Combobox = forwardRef<
       return aLabelLower.localeCompare(bLabelLower);
     });
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen} >
       <PopoverTrigger asChild>
         <FormControl>
           <Button
             variant="outline"
             role="combobox"
+            onClick={handleFocus}
             aria-expanded={open}
             disabled={disabled}
             className={cn(

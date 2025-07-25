@@ -6,6 +6,10 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  TooltipProvider
 } from "../../ui";
 import { Button } from "../button";
 import { SquarePen } from 'lucide-react';
@@ -52,15 +56,21 @@ export function DataTableRowActions({
     //     {showDetail && <DropdownMenuItem onClick={handleShowDetail}>ລາຍລະອຽດ</DropdownMenuItem>}
     //   </DropdownMenuContent>
     // </DropdownMenu>
-    <div>
-      <Button
-        variant='ghost'
-        className='flex h-8 w-8 p-0 data-[state=open]:bg-muted'
-        onClick={handleEdit}
-      >
-        <SquarePen className='h-7 w-7'/>
-        <span className='sr-only'>Open menu</span>
-      </Button>
-    </div>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant='ghost'
+            className='flex h-8 w-8 p-0 data-[state=open]:bg-muted'
+            onClick={handleEdit}
+          >
+            <SquarePen className='h-6 w-6 opacity-70'/>
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>ແກ້ໄຂ</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }

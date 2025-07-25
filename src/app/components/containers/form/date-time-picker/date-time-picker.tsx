@@ -57,6 +57,13 @@ const DateTimePicker = React.forwardRef<HTMLDivElement, DateTimePickerProps>(
       toDateValue(value)
     );
 
+    // auto scroll to center
+    const handleFocus = (e: React.FocusEvent<Element>) => {
+      (e.currentTarget as HTMLElement).scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    };
     
     useEffect(() => {
       const newValue = toDateValue(value);
@@ -124,7 +131,7 @@ const DateTimePicker = React.forwardRef<HTMLDivElement, DateTimePickerProps>(
             </div>
           </PopoverContent>
         </Popover> */}
-        <DateField {...fieldProps} disabled={disabled} />
+        <DateField {...fieldProps} disabled={disabled} onFocus={handleFocus}/>
 
       </div>
     );

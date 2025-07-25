@@ -30,6 +30,7 @@ export const PersonalInfoSection: React.FC<IFormProps & {
   useUpdateDefaultValues({ form, fieldName: "gender", value: "MALE", shouldUpdate: true });
   useUpdateDefaultValues({ form, fieldName: "nationalityId", value: 104, shouldUpdate: true });
   useUpdateDefaultValues({ form, fieldName: "ethnicityId", value: nationalityId, shouldUpdate: nationalityId !== 0 });
+
   return (
     <div className="space-y-4 -mt-5">
       <h3 className="text-lg font-medium">ຂໍ້ມູນສ່ວນຕົວ</h3>
@@ -45,18 +46,18 @@ export const PersonalInfoSection: React.FC<IFormProps & {
             <Form.Input.DateTimePicker disabled={disabled} />
           </Form.Field>
           <Form.Field name="phoneNumber" control={form.control} label="ເບີໂທລະສັບ" required={false}>
-            <Form.Input.Input placeholder="ປ້ອນເບີໂທ" onKeyDown={handleEnterFocusNext}/>
+            <Form.Input.Input placeholder="ປ້ອນເບີໂທ" />
           </Form.Field>
           <Form.Field name="gender" control={form.control} label="ເພດ">
-            <Form.Input.Select options={genderOptions} className='w-full' onKeyDown={handleEnterFocusNext} defaultValue="MALE"/>
+            <Form.Input.Select options={genderOptions} className='w-full' defaultValue="MALE"/>
           </Form.Field>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <Form.Field name="nationalityId" control={form.control} label="ສັນຊາດ" >
-            <Form.Input.Combobox placeholder="ເລືອກສັນຊາດ" className="w-full" options={countriesOptions} onKeyDown={handleEnterFocusNext}/>
+            <Form.Input.Combobox placeholder="ເລືອກສັນຊາດ" className="w-full" options={countriesOptions} />
           </Form.Field>
           <Form.Field name="ethnicityId" control={form.control} label="ເລືອກ​ເຊື້ອຊາດ" >
-            <Form.Input.Combobox placeholder="ເລືອກ​ເຊື້ອຊາດ" className="w-full" defaultValue={nationalityId} options={ethnicityOptions}onKeyDown={handleEnterFocusNext}/>
+            <Form.Input.Combobox placeholder="ເລືອກ​ເຊື້ອຊາດ" className="w-full" defaultValue={nationalityId} options={ethnicityOptions}/>
           </Form.Field>
         </div>
       </div>

@@ -1,5 +1,6 @@
+/* eslint-disable max-lines */
 "use client";
-import { BadgeCheck, BadgeDollarSign, Edit, Folders, MessageSquareX, MoreHorizontal, Send } from "lucide-react";
+import { BadgeCheck, BadgeDollarSign, CheckCheck, CornerDownLeft, Edit, Folders, MessageSquareX, MoreHorizontal, Send } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -73,7 +74,7 @@ export function FolderCardView({ folder, action, status, showReject = false }: F
             <span>ສ້າງວັນທີ: {formatDate({ date: folder?.createdAt })}</span>
           </div>
           <div className="flex gap-x-2 text-sm text-gray-500">
-            <span>ວັນທີອອກບິນຮັບເງີນ: {formatDate( { date: folder?.billDate })}</span>
+            <span>ວັນທີອອກບິນຮັບເງີນ: {formatDate( { date: folder?.billDate }) === "01/01/1970" ? "" : formatDate( { date: folder?.billDate }) }</span>
           </div>
           <div className="flex gap-x-2 text-sm text-gray-500">
             <span>ບິນເລກທີ: { folder?.billNumber || "---" }</span>
@@ -121,6 +122,49 @@ export function FolderCardView({ folder, action, status, showReject = false }: F
         ))}
       </div>
       <FolderNumbersAccordion folder={folder} />
+      <div className="flex gap-1 justify-end">
+        {reject && (
+          <div className="flex justify-end">
+            <Button className="mt-4 flex gap-1 bg-red-700">
+              <CornerDownLeft size={18}/>
+              ຕີກັບ
+            </Button>
+          </div>
+        )}
+        {statusText && (
+          <div className="flex justify-end">
+            <Button 
+              className="mt-4 flex gap-1"
+              onClick={() => setFolderToStatus(folder.id)}  
+            >
+              <Send size={18}/>
+            ສົ່ງ
+            </Button>
+          </div>
+        )}
+        {approveText && (
+          <div className="flex justify-end">
+            <Button 
+              className="mt-4 flex gap-1"
+              onClick={() => handleApprove(folder.id)}  
+            >
+              <CheckCheck size={18}/>
+              ຢັ້ງຢືນຮັບເງິນ
+            </Button>
+          </div>
+        )}
+        {acceptText && (
+          <div className="flex justify-end">
+            <Button 
+              className="mt-4 flex gap-1"
+              onClick={() => setFolderToStatus(folder.id)}  
+            >
+              <CheckCheck size={18}/>
+              ຮັບເອກກະສານ
+            </Button>
+          </div>
+        )}
+      </div>
       {
         folderToStatus && (
           <StatusConfirmationDialog
