@@ -14,12 +14,13 @@ import { buildFormData } from "@/components/containers/form/buildForm";
 export const useApplicationForm = ({ profileId, type ="NEW" }: { profileId: number, type: string }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const lastCompanyId = Number(sessionStorage.getItem("companyId"))
   const form = useForm<z.infer<typeof applicationSchema>>({
     defaultValues: {
       profileId: 0,
       folderId: 0,
       positionId: 0,
-      companyId: 0,
+      companyId: lastCompanyId,
       numberId: 0,
       visaTypeId: 0,
       type,
@@ -43,8 +44,10 @@ export const useApplicationForm = ({ profileId, type ="NEW" }: { profileId: numb
       showToast({ type: "success", title: "ອອກບັດໃຫມ່ສໍາເລັດ" });
       queryClient.invalidateQueries({ queryKey: ["numbers"] });
       queryClient.invalidateQueries({ queryKey: ["profiles"] });
-
-      form.reset();
+      sessionStorage.setItem("companyId", String(data.companyId));
+      form.reset({
+        companyId: data.companyId,
+      });
       router.back();
     } catch {
       showToast({ type: "error", title: "ບໍ່ສາມາດອອກບັດໃຫມ່" });

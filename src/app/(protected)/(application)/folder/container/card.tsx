@@ -26,7 +26,7 @@ import RejectCreateForm from "./rejectForm";
 export function FolderCardView({ folder, action, status, showReject = false }: FolderCardViewProps): JSX.Element {
   const router = useRouter();
   const [folderToStatus, setFolderToStatus] = useState<number | null>(null);
-
+  const [dialogOpen, setDialogOpen] = useState(false)
   const handleEdit = (id: number) => {
     router.push(`/folder/edit/${id}`);
   };
@@ -60,6 +60,8 @@ export function FolderCardView({ folder, action, status, showReject = false }: F
             action={action}
             onStatus={() => { setFolderToStatus(folder?.id); }}
             showReject={showReject}
+            dialogOpen={dialogOpen}
+            setDialogOpen={setDialogOpen}
           />
         )}
       </div>
@@ -122,14 +124,27 @@ export function FolderCardView({ folder, action, status, showReject = false }: F
         ))}
       </div>
       <FolderNumbersAccordion folder={folder} />
-      <div className="flex gap-1 justify-end">
+      <div className="flex gap-1 justify-end items-end">
         {reject && (
-          <div className="flex justify-end">
-            <Button className="mt-4 flex gap-1 bg-red-700">
-              <CornerDownLeft size={18}/>
-              ຕີກັບ
-            </Button>
-          </div>
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger asChild >
+              <Button
+                className="bg-red-700 hover:bg-red-600"
+                onClick={(event) => {
+                  event.preventDefault()
+                  setDialogOpen(true)
+                }}
+              >
+                <CornerDownLeft className="mr-2 h-4 w-4" />
+                ຕິກັບ
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <RejectCreateForm folderId={folder.id} setDialogOpen={setDialogOpen} />
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
         )}
         {statusText && (
           <div className="flex justify-end">
@@ -153,7 +168,7 @@ export function FolderCardView({ folder, action, status, showReject = false }: F
             </Button>
           </div>
         )}
-        {acceptText && (
+        {(acceptText) && (
           <div className="flex justify-end">
             <Button 
               className="mt-4 flex gap-1"
@@ -185,7 +200,7 @@ function FolderNumbersAccordion({ folder }: { folder: IFolder }) {
       <AccordionItem value="item-1">
         <AccordionTrigger>ສະແດງຟອມເລກທິ</AccordionTrigger>
         <AccordionContent>
-          <ScrollArea className="h-32 w-full">
+          <ScrollArea className="h-fit w-full">
             <div className='grid grid-cols-2'>
               {folder?.number?.map((item, index) => (
                 <div className='flex gap-x-1' key={index}>
@@ -210,6 +225,8 @@ interface FolderOptionsDropdownProps {
   action?: IAction
   folder: IFolder
   showReject?: boolean
+  setDialogOpen: (open: boolean) => void
+  dialogOpen: boolean
 }
 
 function FolderOptionsDropdown({
@@ -218,10 +235,11 @@ function FolderOptionsDropdown({
   onStatus,
   onApprove,
   handleShowDetail,
+  setDialogOpen,
+  dialogOpen,
   action = { editText: "", statusText: "", acceptText: "", approveText: "", showDetail: "", reject: "" },
 }: FolderOptionsDropdownProps): JSX.Element {
   const { editText = "", statusText = "", acceptText = "", approveText = "", showDetail = "", reject = "" } = action;
-  const [dialogOpen, setDialogOpen] = useState(false)
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -310,7 +328,7 @@ function StatusConfirmationDialog({ isOpen, onClose, folder, status }: { isOpen:
             onClick={handleConfirm}
             className={`bg-red-600 hover:bg-red-700 ${loading ? "cursor-not-allowed opacity-50" : ""}`}
           >
-            ສືບຕໍ່ {loading && "..."}
+            ຢືນຢັນ {loading && "..."}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

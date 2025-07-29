@@ -54,6 +54,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
   const foundNumber = numberOptions.find((item) => item.value === numberId);
   useUpdateDefaultValues({ form, fieldName: "expirationTerm", value: foundNumber?.duration, shouldUpdate: foundNumber?.value });
   useUpdateDefaultValues({ form, fieldName: "positionId", value: 10, shouldUpdate: true });
+  useUpdateDefaultValues({ form, fieldName: "dependBy", value: "COMPANY", shouldUpdate: true });
   if (lastSegment === "NEW") {
     useUpdateDefaultValues({ form, fieldName: "applicationNumber", value: applicationNumber, shouldUpdate: true });
   }

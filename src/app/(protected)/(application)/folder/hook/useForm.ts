@@ -38,7 +38,7 @@ export const useFolderForm = () => {
   return { form, onSubmit };
 };
 
-export const useFolderRejectForm = ({ folderId, setDialogOpen }: { setDialogOpen: React.Dispatch<React.SetStateAction<boolean>>, folderId: number}) => {
+export const useFolderRejectForm = ({ folderId, setDialogOpen }: { setDialogOpen: (open: boolean) => void, folderId: number}) => {
   const queryClient = useQueryClient();
   const form = useForm<RejectFormSchemaType>({
     defaultValues: rejectFormDefaultValues,

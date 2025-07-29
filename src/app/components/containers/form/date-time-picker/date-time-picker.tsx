@@ -131,7 +131,7 @@ const DateTimePicker = React.forwardRef<HTMLDivElement, DateTimePickerProps>(
             </div>
           </PopoverContent>
         </Popover> */}
-        <DateField {...fieldProps} disabled={disabled} onFocus={handleFocus}/>
+        <DateField {...fieldProps} disabled={disabled} onFocus={handleFocus} />
 
       </div>
     );
