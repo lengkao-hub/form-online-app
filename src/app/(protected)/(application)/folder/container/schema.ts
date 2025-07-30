@@ -4,6 +4,7 @@ export const formSchema = z
   .object({
     name: z.string().min(1, "ກະລຸນາປ້ອນຊື່"),
     billNumber: z.string().optional(),
+    companyId: z.number({ message: "ກະລຸນາເລືອກຫົວໜ່ວຍທຸລະກິດ" }),
     billDate: z
       .union([z.date(), z.string()])
       .optional()

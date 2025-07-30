@@ -27,7 +27,7 @@ export const useUserForm = () => {
       form.setError("root", { type: "manual", message: "ບໍ່ຊື່ຜູ້ໃຊ້ງາແລ້ວ" });
       showToast({
         type: "error",
-        title: "ຂໍອະໄພລະບົບຂັດຂ້ອງ  ຫຼື ບໍ່ເບີໂທມີແລ້ວ",
+        title: "ຂໍອະໄພລະບົບຂັດຂ້ອງ",
       });
     }
   };

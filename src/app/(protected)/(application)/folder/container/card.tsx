@@ -22,9 +22,11 @@ import { useFolderProgress } from "../hook/useFolderProgress";
 import { FolderCardViewProps, IAction, ProcessStatus, type IFolder } from "../type";
 import { formatDate } from "@/lib/format-date";
 import RejectCreateForm from "./rejectForm";
+import { useSession } from "next-auth/react";
 
 export function FolderCardView({ folder, action, status, showReject = false }: FolderCardViewProps): JSX.Element {
   const router = useRouter();
+  const { data: userRole } = useSession()
   const [folderToStatus, setFolderToStatus] = useState<number | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false)
   const handleEdit = (id: number) => {
@@ -153,7 +155,7 @@ export function FolderCardView({ folder, action, status, showReject = false }: F
               onClick={() => setFolderToStatus(folder.id)}  
             >
               <Send size={18}/>
-            ສົ່ງ
+              {userRole?.user.role === "POLICE_COMMANDER_PROVINCE" ||userRole?.user.role === "POLICE_COMMANDER" ? "ອະນຸມັດ" : "ສົ່ງ"}
             </Button>
           </div>
         )}

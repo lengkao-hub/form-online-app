@@ -20,6 +20,7 @@ import { getOfficeId, getOfficeIds, getUserRole } from "../../../lib/getSession"
 import { columnsFolder } from "./container/table/columns";
 import { DataTable } from "@/components/containers/table/data-table";
 import { DataTableToolbar } from "./container/table/filter";
+import { useSession } from "next-auth/react";
 
 export default function FolderView() {
   const role = getUserRole();
@@ -38,6 +39,9 @@ export default function FolderView() {
       folderListComponent = <FolderListPoliceOfficer />;
       break;
     case "POLICE_COMMANDER":
+      folderListComponent = <FolderListPoliceCommander />;
+      break;
+    case "POLICE_COMMANDER_PROVINCE":
       folderListComponent = <FolderListPoliceCommander />;
       break;
     case "VERSIFICATION_OFFICER":
@@ -101,11 +105,11 @@ function FolderListFinance() {
 }
 function FolderListPoliceOfficer() {
   const officeListIds = getOfficeId()
-  const { result: resultApproved, updateSearch: updateSearchApproved, filter: filterApproved, limit: approvedLimit } = useFolderTable({ status: "APPROVED_BY_POLICE", officeId: officeListIds  });
+  const { result: resultPreview, updateSearch: updateSearchPreview, filter: filterPreview, limit: previewLimit } = useFolderTable({ status: "POLICE_UNDER_REVIEW", officeId: officeListIds  });
   const { result: resultPending, updateSearch: updateSearchPending, filter: filterPending, limit: pendingLimit } = useFolderTable({ status: "PENDING", officeId: officeListIds  });
   const { result: resultRejected, updateSearch: updateSearchRejected, filter: filterRejected, limit: rejectedLimit } = useFolderTable({ status: "REJECTED_BY_COMMANDER", officeId: officeListIds  });
   const { result: aggregationPending } = useFolderAggregation({ status: "PENDING" });
-  const { result: aggregationApproved } = useFolderAggregation({ status: "APPROVED_BY_POLICE" });
+  const { result: aggregationPreview } = useFolderAggregation({ status: "POLICE_UNDER_REVIEW" });
   const { result: aggregationRejected } = useFolderAggregation({ status: "REJECTED_BY_COMMANDER" });
   return (
     <div className="pl-4 space-y-2">
@@ -120,7 +124,7 @@ function FolderListPoliceOfficer() {
           </TabsTrigger>
           <TabsTrigger value="tab-2" className="group">
             <RefreshCw className="-ms-0.5 me-1.5 opacity-60" size={16} strokeWidth={2} aria-hidden="true" /> {"ແຟ້ມທີ່​ກຳລັງຕື່ມຟອມ"}
-            <Badge variant="secondary" className="ml-1"> {aggregationApproved.total} </Badge>
+            <Badge variant="secondary" className="ml-1"> {aggregationPreview.total} </Badge>
           </TabsTrigger>
           <TabsTrigger value="tab-3" className="group">
             <RefreshCw className="-ms-0.5 me-1.5 opacity-60" size={16} strokeWidth={2} aria-hidden="true" /> {"ແຟ້ມທີ່​ຖຶກປະຕິເສດ"}
@@ -138,7 +142,7 @@ function FolderListPoliceOfficer() {
             <FolderToolbar updateSearch={updateSearchPending} filter={filterPending} showStatus={false} />
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 '>
               {resultPending?.map((folder) => (
-                <FolderCardView folder={folder}  status= "APPROVED_BY_POLICE" key={folder?.id} action={{ acceptText: "ຮັບເອກກະສານ", showDetail: "ລາຍລະອຽດ" }} />
+                <FolderCardView folder={folder}  status= "POLICE_UNDER_REVIEW" key={folder?.id} action={{ acceptText: "ຮັບເອກກະສານ", showDetail: "ລາຍລະອຽດ" }} />
               ))}
             </div>
             {aggregationPending.total > 9 && (
@@ -150,18 +154,18 @@ function FolderListPoliceOfficer() {
         </TabsContent>
         <TabsContent value="tab-2">
           <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-3'>
-            <AggregationCard value={aggregationApproved?.total || 0 } title="ແຟ້ມທີ່ກໍາລັງຕື່ມຟອມ" icon={<FolderOpenDot />} label="ແຟ້ມ" />
+            <AggregationCard value={aggregationPreview?.total || 0 } title="ແຟ້ມທີ່ກໍາລັງຕື່ມຟອມ" icon={<FolderOpenDot />} label="ແຟ້ມ" />
           </div>
           <div className='space-y-4'>
-            <FolderToolbar updateSearch={updateSearchApproved} filter={filterApproved} showStatus={false} />
+            <FolderToolbar updateSearch={updateSearchPreview} filter={filterPreview} showStatus={false} />
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 '>
-              {resultApproved?.map((folder) => (
-                <FolderCardView folder={folder} status="POLICE_UNDER_REVIEW" key={folder?.id} action={{ statusText: "ສົ່ງເອກກະສານ", showDetail: "ລາຍລະອຽດ" }} />
+              {resultPreview?.map((folder) => (
+                <FolderCardView folder={folder} status="APPROVED_BY_PROVINCE" key={folder?.id} action={{ statusText: "ສົ່ງເອກກະສານ", showDetail: "ລາຍລະອຽດ" }} />
               ))}
             </div>
-            {aggregationApproved.total > 9 && (
+            {aggregationPreview.total > 9 && (
               <div className="w-full flex justify-end">
-                <Button className="bg-none" onClick={() => approvedLimit.setLimit(approvedLimit.limit += 9) }>ສະແດງເພີ່ມເຕີມ</Button>
+                <Button className="bg-none" onClick={() => previewLimit.setLimit(previewLimit.limit += 9) }>ສະແດງເພີ່ມເຕີມ</Button>
               </div>
             )}
           </div>
@@ -270,11 +274,11 @@ function FolderListAdmin() {
   const { result: aggregationDefault } = useFolderAggregation({ status: "DEFAULT" });
   const { result: resultDefault, updateSearch, filter } = useFolderTable({ status: "DEFAULT", officeIds: officeListIds  });
   // const { result: allFolder, updateSearch: updateSearchAllFolder, filter: filterAllFolder } = useFolderTable({ status: "", officeIds: officeListIds  });
-  const { result: resultApproved, updateSearch: updateSearchApproved, filter: filterApproved, limit: approvedLimit } = useFolderTable({ status: "APPROVED_BY_POLICE", officeIds: officeListIds  });
+  const { result: resultApproved, updateSearch: updateSearchApproved, filter: filterApproved, limit: approvedLimit } = useFolderTable({ status: "POLICE_UNDER_REVIEW", officeIds: officeListIds  });
   const { result: resultRejected, updateSearch: updateSearchRejected, filter: filterRejected, limit: rejectedLimit } = useFolderTable({ status: "REJECTED", officeIds: officeListIds  });
   const { result: resultPending, updateSearch: updateSearchPending, filter: filterPending, limit: pendingLimit } = useFolderTable({ status: "PENDING", officeIds: officeListIds  });
   const { result: aggregationPending } = useFolderAggregation({ status: "PENDING" });
-  const { result: aggregationApproved } = useFolderAggregation({ status: "APPROVED_BY_POLICE" });
+  const { result: aggregationApproved } = useFolderAggregation({ status: "POLICE_UNDER_REVIEW" });
   const { result: aggregationRejected } = useFolderAggregation({ status: "REJECTED" });
   return (
     <div className="pl-4 space-y-2">
@@ -409,8 +413,11 @@ function FolderListAdmin() {
 }
 function FolderListPoliceCommander() {
   const officeListIds = getOfficeIds()
-  const { result, updateSearch, filter, limit } = useFolderTable({ status: "POLICE_UNDER_REVIEW", officeIds: officeListIds });
-  const { result: aggregationReviewed } = useFolderAggregation({ status: "POLICE_UNDER_REVIEW" });
+  const { data: userRole } = useSession();
+  const sendStatus = userRole?.user.role === "POLICE_COMMANDER_PROVINCE" ? "APPROVED_BY_HQ" : "IN_PRODUCTION";
+  const filterStatus = userRole?.user.role === "POLICE_COMMANDER_PROVINCE" ? "APPROVED_BY_PROVINCE" : "APPROVED_BY_HQ";
+  const { result, updateSearch, filter, limit } = useFolderTable({ status: filterStatus, officeIds: officeListIds });
+  const { result: aggregationReviewed } = useFolderAggregation({ status: filterStatus });
   return (
     <div className="pl-4 space-y-2">
       <div className="flex justify-between items-center">
@@ -423,7 +430,7 @@ function FolderListPoliceCommander() {
         <FolderToolbar updateSearch={updateSearch} filter={filter} showStatus={false} />
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 '>
           {result?.map((folder) => (
-            <FolderCardView folder={folder} status= "IN_PRODUCTION" key={folder?.id} action={{ statusText: "ອະນຸມັດ", showDetail: "ລາຍລະອຽດ", reject: "reject" }} />
+            <FolderCardView folder={folder} status={sendStatus} key={folder?.id} action={{ statusText: "ອະນຸມັດ", showDetail: "ລາຍລະອຽດ", reject: "reject" }} />
           ))}
         </div>
         {aggregationReviewed.total > 9 && (

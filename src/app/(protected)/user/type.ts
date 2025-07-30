@@ -1,6 +1,6 @@
 import { type IOffice } from "../office/type";
 
-export type RoleType = "ADMIN" | "FINANCE" | "POLICE_OFFICER" | "POLICE_COMMANDER" | "POLICE_PRODUCTION" | "VERSIFICATION_OFFICER";
+export type RoleType = "ADMIN" | "FINANCE" | "POLICE_OFFICER" | "POLICE_COMMANDER" | "POLICE_PRODUCTION" | "VERSIFICATION_OFFICER" | "POLICE_COMMANDER_PROVINCE";
 
 export interface IUser {
     no: number;

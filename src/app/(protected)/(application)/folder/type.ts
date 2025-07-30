@@ -56,7 +56,7 @@ export interface FolderCardViewProps {
   }
 
 export type FolderType = "YELLOW" | "BLUE";
-export type ProcessStatus = "DEFAULT" | "PENDING" | "APPROVED_BY_POLICE" | "FINANCE_UNDER_REVIEW" | "POLICE_UNDER_REVIEW" | "IN_PRODUCTION" | "FINISHED" | "REJECTED" | "REJECTED_BY_COMMANDER";
+export type ProcessStatus = "DEFAULT" | "PENDING" | "APPROVED_BY_POLICE" | "FINANCE_UNDER_REVIEW" | "POLICE_UNDER_REVIEW" | "IN_PRODUCTION" | "FINISHED" | "REJECTED" | "REJECTED_BY_COMMANDER" | "APPROVED_BY_PROVINCE" | "APPROVED_BY_HQ";
 export interface processStatus {
     DEFAULT: string,
     PENDING: string,
