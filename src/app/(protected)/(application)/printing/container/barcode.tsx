@@ -16,23 +16,23 @@ export function Barcode({ barcode }: { barcode: string }) {
 }
 
 export function QRcode({ barcode, bg }: { barcode: string, bg?:string }) {
-  const { Canvas } = useQRCode();
+  const { SVG } = useQRCode();
   const QRBg = bg ? bg : "#fff"
   return (
-    <div className="border-2 border-[#000]">
-      <Canvas
-        text={barcode}
-        options={{
-          errorCorrectionLevel: 'H',
-          margin: 1,
-          scale: 4,
-          width: 47,
-          color: {
-            dark: '#000',
-            light: QRBg,
-          },
-        }}
-      />
+    <div className="border-2 border-[#4d4d4d]">
+      <div className="qr-wrapper">
+        <SVG
+          text={barcode}
+          options={{
+            margin: 1,
+            width: 47,
+            color: {
+              dark: '#4d4d4d',
+              light: QRBg,
+            },
+          }}
+        />
+      </div>
     </div>
   );
 }

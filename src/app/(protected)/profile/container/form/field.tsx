@@ -66,7 +66,7 @@ export const PersonalInfoSection: React.FC<IFormProps & {
 };
 
 export const IdentitySection: React.FC<IFormProps> = ({ form, identityType }) => {
-  useUpdateDefaultValues({ form, fieldName: "identityType", value: identityType, shouldUpdate: true });
+  useUpdateDefaultValues({ form, fieldName: "identityType", value: identityType || "passport", shouldUpdate: true });
   const currentDay = new Date();  
   const year = currentDay.getUTCFullYear();
   const month = currentDay.getUTCMonth() + 1;

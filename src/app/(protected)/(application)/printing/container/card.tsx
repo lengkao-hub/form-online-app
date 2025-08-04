@@ -33,7 +33,7 @@ export function StayPermitCard({ application, bgOptions, barCodeOptions, classNa
                 <div className="w-[66.1px] h-[83.5px] print:w-[80px] print:h-[98px]">
                   {profile ? (
                     <Image
-                      src={profile}
+                      src={"/person.jpeg"}
                       alt="ຮູບພາບບຸກຄົນ"
                       width={66.5}
                       height={85}
@@ -55,6 +55,9 @@ export function StayPermitCard({ application, bgOptions, barCodeOptions, classNa
               <Image src={"/immigration2.png"} alt="Logo" width={100} height={100} className="print:w-[120px] print:h=[120px]"/>
             </div>
           </div>
+          <div className="absolute top-4 right-4">
+            <p className="text-[11pt] text-red-500">{application?.visaType?.typeCode}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -70,13 +73,13 @@ export function ProfileSection({ application }: { application?: IApplication }) 
         <div>
           <p className="text-start font-thin text-[7pt] mb-[2.5px]">ຊື່/Name
             <br></br>
-            <span className="font-TimesNewRoman uppercase text-[7.5pt]">
+            <span className="font-TimesNewRoman uppercase text-[7.5pt] font-[500]">
               {title}&nbsp;{firstName}
             </span>
           </p>
           <p className="text-start font-thin text-[7pt] mb-[2.5px] text-[#000000]">ນາມສະກຸນ/Surname
             <br></br>
-            <span className="font-TimesNewRoman font-thin uppercase text-[7.5pt] text-[#000000]">{lastName}</span>
+            <span className="font-TimesNewRoman font-[500] uppercase text-[7.5pt] text-[#000000]">{lastName}</span>
           </p>
         </div>
       </div>
@@ -139,7 +142,7 @@ export function BarcodeSection({
   return (
     <div >
       {isQRcode ? (
-        <div className="absolute bottom-[3px] print:bottom-[5px] left-2 print:left-1 z-0 text-[#000000] flex items-center gap-[23px] print:gap-[40.5px]">
+        <div className="absolute bottom-[3px] print:bottom-[5px] left-2 print:left-[7px]   z-0 text-[#000000] flex items-center gap-[23px] print:gap-[36px]">
           {applicationType ? (
             <div className="barcode">
               <QRcode barcode={fullBarcode} bg={"#f56565"}/>
@@ -211,7 +214,7 @@ export function DateSection({
 export function ContactSection({ application }: { application?: IApplication }) {
   const { ethnicity, nationality, identityNumber = "" } = application?.profile || {};
   return (
-    <div className='w-[100px] print:leading-[1.39] pt-6 pl-4 font-thin'>
+    <div className='w-[100px] print:leading-[1.39] pt-6 pl-1 font-thin'>
       <div className="pb-[2px] text-[#000000]">
         <div className="flex items-center">
           <p className="flex items-center font-thin text-start text-[7pt] print:text-[7.5pt] leading-[1.2]">ເຊື້ອຊາດ/

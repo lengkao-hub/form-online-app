@@ -39,6 +39,9 @@ export const applicationSchema = z.object({
   type: z.string().min(1, {
     message: "ກະລຸນາເລືອກປະເພດ",
   }),
+  visaIssuedAt: z.string().min(1, {
+    message: "ກະລຸນາເລືອກປະເພດ",
+  }),
   dependBy: z.string().min(1, {
     message: "ກະລຸນາເລືອກຂື້ນກັບ",
   }),
@@ -47,6 +50,16 @@ export const applicationSchema = z.object({
     .union([z.date(), z.string()])
     .refine((value) => value !== null && value !== "", {
       message: "ວັນທີອອກ",
+    }),
+  visaIssuedDate: z
+    .union([z.date(), z.string()])
+    .refine((value) => value !== null && value !== "", {
+      message: "ວັນທີອອກ",
+    }),
+  visaExpiryDate: z
+    .union([z.date(), z.string()])
+    .refine((value) => value !== null && value !== "", {
+      message: "ວັນໝົດອາຍຸ",
     }),
   expirationDate: z
     .union([z.date(), z.string()])
@@ -126,4 +139,5 @@ export const applicationDefaultValues = {
   numberId: 0,
   visaTypeId: 0,
   applicationFile: [],
+  visaIssuedAt: "",
 };

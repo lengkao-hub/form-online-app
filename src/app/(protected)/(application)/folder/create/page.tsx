@@ -8,7 +8,7 @@ export default function FolderCreate() {
   const { form, onSubmit } = useFolderForm();
   return (
     <RoleBasedGuard subject="create-folder" action="manage" fallback={<div>You don&apos;t have permission to view this page</div>}>
-      <FolderForm form={form} onSubmit={onSubmit} />
+      <FolderForm form={form} onSubmit={onSubmit}/>
     </RoleBasedGuard>
   );
 }

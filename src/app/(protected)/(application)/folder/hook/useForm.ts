@@ -45,14 +45,14 @@ export const useFolderRejectForm = ({ folderId, setDialogOpen }: { setDialogOpen
     resolver: zodResolver(rejectFormSchema),
   });
   const { data } = useSession()
-  const userRole = data?.user.role === "POLICE_COMMANDER"
+  const userRole = data?.user.role === "FINANCE"
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: RejectFormSchemaType) => {
     try {
       setIsLoading(true);
       await apiClient.post<IFolder>("/folder-reject", { data });
-      await apiClient.patch(`/folder/${folderId}/progress`, { data: { status: userRole ? "REJECTED_BY_COMMANDER" : "REJECTED" } });
+      await apiClient.patch(`/folder/${folderId}/progress`, { data: { status: userRole ? "REJECTED" : "REJECTED_BY_COMMANDER" } });
       showToast({ type: "success", title: "ສົ່ງແຟ້ມກັບຄືນສໍາເລັດ" });
       queryClient.invalidateQueries({ queryKey: ["folders"] });
       queryClient.invalidateQueries({ queryKey: ["folder-aggregation"] });

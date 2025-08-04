@@ -19,7 +19,7 @@ interface FolderFormProps {
   isEdit?: boolean;
 }
 
-export const FolderForm: React.FC<FolderFormProps> = ({ form, onSubmit }) => {
+export const FolderForm: React.FC<FolderFormProps> = ({ form, onSubmit, isEdit = false }) => {
   const { result: priceOptions } = usePriceCombobox({ status: true });
   const { result: companyOptions } = useCompanyCombobox();
   const { fields: variantFields, append: append, remove: remove } = useFieldArray({
@@ -53,20 +53,20 @@ export const FolderForm: React.FC<FolderFormProps> = ({ form, onSubmit }) => {
           <div key={field.id} className="p-4 border rounded-lg space-y-4">
             <h4 className="font-medium">ປະເພດບັດ {index + 1}</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Form.Field name={`folderPrice.${index}.amount`} control={form.control} label="ຈໍານວນຟອມ">
-                <Form.Input.Input placeholder="ຊື່ຕົວເລືອກ" />
+              <Form.Field name={`folderPrice.${index}.amount`} control={form.control} label="ຈໍານວນຟອມ" >
+                <Form.Input.Input placeholder="ຊື່ຕົວເລືອກ" disabled={isEdit}/>
               </Form.Field>
               <Form.Field name={`folderPrice.${index}.priceId`} control={form.control} label="ປະເພດບັດ" >
-                <Form.Input.Combobox placeholder="ປະເພດບັດ" className="w-full" options={priceOptions} />
+                <Form.Input.Combobox placeholder="ປະເພດບັດ" className="w-full" options={priceOptions} disabled={isEdit}/>
               </Form.Field>
             </div>
-            <Button variant="destructive" onClick={() => remove(index)}>
+            <Button variant="destructive" onClick={() => remove(index)} disabled={isEdit}>
                  ລົບ
             </Button>
           </div>
         ))}
         <Button type="button"
-          onClick={() => append({ amount: 1, priceId: 0 })}>
+          onClick={() => append({ amount: 1, priceId: 0 })} disabled={isEdit}>
           <PlusCircle className="w-4 h-4 mr-2" />
           ເພີ່ມປະເພດບັດ
         </Button>

@@ -48,13 +48,15 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
   const folder = form.watch("folderId");
   const numberId = form.watch("numberId");
   const dependBy = form.watch("dependBy");
-  const { result: folderOptions } = useFolderCombobox({ status: "APPROVED_BY_POLICE", officeId });
+  const { result: folderOptions } = useFolderCombobox({ status: "POLICE_UNDER_REVIEW", officeId });
   const { result: visaoptions } = useVisaCombobox();
   const { result: numberOptions, count } = useeNumberCombobox({ folderId: folder });
   const foundNumber = numberOptions.find((item) => item.value === numberId);
+  const foundFolder = folderOptions.find((item) => item.value === folder)
   useUpdateDefaultValues({ form, fieldName: "expirationTerm", value: foundNumber?.duration, shouldUpdate: foundNumber?.value });
   useUpdateDefaultValues({ form, fieldName: "positionId", value: 10, shouldUpdate: true });
   useUpdateDefaultValues({ form, fieldName: "dependBy", value: "COMPANY", shouldUpdate: true });
+  useUpdateDefaultValues({ form, fieldName: "companyId", value: Number(foundFolder?.companyId), shouldUpdate: true });
   if (lastSegment === "NEW") {
     useUpdateDefaultValues({ form, fieldName: "applicationNumber", value: applicationNumber, shouldUpdate: true });
   }
@@ -84,17 +86,24 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
       >
         <div className="space-y-4 -mt-8">
           <h3 className="text-lg font-medium">ຂໍ້ມູນແຟ້ມ ແລະ ຟອມ</h3>
-          <div className="grid gap-4 sm:grid-cols-1">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Form.Field name="folderId" control={form.control} label="ເລືອກແຟ້ມ">
-                <Form.Input.Combobox placeholder="ແຟ້ມ" className="w-96" options={folderOptions} />
-              </Form.Field>
-              <Form.Field name="numberId" control={form.control} label={`ເລືອກຟອມເລກທີ(ຈໍານວນ ${count} ເລກທີ)`} >
-                <Form.Input.Combobox placeholder="ຟອມເລກທິ" className="w-96" options={numberOptions} />
-              </Form.Field>
-            </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Form.Field name="folderId" control={form.control} label="ເລືອກແຟ້ມ">
+              <Form.Input.Combobox placeholder="ແຟ້ມ" className="w-96" options={folderOptions} />
+            </Form.Field>
+            <Form.Field name="numberId" control={form.control} label={`ເລືອກຟອມເລກທີ(ຈໍານວນ ${count} ເລກທີ)`} >
+              <Form.Input.Combobox placeholder="ຟອມເລກທິ" className="w-96" options={numberOptions} />
+            </Form.Field>
             <Form.Field name="visaTypeId" control={form.control} label="ປະເພດວິຊ່າ" >
               <Form.Input.Combobox placeholder="ວິຊ່າ" className="w-96" options={visaoptions} />
+            </Form.Field>
+            <Form.Field name="visaIssuedAt" control={form.control} label="ບ່ອນຂໍວິຊ່າ" >
+              <Form.Input.Input placeholder="ບ່ອນຂໍວິຊ່າ" className="w-96" />
+            </Form.Field>
+            <Form.Field name="visaIssuedDate" control={form.control} label="ລົງວັນທີ" >
+              <Form.Input.DateTimePicker  />
+            </Form.Field>
+            <Form.Field name="visaExpiryDate" control={form.control} label="ວັນທີໝົດອາຍຸ" >
+              <Form.Input.DateTimePicker  />
             </Form.Field>
           </div>
         </div>
@@ -113,7 +122,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
         </div>
         {dependBy === "COMPANY" && (
           <Form.Field name="companyId" control={form.control} label="ເລືອກຫົວໜ່ວຍທຸລະກິດ">
-            <Form.Input.Combobox placeholder="ຫົວໜ່ວຍທຸລະກິດ" className="w-full" options={companyOptions} />
+            <Form.Input.Combobox placeholder="ຫົວໜ່ວຍທຸລະກິດ" className="w-full" options={companyOptions}/>
           </Form.Field>
         )}
         {dependBy === "VILLAGE" && (

@@ -18,6 +18,7 @@ import useVillageCombobox from "src/app/(protected)/(address)/village/hook/useDi
 import useFolderCombobox from "../../../folder/hook/useCombobox";
 import { DocsDialog, UploadDocsDialog } from "../table/docsPreviewDialog";
 import { IApplication, IApplicationFile } from "../../type";
+import useVisaCombobox from "src/app/(protected)/visa/hook/useVisaCombobox";
 
 const formTitle = "ອອກບັດໃຫມ່";
 const formSubtitle = "ກະລຸນາປ້ອນຂໍ້ມູນອອກບັດໃຫມ່";
@@ -42,6 +43,7 @@ const ApplicationFormEdit: React.FC<ApplicationFormProps> = ({ form, onSubmit, p
   const { result: positionOptions } = usePositionCombobox();
   const dependByOptions = [{ label: "ຂື້ນກັບບ້ານ", value: "VILLAGE" }, { label: "ຫົວໜ່ວຍທຸລະກິດ", value: "COMPANY" }];
   const { result: villageOptions } = useVillageCombobox({});
+  const { result: visaoptions } = useVisaCombobox();
   return (
     <div className="w-fit space-y-6 mx-auto">
       <ProfileCard profileId={profileId} />
@@ -55,6 +57,18 @@ const ApplicationFormEdit: React.FC<ApplicationFormProps> = ({ form, onSubmit, p
               </Form.Field>
               <Form.Field name="numberId" control={form.control} label={`ເລືອກຟອມເລກທີ`} >
                 <Form.Input.Combobox placeholder="ຟອມເລກທິ" className="w-96" options={numberOptions} disabled/>
+              </Form.Field>
+              <Form.Field name="visaTypeId" control={form.control} label="ປະເພດວິຊ່າ" >
+                <Form.Input.Combobox placeholder="ວິຊ່າ" className="w-96" options={visaoptions} />
+              </Form.Field>
+              <Form.Field name="visaIssuedAt" control={form.control} label="ບ່ອນຂໍວິຊ່າ" >
+                <Form.Input.Input placeholder="ບ່ອນຂໍວິຊ່າ" className="w-96" />
+              </Form.Field>
+              <Form.Field name="visaIssuedDate" control={form.control} label="ລົງວັນທີ" >
+                <Form.Input.DateTimePicker  />
+              </Form.Field>
+              <Form.Field name="visaExpiryDate" control={form.control} label="ວັນທີໝົດອາຍຸ" >
+                <Form.Input.DateTimePicker  />
               </Form.Field>
             </div>
           </div>

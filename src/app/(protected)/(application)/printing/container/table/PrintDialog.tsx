@@ -78,7 +78,7 @@ export const PrintDialog = ({ title, application, refetch }: PrintDialogProps) =
             <BarCodeOptions onChange={setQrcode} />
           </div>
         </DialogHeader>
-        <div className="my-6 overflow-hidden lg:h-[55vh] rounded-lg border bg-background shadow-sm  flex justify-center items-center bg-white">
+        <div className="my-6 overflow-hidden lg:h-[57vh] rounded-lg border bg-background shadow-sm  flex justify-center items-center bg-white">
           {loading ? (
             <div className="flex h-[400px] items-center justify-center">
               <div className="flex flex-col items-center space-y-2">

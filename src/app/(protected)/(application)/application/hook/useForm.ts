@@ -14,18 +14,26 @@ import { buildFormData } from "@/components/containers/form/buildForm";
 export const useApplicationForm = ({ profileId, type ="NEW" }: { profileId: number, type: string }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const lastCompanyId = Number(sessionStorage.getItem("companyId"))
+  const lastFolderId = Number(sessionStorage.getItem("folderId"));
+  const lastVisaTypeId = Number(sessionStorage.getItem("visaTypeId"));
+  const lastVisaIssuedAt = sessionStorage.getItem("visaIssuedAt");
+  const lastVisaIssuedDate = sessionStorage.getItem("visaIssuedDate");
+  const lastVisaExpiryDate = sessionStorage.getItem("visaExpiryDate");
+  const lastPositionId = Number(sessionStorage.getItem("positionId"));
   const form = useForm<z.infer<typeof applicationSchema>>({
     defaultValues: {
       profileId: 0,
-      folderId: 0,
-      positionId: 0,
-      companyId: lastCompanyId,
+      folderId: lastFolderId || 0,
+      positionId: lastPositionId || 0,
+      companyId: 0,
       numberId: 0,
-      visaTypeId: 0,
+      visaTypeId: lastVisaTypeId || 0,
       type,
       expirationTerm: "",
       issueDate: "",
+      visaIssuedAt: lastVisaIssuedAt || "",
+      visaIssuedDate: lastVisaIssuedDate || "",
+      visaExpiryDate: lastVisaExpiryDate || "",
       expirationDate: "",
       status: "DEFAULT",
       applicationFile: [],
@@ -44,9 +52,19 @@ export const useApplicationForm = ({ profileId, type ="NEW" }: { profileId: numb
       showToast({ type: "success", title: "ອອກບັດໃຫມ່ສໍາເລັດ" });
       queryClient.invalidateQueries({ queryKey: ["numbers"] });
       queryClient.invalidateQueries({ queryKey: ["profiles"] });
-      sessionStorage.setItem("companyId", String(data.companyId));
+      sessionStorage.setItem("folderId", String(data.folderId));
+      sessionStorage.setItem("visaTypeId", String(data.visaTypeId));
+      sessionStorage.setItem("visaIssuedAt", String(data.visaIssuedAt));
+      sessionStorage.setItem("visaIssuedDate", String(data.visaIssuedDate));
+      sessionStorage.setItem("visaExpiryDate", String(data.visaExpiryDate));
+      sessionStorage.setItem("positionId", String(data.positionId));
       form.reset({
-        companyId: data.companyId,
+        folderId: data.folderId,
+        visaTypeId: data.visaTypeId,
+        visaIssuedAt: data.visaIssuedAt,
+        visaIssuedDate: data.visaIssuedDate,
+        visaExpiryDate: data.visaExpiryDate,
+        positionId: data.positionId,
       });
       router.back();
     } catch {

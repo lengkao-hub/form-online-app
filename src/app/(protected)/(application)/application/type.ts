@@ -5,6 +5,7 @@ import { IPrice } from "../../(finance)/price/type";
 import { IProfile } from "../../profile/type";
 import { IVillage } from "../../(address)/village/type";
 import { IFolder } from "../folder/type";
+import { IVisaType } from "../../visa/type";
 
 export interface IApplication {
     no: number;
@@ -14,10 +15,14 @@ export interface IApplication {
     folderId: number;
     positionId: number;
     companyId: number;
+    visaType: IVisaType,
     registrationDocumentId: string | null;
     applicationType: "DEFAULT" | "OTHER_TYPES";
     expirationTerm: "ONE_YEAR" | "TWO_YEARS";
     issueDate: string;
+    visaIssuedAt: string;
+    visaIssuedDate: string;
+    visaExpiryDate: string;
     expirationDate: string;
     applicationNumber: string;
     status: "DEFAULT" | "APPROVED" |"PROCESS" |"FINISHED"

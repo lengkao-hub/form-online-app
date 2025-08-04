@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@media print {
+  .qr-wrapper svg {
+    width: 53px !important;
+    height: 53px !important;
+  }
+}
+
 @layer base {
   @font-face {
     font-family: "Phetsarath";

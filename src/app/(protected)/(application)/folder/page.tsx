@@ -178,7 +178,7 @@ function FolderListPoliceOfficer() {
             <FolderToolbar updateSearch={updateSearchRejected} filter={filterRejected} showStatus={false} />
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 '>
               {resultRejected?.map((folder) => (
-                <FolderCardView folder={folder} showReject={true} status="POLICE_UNDER_REVIEW" key={folder?.id} action={{ statusText: "ສົ່ງເອກກະສານ", showDetail: "ລາຍລະອຽດ" }} />
+                <FolderCardView folder={folder} showReject={true} status="APPROVED_BY_PROVINCE" key={folder?.id} action={{ editText: "ແກ້ໄຂ", statusText: "ສົ່ງເອກກະສານ", showDetail: "ລາຍລະອຽດ" }} />
               ))}
             </div>
             {aggregationRejected.total > 9 && (

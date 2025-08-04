@@ -233,7 +233,7 @@ export const resources: IResources[] = [
         title: "ປະເພດວິຊ່າ",
         subject: "visa",
         href: "/visa",
-        icon: <Landmark size={18} />,
+        icon: <IdCard size={18}/>,
       },
     ],
   },

@@ -47,11 +47,12 @@ const useFolderCombobox = ({ status, officeId }: { status?: ProcessStatus, offic
 
 export default useFolderCombobox;
 
-function useComboboxMapping<T extends { id: string | number; name: string; no?: string, code: string }>(
+function useComboboxMapping<T extends { id: string | number; name: string; no?: string, code: string, companyId: number }>(
   folderData: T[],
-): Array<{ label: string; value: string | number; }> {
+): Array<{ label: string; value: string | number; companyId: number }> {
   return folderData.map((item, index: number) => ({
     label: `${index + 1}. ແຟ້ມ ${item.code} - ຊື້ແຟ້ມ ${item.name}`,
     value: item.id,
+    companyId: item.companyId,
   }));
 }

@@ -31,6 +31,7 @@ export interface IFolder {
     status: string;
     billDate: string,
     billNumber: string,
+    companyId: number;
     createdAt: string;
     number?: INumber[];
     folderPrice: FolderPrice[];
