@@ -19,6 +19,7 @@ export interface IApplication {
     registrationDocumentId: string | null;
     applicationType: "DEFAULT" | "OTHER_TYPES";
     expirationTerm: "ONE_YEAR" | "TWO_YEARS";
+    applicationFile: IApplicationFile[];
     issueDate: string;
     visaIssuedAt: string;
     visaIssuedDate: string;
@@ -37,7 +38,7 @@ export interface IApplication {
     folder: IFolder;
     position: IPosition;
     office: IOffice | null;
-    application: IApplicationFile[],
+    // application: IApplicationFile[],
     printCount: number;
     dependBy: "VILLAGE" | "COMPANY";
     villageId: number | null;

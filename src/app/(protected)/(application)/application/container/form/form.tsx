@@ -102,9 +102,9 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
             <Form.Field name="visaIssuedDate" control={form.control} label="ລົງວັນທີ" >
               <Form.Input.DateTimePicker  />
             </Form.Field>
-            <Form.Field name="visaExpiryDate" control={form.control} label="ວັນທີໝົດອາຍຸ" >
+            {/* <Form.Field name="visaExpiryDate" control={form.control} label="ວັນທີໝົດອາຍຸ" >
               <Form.Input.DateTimePicker  />
-            </Form.Field>
+            </Form.Field> */}
           </div>
         </div>
         <div className="space-y-4">

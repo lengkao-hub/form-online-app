@@ -18,7 +18,7 @@ export const useApplicationForm = ({ profileId, type ="NEW" }: { profileId: numb
   const lastVisaTypeId = Number(sessionStorage.getItem("visaTypeId"));
   const lastVisaIssuedAt = sessionStorage.getItem("visaIssuedAt");
   const lastVisaIssuedDate = sessionStorage.getItem("visaIssuedDate");
-  const lastVisaExpiryDate = sessionStorage.getItem("visaExpiryDate");
+  // const lastVisaExpiryDate = sessionStorage.getItem("visaExpiryDate");
   const lastPositionId = Number(sessionStorage.getItem("positionId"));
   const form = useForm<z.infer<typeof applicationSchema>>({
     defaultValues: {
@@ -33,7 +33,7 @@ export const useApplicationForm = ({ profileId, type ="NEW" }: { profileId: numb
       issueDate: "",
       visaIssuedAt: lastVisaIssuedAt || "",
       visaIssuedDate: lastVisaIssuedDate || "",
-      visaExpiryDate: lastVisaExpiryDate || "",
+      // visaExpiryDate: lastVisaExpiryDate || "",
       expirationDate: "",
       status: "DEFAULT",
       applicationFile: [],
@@ -56,14 +56,14 @@ export const useApplicationForm = ({ profileId, type ="NEW" }: { profileId: numb
       sessionStorage.setItem("visaTypeId", String(data.visaTypeId));
       sessionStorage.setItem("visaIssuedAt", String(data.visaIssuedAt));
       sessionStorage.setItem("visaIssuedDate", String(data.visaIssuedDate));
-      sessionStorage.setItem("visaExpiryDate", String(data.visaExpiryDate));
+      // sessionStorage.setItem("visaExpiryDate", String(data.visaExpiryDate));
       sessionStorage.setItem("positionId", String(data.positionId));
       form.reset({
         folderId: data.folderId,
         visaTypeId: data.visaTypeId,
         visaIssuedAt: data.visaIssuedAt,
         visaIssuedDate: data.visaIssuedDate,
-        visaExpiryDate: data.visaExpiryDate,
+        // visaExpiryDate: data.visaExpiryDate,
         positionId: data.positionId,
       });
       router.back();

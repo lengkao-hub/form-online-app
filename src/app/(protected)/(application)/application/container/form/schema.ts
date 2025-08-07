@@ -56,11 +56,11 @@ export const applicationSchema = z.object({
     .refine((value) => value !== null && value !== "", {
       message: "ວັນທີອອກ",
     }),
-  visaExpiryDate: z
-    .union([z.date(), z.string()])
-    .refine((value) => value !== null && value !== "", {
-      message: "ວັນໝົດອາຍຸ",
-    }),
+  // visaExpiryDate: z
+  //   .union([z.date(), z.string()])
+  //   .refine((value) => value !== null && value !== "", {
+  //     message: "ວັນໝົດອາຍຸ",
+  //   }).optional(),
   expirationDate: z
     .union([z.date(), z.string()])
     .refine((value) => value !== null && value !== "", {

@@ -21,7 +21,7 @@
   @font-face {
     font-family: "TimesNewRoman";
     src: url("/fonts/OPTITimes-Roman.otf") format("opentype");
-    font-weight: 400;
+    font-weight: 300;
     font-style: normal;
     font-display: swap;
     unicode-range: U+0000-007F;
