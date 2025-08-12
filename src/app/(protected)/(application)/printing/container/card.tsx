@@ -13,7 +13,7 @@ export function StayPermitCard({ application, bgOptions, barCodeOptions, classNa
   return (
     <div className='flex justify-center box-border font-Phetsarath'>
       <div className='grid justify-center text-[#000000]'>
-        <div className={cn(`${bgColor} text-[10.8px] scale-[1.9] print:scale-100 relative box-border border border-gray-500 print:border-none p-[6px] pl-[8.55px] w-[323.5px] h-[204px] mix-blend-multiply rounded-lg print:w-fit print:h-[101%] print:absolute print:top-[-2.5px] print:left-[2px] print:m-0 print:rounded-none ${bgOptions} print:px-[7px]`, className && `${className}`)}>
+        <div className={cn(`${bgColor} text-[10.8px] scale-[1.9] print:scale-100 relative box-border border border-gray-500 print:border-none p-[6px] pl-[7.5px] w-[323.5px] h-[204px] mix-blend-multiply rounded-lg print:w-fit print:h-[101%] print:absolute print:top-[-2.5px] print:left-[2px] print:m-0 print:rounded-none ${bgOptions} print:px-[7px]`, className && `${className}`)}>
           <div className="p-0 pb-[4px]">
             <div className='leading-[1]'>
               <div className="text-center font-thin tracking-tight leading-[1.2] text-[10pt]">ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</div>
@@ -161,7 +161,7 @@ export function BarcodeSection({
               <QRcode barcode={fullBarcode}/>
             </div>
           )}
-          <div className="pt-[21.5px]">
+          <div className="pt-[26px]">
             <p className="text-[7pt] leading-[1] font-thin flex">ອອກໃຫ້ວັນທີ&#x3a;&nbsp;
               <p className="text-[red]">{formatDateString(issueDate)}</p>
             </p>
@@ -224,42 +224,42 @@ export function DateSection({
 export function ContactSection({ application }: { application?: IApplication }) {
   const { ethnicity, nationality } = application?.profile || {};
   return (
-    <div className='w-[100px] print:leading-[1.39] pt-6 pl-1 font-thin'>
+    <div className='w-[100px] print:leading-[1.39] pt-[18px] pl-1 font-thin'>
       <div className="pb-[2px] text-[#000000]">
         <div className="flex items-center">
-          <p className="flex items-center font-thin text-start text-[7pt] print:text-[7.5pt] leading-[1.05]">ເຊື້ອຊາດ/
+          <p className="flex items-center font-thin text-start text-[7pt] print:text-[7.5pt] leading-[1.1]">ເຊື້ອຊາດ/
             <span className="text-[6pt] font-thin font-TimesNewRoman">Race:</span>
             {/* <span className="text-[7pt] font-thin font-TimesNewRoman">Race:</span> */}
           </p>
           {/* <p >Race:</p> */}
         </div>
         <div>
-          <p className="text-start font-thin text-[6pt] print:text-[6pt] font-TimesNewRoman leading-[1.05] text-[#000000]">{ethnicity?.code}</p>
+          <p className="text-start font-thin text-[6pt] print:text-[6pt] font-TimesNewRoman leading-[1.1] text-[#000000]">{ethnicity?.code}</p>
           {/* <p className="text-start font-thin text-[7pt] print:text-[7.5pt] font-TimesNewRoman leading-[1.2] text-[#000000]">{ethnicity?.code}</p> */}
         </div>
       </div>
       <div className="items-center pb-[2px] text-[#000000]">
         <div>
-          <p className="flex text-start font-thin text-[7pt] print:text-[7.5pt] leading-[1.05]">ສັນຊາດ/
+          <p className="flex text-start font-thin text-[7pt] print:text-[7.5pt] leading-[1.1]">ສັນຊາດ/
             <p className="text-start font-thin text-[6pt] print:text-[6pt] font-TimesNewRoman">Nationality:</p>
             {/* <p className="text-start font-thin text-[7pt] print:text-[7.5pt] font-TimesNewRoman">Nationality:</p> */}
           </p>
         </div>
         <div>
-          <p className="text-start font-thin text-[6pt] print:text-[6pt] font-TimesNewRoman leading-[1.05]">{nationality?.nationality}</p>
+          <p className="text-start font-thin text-[6pt] print:text-[6pt] font-TimesNewRoman leading-[1.1]">{nationality?.nationality}</p>
           {/* <p className="text-start font-thin text-[7pt] print:text-[7.5pt] font-TimesNewRoman leading-[1.2]">{nationality?.nationality}</p> */}
         </div>
       </div>
-      <div className="items-center pb-[2px] text-[#000000] leading-[1.05]">
+      <div className="items-center pb-[2px] text-[#000000] leading-[1.1]">
         <div>
-          <p className="flex text-start font-thin text-[7pt] print:text-[7.5pt] leading-[1..05]">ໜ້າທີ່/Position:</p>
+          <p className="flex text-start font-thin text-[7pt] print:text-[7.5pt] leading-[1.1]">ໜ້າທີ່/Position:</p>
         </div>
         <div>
-          <p className="text-start font-thin text-[7pt] print:text-[7.5pt] leading-[1.05]">{application?.position?.laoName}</p>
+          <p className="text-start font-thin text-[7pt] print:text-[7.5pt] leading-[1.1]">{application?.position?.laoName}</p>
         </div>
       </div>
-      <div className="border border-black w-fit px-[2px] rounded-[3px] leading-[1.1]">
-        <p className="text-[6pt]">{application?.visaType?.typeCode}</p>
+      <div className=" w-full leading-[1.1]">
+        <p className="border border-black w-fit px-[2px] rounded-[3px] text-[6pt]">{application?.visaType?.typeCode}</p>
       </div>
     </div>
   );
