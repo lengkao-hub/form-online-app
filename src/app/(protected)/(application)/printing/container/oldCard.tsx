@@ -5,7 +5,7 @@ import { Barcode, formatDateString2, formatDateString, QRcode } from "./barcode"
 import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 
-export function StayPermitCard({ application, bgOptions, barCodeOptions, className }: { application?: IApplication, bgOptions?: string, barCodeOptions?: string, className?: string }) {
+export function StayPermitCard222({ application, bgOptions, barCodeOptions, className }: { application?: IApplication, bgOptions?: string, barCodeOptions?: string, className?: string }) {
   const { expirationDate = "", issueDate = "" } = application || {};
   const profile = application?.profile?.image
   const bgColor = bgOptions === "print:bg-[#B69E80]"? "bg-amber-200": "";
@@ -52,12 +52,15 @@ export function StayPermitCard({ application, bgOptions, barCodeOptions, classNa
             <BarcodeSection expirationDate={expirationDate} issueDate={issueDate} barcode={application?.profile?.barcode} isQRcode={isQRcode} />
             <DateSection expirationDate={expirationDate} issueDate={issueDate} isQRcode={isQRcode} barcode={application?.profile?.barcode}/>
             <div className="absolute flex flex-col items-center right-2 print:right-3 bottom-[6px] print:bottom-[8px] z-0 leading-[0.7] font-thin">
-              <Image src={"/immigration2.png"} alt="Logo" width={90} height={90} className="print:w-[120px] print:h=[120px]"/>
+              <Image src={"/immigration2.png"} alt="Logo" width={100} height={100} className="print:w-[120px] print:h=[120px]"/>
             </div>
           </div>
-          {/* <div className="absolute top-[33px] right-5 print:right-8 border border-red-500 px-[2px] rounded-[3px] leading-tight">
-            <p className="text-[10pt] text-red-500">{application?.visaType?.typeCode}</p>
+          {/* <div className="absolute top-4 right-4">
+            <p className="text-[11pt] text-red-500">{application?.visaType?.typeCode}</p>
           </div> */}
+          <div className="absolute top-[33px] right-5 print:right-8 border border-red-500 px-[2px] rounded-[3px] leading-tight">
+            <p className="text-[10pt] text-red-500">{application?.visaType?.typeCode}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -68,7 +71,7 @@ export function ProfileSection({ application }: { application?: IApplication }) 
   const { firstName = "", lastName = "", dateOfBirth = "", identityNumber, gender, identityIssueDate } = application?.profile || {};
   const title = (gender === "MALE" || gender === "M") ? "MR" : "MS"
   return (
-    <div className="w-[165px] leading-[0.98] print:leading-[1.05] print:tracking-tight font-thin mt-1.5 print:mt-2.5">
+    <div className="w-[165px] leading-[0.98] print:leading-[1.05] print:tracking-tight font-thin">
       <div>
         <div >
           <p className="text-start font-thin text-[7pt] mb-[1.5px] print:mb-[2.5px]">ຊື່/Name
@@ -92,14 +95,14 @@ export function ProfileSection({ application }: { application?: IApplication }) 
       </div>
       <div className="flex gap-1 items-center mb-[1px] print:mb-[2px] text-[#000000]">
         <div>
-          <p className="text-start font-thin text-[7pt] print:text-[7.5pt] tracking-tighter">ໜັງສືຜ່ານແດນເລກທີ/Passport No. :</p>
+          <p className="text-start font-thin text-[7pt] print:text-[7.5pt] tracking-tighter">ໜັງສືຜ່ານແດນເລກທີ:</p>
           <p className="text-start font-thin text-[7pt] print:text-[7.5pt]">{identityNumber}</p>
         </div>
       </div>
       <div className="flex gap-1 items-center mb-[1px] print:mb-[2px] text-[#000000]">
         <div>
-          <p className="text-start font-thin text-[7pt] print:text-[7.5pt] tracking-tighter">ລົງວັນທີ/Date Of Issue: {formatDateString(identityIssueDate)}</p>
-          {/* <p className="text-start font-thin text-[7pt] print:text-[7.5pt]"></p> */}
+          <p className="text-start font-thin text-[7pt] print:text-[7.5pt] tracking-tighter">ລົງວັນທີ:</p>
+          <p className="text-start font-thin text-[7pt] print:text-[7.5pt]">{formatDateString(identityIssueDate)}</p>
         </div>
       </div>
       {/* <div className="flex gap-1 items-center mb-[1px] print:mb-[2px] text-[#000000]">
@@ -227,39 +230,36 @@ export function ContactSection({ application }: { application?: IApplication }) 
     <div className='w-[100px] print:leading-[1.39] pt-6 pl-1 font-thin'>
       <div className="pb-[2px] text-[#000000]">
         <div className="flex items-center">
-          <p className="flex items-center font-thin text-start text-[7pt] print:text-[7.5pt] leading-[1.05]">ເຊື້ອຊາດ/
+          <p className="flex items-center font-thin text-start text-[7pt] print:text-[7.5pt] leading-[1.2]">ເຊື້ອຊາດ/
             <span className="text-[6pt] font-thin font-TimesNewRoman">Race:</span>
             {/* <span className="text-[7pt] font-thin font-TimesNewRoman">Race:</span> */}
           </p>
           {/* <p >Race:</p> */}
         </div>
         <div>
-          <p className="text-start font-thin text-[6pt] print:text-[6pt] font-TimesNewRoman leading-[1.05] text-[#000000]">{ethnicity?.code}</p>
+          <p className="text-start font-thin text-[6pt] print:text-[6pt] font-TimesNewRoman leading-[1.2] text-[#000000]">{ethnicity?.code}</p>
           {/* <p className="text-start font-thin text-[7pt] print:text-[7.5pt] font-TimesNewRoman leading-[1.2] text-[#000000]">{ethnicity?.code}</p> */}
         </div>
       </div>
       <div className="items-center pb-[2px] text-[#000000]">
         <div>
-          <p className="flex text-start font-thin text-[7pt] print:text-[7.5pt] leading-[1.05]">ສັນຊາດ/
+          <p className="flex text-start font-thin text-[7pt] print:text-[7.5pt] leading-[1.2]">ສັນຊາດ/
             <p className="text-start font-thin text-[6pt] print:text-[6pt] font-TimesNewRoman">Nationality:</p>
             {/* <p className="text-start font-thin text-[7pt] print:text-[7.5pt] font-TimesNewRoman">Nationality:</p> */}
           </p>
         </div>
         <div>
-          <p className="text-start font-thin text-[6pt] print:text-[6pt] font-TimesNewRoman leading-[1.05]">{nationality?.nationality}</p>
+          <p className="text-start font-thin text-[6pt] print:text-[6pt] font-TimesNewRoman leading-[1.2]">{nationality?.nationality}</p>
           {/* <p className="text-start font-thin text-[7pt] print:text-[7.5pt] font-TimesNewRoman leading-[1.2]">{nationality?.nationality}</p> */}
         </div>
       </div>
-      <div className="items-center pb-[2px] text-[#000000] leading-[1.05]">
+      <div className="items-center print:mb-[5px] pb-[2px] text-[#000000]">
         <div>
-          <p className="flex text-start font-thin text-[7pt] print:text-[7.5pt] leading-[1..05]">ໜ້າທີ່/Position:</p>
+          <p className="flex text-start font-thin text-[7pt] print:text-[7.5pt] leading-[1.2]">ໜ້າທີ່/Position:</p>
         </div>
         <div>
-          <p className="text-start font-thin text-[7pt] print:text-[7.5pt] leading-[1.05]">{application?.position?.laoName}</p>
+          <p className="text-start font-thin text-[7pt] print:text-[7.5pt] leading-[1.2]">{application?.position?.laoName}</p>
         </div>
-      </div>
-      <div className="border border-black w-fit px-[2px] rounded-[3px] leading-[1.1]">
-        <p className="text-[6pt]">{application?.visaType?.typeCode}</p>
       </div>
     </div>
   );

@@ -37,7 +37,7 @@ export function QRcode({ barcode, bg }: { barcode: string, bg?:string }) {
   );
 }
 
-export const formatDateString = (dateString: string): string => {
+export const formatDateString = (dateString?: string): string => {
   if (!dateString) {
     return "ບໍ່ມີວັນທີ";
   }
