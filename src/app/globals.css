@@ -4,8 +4,8 @@
 
 @media print {
   .qr-wrapper svg {
-    width: 53px !important;
-    height: 53px !important;
+    width: 44px !important;
+    height: 44px !important;
   }
 }
 
