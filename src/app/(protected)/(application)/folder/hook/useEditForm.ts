@@ -79,6 +79,8 @@ const resetFormValues = (
   const formValues = {
     name: folder.name,
     companyId: folder.companyId,
+    billDate: folder.billDate,
+    billNumber: folder.billNumber,
     folderPrice: folder.folderPrice?.map((price) => ({
       amount: price.amount,
       priceId: price.priceId,

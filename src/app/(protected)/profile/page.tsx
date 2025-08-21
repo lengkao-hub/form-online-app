@@ -21,7 +21,7 @@ export default function UserPage() {
     <div className="pl-4 space-y-2">
       <div className="flex justify-between items-center">
         <TitleLabel title='ຄຸ້ມຄອງບຸກຄົນ' subtitle='ນີ້ແມ່ນລາຍການຂໍ້ມູນລົງທະບຽນບຸກຄົນ 10-50 ລາຍການຫຼ້າສຸດ' />
-        <CreateButton resouce="profile " title='ລົງທະບຽນບຸກຄົນ' />
+        <CreateButton resouce="profile" title='ລົງທະບຽນບຸກຄົນ' />
       </div>
       <Tabs defaultValue="profile" className="space-y-4">
         <TabsList>

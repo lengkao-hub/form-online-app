@@ -23,6 +23,7 @@ import { useEffect, useState } from "react";
 import { IApplication, IApplicationFile } from "../../type";
 import { DocsDialog, UploadDocsDialog } from "../table/docsPreviewDialog";
 import useVisaCombobox from "src/app/(protected)/visa/hook/useVisaCombobox";
+import { AddPositionDialog } from "src/app/(protected)/position/container/table/addPositionDialog";
 
 const formTitle = "ອອກບັດໃຫມ່";
 const formTitle2 = "ອອກບັດຄືນ";
@@ -41,6 +42,7 @@ interface ApplicationFormProps {
 
 const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profileId }) => {
   const [applicationNumber, setApplicationNumber] = useState<string>("");
+  const [isAddingPosition, setIsAddingPosition] = useState<boolean>(false);
   const officeId = getOfficeId()
   const pathname = usePathname();
   const segments = pathname.split('/');
@@ -63,6 +65,19 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
   const { result: companyOptions } = useCompanyCombobox();
   const { result: positionOptions } = usePositionCombobox();
   const { result: villageOptions } = useVillageCombobox({});
+  const extendedPositionOptions = [
+    { label: '+ ເພີ່ມຕໍາແໜ່ງ', value: 'addPosition' },
+    ...positionOptions,
+  ];
+  const handlePositionChange = (value: string | number) => {
+    if (value === 'addPosition') {
+      setIsAddingPosition?.(true);
+      form.setValue('positionId', 0);
+    } else {
+      setIsAddingPosition?.(false);
+      form.setValue('positionId', Number(value));
+    }
+  };
   useEffect(() => {
     const expirationTerm = form.watch("expirationTerm");
     if (expirationTerm) {
@@ -111,7 +126,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
           <h3 className="text-lg font-medium">ຂໍ້ມູນຫົວໜ່ວຍທຸລະກິດ</h3>
           <div className="grid gap-4 sm:grid-cols-1">
             <Form.Field name="positionId" control={form.control} label="ເລືອກຕຳແໜ່ງ" >
-              <Form.Input.Combobox placeholder="ຕຳແໜ່ງ" className="w-full" options={positionOptions} />
+              <Form.Input.Combobox placeholder="ຕຳແໜ່ງ" className="w-full" options={extendedPositionOptions} onChange={handlePositionChange}/>
             </Form.Field>
           </div>
         </div>
@@ -148,8 +163,14 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
           </div>
         </div>
       </Form>
+      <AddPositionDialog 
+        open={isAddingPosition} 
+        onOpenChange={setIsAddingPosition}
+        onSuccess={(newPosition) => {
+          form.setValue("positionId", newPosition.id);
+        }}
+      />
     </div>
-
   );
 };
 

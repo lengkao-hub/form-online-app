@@ -29,3 +29,28 @@ export const usePositionForm = () => {
   };
   return { form, onSubmit };
 };
+
+export const usePositionFormDialog = (onOpenChange: (open: boolean) => void) => {
+  const queryClient = useQueryClient();
+  const form = useForm<z.infer<typeof positionFormSchema>>({
+    defaultValues,
+    resolver: zodResolver(positionFormSchema),
+  });
+  const onSubmit = async (data: z.infer<typeof positionFormSchema>) => {
+    try {
+      const response = await apiClient.post<{
+        status: string;
+        message: string;
+        result: IPosition;
+      }>("/position", { data });
+      showToast({ type: "success", title: "ສ້າງຕຳແໜ່ງ" });
+      form.reset();
+      queryClient.invalidateQueries({ queryKey: ["positions"] });
+      onOpenChange(false);
+      return response.result;
+    } catch {
+      showToast({ type: "error", title: "ບໍ່ສາມາດເພີ່ມຫົວໜ່ວຍທຸລະກິດ" });
+    }
+  };
+  return { form, onSubmit };
+};

@@ -32,14 +32,14 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ form, onSubmit, action = "cre
   return (
     <>
       <Form formInstance={form} onSubmit={onSubmit} className="border-none shadow-none p-0" showButton={false}>
-        <PersonalInfoSection form={form} disabled={disabled}  />
+        <PersonalInfoSection form={form} disabled={!disabled}  />
         <IdentitySection form={form} identityType={identityType} />
         <CurrentAddressSection form={form} setIsAddingVillage={handleSetIsAddingVillage}/>
         <OverseasAddressSection form={form} />
         <div className=" space-x-3">
           {action === "create" && (
             <>
-              <Button ref={nextButtonRef} loading={form?.formState.isSubmitting} disabled={form?.formState.isSubmitting} >ໄປຕໍ່</Button>
+              <Button ref={nextButtonRef} loading={form?.formState.isSubmitting} disabled={form?.formState.isSubmitting} >ບັນທຶກ</Button>
               <Button variant="outline" onClick={handlePrevious} className="w-full sm:w-auto" > ກັບຄືນ </Button>
             </>
           )}
@@ -50,10 +50,15 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ form, onSubmit, action = "cre
           )}
         </div>
       </Form>
-      <AddVillageDialog open={isAddingVillage} onOpenChange={setIsAddingVillage}/>
+      <AddVillageDialog 
+        open={isAddingVillage} 
+        onOpenChange={setIsAddingVillage}
+        onSuccess={(newVillage) => {
+          form.setValue("currentVillageId", newVillage.id);
+        }}
+      />
     </>
   );
 };
 
 export default ProfileForm;
-
