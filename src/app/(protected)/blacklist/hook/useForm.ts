@@ -22,7 +22,15 @@ export const useBlacklistProfileForm = ({ handleNext }: { handleNext: () => void
       const checkResponse: any = await apiClient.post("/profile-check-existence", {
         data: { identityNumber, identityType },
       });
-      if (checkResponse?.data?.identityExists) {
+      if (checkResponse?.identityExists) {
+        form.setError("identityNumber", {
+          type: "manual",
+          message: `${checkResponse?.identityNumber}`,
+        });
+        form.setError("identityType", {
+          type: "manual",
+          message: `${checkResponse?.identityType}`,
+        });
         return;
       }
       if (response.status === "ok") {

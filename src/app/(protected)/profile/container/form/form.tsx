@@ -32,7 +32,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ form, onSubmit, action = "cre
   return (
     <>
       <Form formInstance={form} onSubmit={onSubmit} className="border-none shadow-none p-0" showButton={false}>
-        <PersonalInfoSection form={form} disabled={!disabled}  />
+        <PersonalInfoSection form={form} disabled={false}  />
         <IdentitySection form={form} identityType={identityType} />
         <CurrentAddressSection form={form} setIsAddingVillage={handleSetIsAddingVillage}/>
         <OverseasAddressSection form={form} />
