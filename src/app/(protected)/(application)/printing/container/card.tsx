@@ -99,7 +99,7 @@ export function ProfileSection({ application }: { application?: IApplication }) 
               <p className="text-start font-semibold text-[7pt] print:text-[7pt] tracking-tighter">Passport No. :</p>
             </div>
             <div>
-              <p className="text-start font-semibold text-[7pt] print:text-[7pt]">{identityNumber}</p>
+              <p className="text-start font-semibold text-[7pt] print:text-[7pt] uppercase">{identityNumber}</p>
             </div>
           </div>
           <div className="flex gap-1 items-center mb-[1px] print:mb-[2px] text-[#000000]">
@@ -116,6 +116,7 @@ export function ProfileSection({ application }: { application?: IApplication }) 
               <p className="flex text-start font-semibold text-[7pt] print:text-[7pt]">ໜ້າທີ່: </p>
               <p className="flex text-start font-semibold text-[7pt] print:text-[7pt]">Position:</p>
             </div>
+            
           </div>
           {/* <div className="flex gap-1 items-center mb-[1px] print:mb-[2px] text-[#000000]">
             <div>

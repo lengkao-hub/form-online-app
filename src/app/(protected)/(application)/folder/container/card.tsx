@@ -23,13 +23,16 @@ import { FolderCardViewProps, IAction, ProcessStatus, type IFolder } from "../ty
 import { formatDate } from "@/lib/format-date";
 import RejectCreateForm from "./rejectForm";
 import { useSession } from "next-auth/react";
-// import { usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export function FolderCardView({ folder, action, status, showReject = false }: FolderCardViewProps): JSX.Element {
   const router = useRouter();
   // const pathname = usePathname();
   // const segments = pathname.split('/');
   const { data: userRole } = useSession()
+  const pathName = usePathname()
+  const basePath = pathName.split("/").slice(0, 3).join("/") + "/";
+  const isShowing = basePath === "/folder/show/";
   const [folderToStatus, setFolderToStatus] = useState<number | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false)
   const handleEdit = (id: number) => {
@@ -74,7 +77,11 @@ export function FolderCardView({ folder, action, status, showReject = false }: F
         <Folders className={cn("w-14 h-14 text-yellow-500")} />
         <div>
           <div className='flex items-center'>
-            <div className="text-xl font-bold">{truncateText(folder?.name)} </div>
+            {isShowing ? (
+              <div className="text-xl font-bold">{folder?.name} </div>
+            ):(
+              <div className="text-xl font-bold">{truncateText(folder?.name)} </div> 
+            )}
           </div>
           <div className="flex gap-x-2 text-sm text-gray-500">
             <span>ແຟ້ມເລກທີ: {folder?.code}</span>

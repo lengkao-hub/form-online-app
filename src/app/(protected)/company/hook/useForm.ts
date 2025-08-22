@@ -42,3 +42,35 @@ export const useCompanyForm = () => {
   };
   return { form, onSubmit };
 };
+
+export const useCompanyFormDialog = (onOpenChange: (open: boolean) => void) => {
+  const queryClient = useQueryClient();
+  const form = useForm<z.infer<typeof companyFormSchema>>({
+    defaultValues: companyDefaultValues,
+    resolver: zodResolver(companyFormSchema),
+  });
+  const onSubmit = async (data: z.infer<typeof companyFormSchema>) => {
+    try {
+      const FormData = buildFormData({ data, fieldName: "companyFile" });
+      const response = await apiClient.post<{
+        status: string;
+        message: string;
+        result: ICompany;
+      }>("/company", {
+        data: FormData,
+        config: {
+          headers: { "Content-Type": "multipart/form-data" },
+        },
+      });
+      showToast({ type: "success", title: "ສ້າງຫົວໜ່ວຍທຸລະກິດສໍາເລັດ" });
+      queryClient.invalidateQueries({ queryKey: ["companies"] });
+
+      form.reset();
+      onOpenChange(false);
+      return response.result;
+    } catch {
+      showToast({ type: "error", title: "ບໍ່ສາມາດເພີ່ມຫົວໜ່ວຍທຸລະກິດ" });
+    }
+  };
+  return { form, onSubmit };
+};

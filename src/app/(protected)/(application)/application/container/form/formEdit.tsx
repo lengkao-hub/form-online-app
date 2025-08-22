@@ -147,8 +147,8 @@ const ProfileCard = ({ profileId }: { profileId: number }) => {
             <Badge className="mt-2">
               {gender}
             </Badge>
-            <div className="flex flex-col items-center sm:items-start">
-              ເອກະສານຢັ້ງຢືນ: {identityType} {identityNumber}
+            <div className="flex gap-2 items-center sm:items-start">
+              ເອກະສານຢັ້ງຢືນ: <p className="capitalize">{identityType}</p> <p className="uppercase">{identityNumber}</p>
             </div>
             <div className="flex flex-col items-center sm:items-start">
               ອາຍຸ: {formatDate(identityIssueDate ?? "")} - {formatDate(identityExpiryDate ?? "")}
@@ -225,4 +225,3 @@ const ProfileCard = ({ profileId }: { profileId: number }) => {
     </div>
   );
 };
-

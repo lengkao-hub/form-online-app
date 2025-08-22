@@ -21,6 +21,7 @@ const IdentifyOptions = [
 const BlacklistProfileForm: React.FC<BlacklistProfileFormProps> = ({ form, onSubmit, statusMessage }) => {
   const { errors } = form.formState;
   useUpdateDefaultValues({ form, fieldName: "identityType", value: "passport", shouldUpdate: true });
+
   return (
     <Form formInstance={form} onSubmit={onSubmit} className="border-none shadow-none p-0" showButton={false}>
       {Object.keys(errors).length > 0 && (
@@ -42,19 +43,23 @@ const BlacklistProfileForm: React.FC<BlacklistProfileFormProps> = ({ form, onSub
       <div className="space-y-4">
         <div className="grid gap-4 sm:grid-cols-2">
           <Form.Field name="firstName" control={form.control} label="ຊື່ແທ້">
-            <Form.Input.Input placeholder="ປ້ອນຊື່"/>
+            <Form.Input.Input placeholder="ປ້ອນຊື່" />
           </Form.Field>
+
           <Form.Field name="lastName" control={form.control} label="ນາມສະກຸນ">
-            <Form.Input.Input placeholder="ປ້ອນນາມສະກຸນ"/>
+            <Form.Input.Input placeholder="ປ້ອນນາມສະກຸນ" />
           </Form.Field>
+
           <Form.Field name="dateOfBirth" control={form.control} label="ວັນເດືອນປີເກີດ">
-            <Form.Input.DateTimePicker/>
+            <Form.Input.DateTimePicker />
           </Form.Field>
+
           <Form.Field name="identityType" control={form.control} label="ປະເພດເອກະສານ">
-            <Form.Input.Select options={IdentifyOptions} defaultValue="passport"/>
+            <Form.Input.Select options={IdentifyOptions} defaultValue="passport" />
           </Form.Field>
-          <Form.Field name="identityNumber" control={form.control} label="ເລກທີເອກະສານ">
-            <Form.Input.Input placeholder="ເລທີເອກະສານ"/>
+
+          <Form.Field name="identityNumber" control={form.control} label="ໜັງສືຜ່ານແດນເລກທີ">
+            <Form.Input.Input placeholder="ເລທີ"/>
           </Form.Field>
         </div>
       </div>
@@ -67,4 +72,3 @@ const BlacklistProfileForm: React.FC<BlacklistProfileFormProps> = ({ form, onSub
 };
 
 export default BlacklistProfileForm;
-
