@@ -33,7 +33,7 @@ export function StayPermitCard({ application, bgOptions, barCodeOptions, classNa
                 <div className="w-[66.1px] h-[83.5px] print:w-[68px] print:h-[85px]">
                   {profile ? (
                     <Image
-                      src={"/person.jpeg"}
+                      src={profile}
                       alt="ຮູບພາບບຸກຄົນ"
                       width={66.5}
                       height={85}
@@ -116,8 +116,6 @@ export function ProfileSection({ application }: { application?: IApplication }) 
               <p className="flex text-start font-semibold text-[7pt] print:text-[7pt]">ໜ້າທີ່: </p>
               <p className="flex text-start font-semibold text-[7pt] print:text-[7pt]">Position:</p>
             </div>
-            
-            
           </div>
           {/* <div className="flex gap-1 items-center mb-[1px] print:mb-[2px] text-[#000000]">
             <div>
@@ -151,8 +149,8 @@ export function ProfileSection({ application }: { application?: IApplication }) 
 }
 
 export function BarcodeSection({ 
-  expirationDate, 
-  issueDate, 
+  // expirationDate, 
+  // issueDate, 
   barcode, 
   isQRcode, 
   applicationType, 

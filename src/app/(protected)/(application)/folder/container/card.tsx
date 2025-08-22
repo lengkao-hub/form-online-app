@@ -23,9 +23,12 @@ import { FolderCardViewProps, IAction, ProcessStatus, type IFolder } from "../ty
 import { formatDate } from "@/lib/format-date";
 import RejectCreateForm from "./rejectForm";
 import { useSession } from "next-auth/react";
+// import { usePathname } from "next/navigation";
 
 export function FolderCardView({ folder, action, status, showReject = false }: FolderCardViewProps): JSX.Element {
   const router = useRouter();
+  // const pathname = usePathname();
+  // const segments = pathname.split('/');
   const { data: userRole } = useSession()
   const [folderToStatus, setFolderToStatus] = useState<number | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false)
