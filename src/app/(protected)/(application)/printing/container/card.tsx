@@ -53,12 +53,9 @@ export function StayPermitCard({ application, bgOptions, barCodeOptions, classNa
             <BarcodeSection expirationDate={expirationDate} issueDate={issueDate} barcode={application?.profile?.barcode} isQRcode={isQRcode} />
             <DateSection expirationDate={expirationDate} issueDate={issueDate} isQRcode={isQRcode} barcode={application?.profile?.barcode}/>
             <div className="absolute flex flex-col items-center right-1 print:right-1 bottom-[4px] print:bottom-[1px] z-0 leading-[0.7] font-semibold">
-              <Image src={"/immigration2.png"} alt="Logo" width={90} height={90} className="print:w-[110px] font-semibold "/>
+              <Image src={"/immigration4.png"} alt="Logo" width={1000} height={1000} className="w-[100px] print:w-[110px] font-semibold "/>
             </div>
           </div>
-          {/* <div className="absolute top-[33px] right-5 print:right-8 border border-red-500 px-[2px] rounded-[3px] leading-tight">
-            <p className="text-[10pt] text-red-500">{application?.visaType?.typeCode}</p>
-          </div> */}
         </div>
       </div>
     </div>

@@ -36,18 +36,8 @@ export const useBlacklistProfileForm = ({ handleNext }: { handleNext: () => void
       if (response.status === "ok") {
         handleNext();
       }
-    } catch(error: any) {
+    } catch {
       showToast({ type: "error", title: "ລະບົບຂັດຂ້ອງ" });
-      if (error.data.identityNumber || error.data.identityType ) {
-        form.setError("identityNumber", {
-          type: "manual",
-          message: `${error.data.identityNumber}`,
-        });
-        form.setError("identityType", {
-          type: "manual",
-          message: `${error.data.identityType}`,
-        });
-      }
     }
   };
   return { form, onSubmit };

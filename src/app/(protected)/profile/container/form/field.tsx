@@ -23,14 +23,16 @@ const IdentifyOptions = [
 ];
 export const PersonalInfoSection: React.FC<IFormProps & { 
   disabled?: boolean,
-}> = ({ form, disabled }) => {
+  action: boolean,
+}> = ({ form, disabled, action }) => {
   const nationalityId = form.watch("nationalityId") ?? 0;
   const { result: countriesOptions } = usenationalitiesCombobox({ isNationality: true });
   const { result: ethnicityOptions } = usenationalitiesCombobox({ isNationality: true });
   useUpdateDefaultValues({ form, fieldName: "gender", value: "MALE", shouldUpdate: true });
   useUpdateDefaultValues({ form, fieldName: "nationalityId", value: 104, shouldUpdate: true });
-  useUpdateDefaultValues({ form, fieldName: "ethnicityId", value: nationalityId, shouldUpdate: nationalityId !== 0 });
-
+  if (action) {
+    useUpdateDefaultValues({ form, fieldName: "ethnicityId", value: nationalityId, shouldUpdate: nationalityId !== 0 });
+  }
   return (
     <div className="space-y-4 -mt-5">
       <h3 className="text-lg font-medium">ຂໍ້ມູນສ່ວນຕົວ</h3>
