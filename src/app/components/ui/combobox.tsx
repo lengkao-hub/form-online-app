@@ -73,7 +73,7 @@ export const Combobox = forwardRef<
           role="combobox"
           aria-expanded={open}
           disabled={disabled}
-          className={cn("w-full justify-between", className)}
+          className={cn("w-full justify-between h-[37.78px]", className)}
         >
           {selectedOption ? selectedOption.label : placeholder}
           <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />

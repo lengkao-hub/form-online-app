@@ -89,3 +89,21 @@ export interface ILastApplication {
     issueDate: string,
     expirationDate: string, 
 }
+
+export interface IReportResponse {
+  result: {
+    total: {
+      male: number,
+      female: number,
+    },
+    rows: {
+      nationality: string;
+      visaType: string;
+      cardType: {
+        expirationTerm: string;
+        male: number;
+        female: number;
+      }[];
+    }[];
+  }
+}

@@ -43,7 +43,8 @@ export const rolePermissions: Record<Role, Array<{ action: Actions; subject: Sub
     { action: "read", subject: "village" },
     { action: "read", subject: "gallery" },
     { action: "read", subject: "take-photo" },
-    // { action: "read", subject: "profile-report" },
+    { action: "read", subject: "profile-report" },
+    { action: "read", subject: "application-report" },
     { action: "read", subject: "visa" },
   ],
   POLICE_COMMANDER: [

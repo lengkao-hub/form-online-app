@@ -37,6 +37,7 @@ export type Subjects =
   | "blacklist"
   | "create-folder"
   | "profile-report"
+  | "application-report"
   | "visa"
 
 export type AppAbility = MongoAbility<[Actions, Subjects]>;
