@@ -2,7 +2,6 @@
 
 import {
   CalendarIcon,
-  IdCard,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
@@ -15,31 +14,12 @@ import { useEffect, useState } from 'react';
 import useOfficeCombobox from "../../office/hook/useOfficeCombobox";
 import { usenationalitiesCombobox } from "../../nationality/hook/usenationalitiesCombobox";
 import { gender as genderOptions } from "../../profile/container/table/filter";
-import useVisaCombobox from "../../visa/hook/useVisaCombobox";
 import { Combobox } from "@/components/ui/combobox";
 
 export type Option = {
   label: string;
   value: string | number;
 };
-
-export const cardTypeOptions = [
-  {
-    label: "All",
-    value: "all",
-    icon: "",
-  },
-  {
-    label: "1 ປີ",
-    value: "ONE_YEAR",
-    icon: IdCard,
-  },
-  {
-    label: "6 ເດືອນ",
-    value: "SIX_MONTHS",
-    icon: IdCard,
-  },
-];
 
 interface DataTableToolbarProps {
   filter: {
@@ -71,20 +51,11 @@ export function FilterPeopleReport({ filter: {
   setGender,
   nationality,
   setNationality,
-  visaType,
-  setVisaType,
   setFilterType,
-  cardType,
-  setCardType,
 } }: DataTableToolbarProps) {
   const { result: officeOptions } = useOfficeCombobox();
   const { result: nationalityOptions } = usenationalitiesCombobox({ isNationality: true });
-  const { result: visaoptions } = useVisaCombobox();
   const [selectedReport, setSelectedReport] = useState<string>("daily");
-  const extendedVisaOptions = [
-    { label: 'All', value: 'all' },
-    ...visaoptions,
-  ];
   const extendedGenderOptions = [
     { label: 'All', value: 'all', icon: "" },
     ...genderOptions,
@@ -213,16 +184,7 @@ export function FilterPeopleReport({ filter: {
           />
         </div>
         <div className="col-span-3">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="nationality-filter" className="text-[18px]">ປະເພດວິຊ່າ</Label>
-              <Combobox
-                options={extendedVisaOptions}
-                value={visaType}
-                onChange={setVisaType}
-                placeholder="ເລືອກປະເພດວິຊ່າ"
-              />
-            </div>
+          <div className="grid grid-cols-2 items-center gap-4">
             <div className="space-y-2">
               <Label htmlFor="nationality-filter" className="text-[18px]">ສັນຊາດ</Label>
               <Combobox
@@ -240,24 +202,6 @@ export function FilterPeopleReport({ filter: {
                 </SelectTrigger>
                 <SelectContent>
                   {extendedGenderOptions.map((opt) => (
-                    <SelectItem key={opt.value} value={opt.value}>
-                      <div className="flex items-center">
-                        {opt.icon && <opt.icon className="mr-2 h-4 w-4" />}
-                        <span className="whitespace-nowrap">{opt.label}</span>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="nationality-filter" className="text-[18px]">ປະເພດບັດ</Label>
-              <Select value={cardType} onValueChange={setCardType}>
-                <SelectTrigger className="h-[37.78px]">
-                  <SelectValue placeholder="ເລືອກປະເພດບັດ" />
-                </SelectTrigger>
-                <SelectContent>
-                  {cardTypeOptions.map((opt) => (
                     <SelectItem key={opt.value} value={opt.value}>
                       <div className="flex items-center">
                         {opt.icon && <opt.icon className="mr-2 h-4 w-4" />}

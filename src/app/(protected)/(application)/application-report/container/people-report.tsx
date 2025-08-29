@@ -23,6 +23,7 @@ interface DataTableToolbarProps {
       male: number,
       female: number,
     },
+    nationalityCount: number;
     rows: {
       nationality: string;
       visaType: string;
@@ -93,9 +94,9 @@ export function PeopleReportFilterToolbar({ data, visaType }: DataTableToolbarPr
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">Departments</p>
+                  <p className="text-sm font-medium text-muted-foreground">ສັນຊາດ</p>
                   <p className="text-2xl font-bold text-foreground">
-                    {/* {[...new Set(filteredData.map((p) => p.department))].length} */}
+                    {data?.nationalityCount}
                   </p>
                 </div>
                 <Filter className="h-8 w-8 text-muted-foreground" />

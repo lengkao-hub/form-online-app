@@ -93,9 +93,10 @@ export interface ILastApplication {
 export interface IReportResponse {
   result: {
     total: {
-      male: number,
-      female: number,
-    },
+      male: number;
+      female: number;
+    };
+    nationalityCount: number;
     rows: {
       nationality: string;
       visaType: string;

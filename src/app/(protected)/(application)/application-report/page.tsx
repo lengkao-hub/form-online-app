@@ -1,7 +1,7 @@
 "use client"
-import { Download, Users } from "lucide-react";
+import { Users } from "lucide-react";
 // import { PeopleReportFilterToolbar } from "./container/people-report";
-import { Button } from "@/components/ui";
+// import { Button } from "@/components/ui";
 import usePeopleReport from "./hook/hook";
 import { FilterPeopleReport } from "./container/filter";
 import { PeopleReportFilterToolbar } from "./container/people-report";
@@ -18,10 +18,10 @@ export default function PeopleReportPage() {
               <Users className="h-8 w-8 text-primary" />
               <h1 className="text-2xl font-bold text-foreground">ລາຍງານຂໍ້ມູນການອອກບັດ</h1>
             </div>
-            <Button variant="outline" className="gap-2 bg-transparent">
+            {/* <Button variant="outline" className="gap-2 bg-transparent">
               <Download className="h-4 w-4" />
               Export To Excel
-            </Button>
+            </Button> */}
           </div>
         </div>
       </header>

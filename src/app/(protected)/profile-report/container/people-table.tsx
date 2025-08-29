@@ -23,10 +23,10 @@ export function PeopleTable({ data }: PeopleTableProps) {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-center font-black">No</TableHead>
+                <TableHead className="text-center font-black">ລ/ດ</TableHead>
                 <TableHead className="font-black">ຊາດ</TableHead>
-                <TableHead className="font-black">Male</TableHead>
-                <TableHead className="font-black">Female</TableHead>
+                <TableHead className="font-black">ຊາຍ</TableHead>
+                <TableHead className="font-black">ຍິງ</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

@@ -9,6 +9,7 @@ interface IProfileReportResponse {
       male: number,
       female: number,
     },
+    nationalityCount: number;
     rows: {
       nationality: string;
       male: number;
@@ -18,15 +19,13 @@ interface IProfileReportResponse {
   meta: MetaState;
 }
 
-const fetchGallery = async ({ filterType, officeId, start, end, gender, nationality, selectedOfficeId, cardType, visaType }: {
+const fetchGallery = async ({ filterType, officeId, start, end, gender, nationality, selectedOfficeId }: {
   officeId?: number;
   selectedOfficeId?: string
   start?: Date;
   end?: Date;
   gender?: string;
   nationality?: string | number;
-  cardType?: string;
-  visaType: string | number;
   filterType: string;
 }): Promise<IProfileReportResponse> => {
   const params: Record<string, unknown> = { officeId, start , end, gender, nationality };
@@ -45,12 +44,6 @@ const fetchGallery = async ({ filterType, officeId, start, end, gender, national
   if (selectedOfficeId) {
     params.officeIds = selectedOfficeId;
   }
-  if (cardType) {
-    params.cardType = cardType;
-  }
-  if (visaType) {
-    params.visaType = visaType;
-  }
   if (filterType) {
     params.filterType = filterType;
   }
@@ -65,13 +58,11 @@ const usePeopleReport = () => {
   const [end, setEnd] = useState<Date | undefined>(undefined)
   const [gender, setGender] = useState<string | undefined>("all")
   const [nationality, setNationality] = useState<string | number>(1)
-  const [visaType, setVisaType] = useState<string | number>("all")
   const [selectedOfficeId, setSelectedOfficeId] = useState<string[]| undefined>([]);
   const [filterType, setFilterType] = useState<string>("daily")
-  const [cardType, setCardType] = useState<string>("all")
   const query = useQuery<IProfileReportResponse, Error>({
-    queryKey: ["profile-reports",filterType, gender, start, end, nationality, cardType, visaType, selectedOfficeId],
-    queryFn: async () => await fetchGallery({ filterType, gender, start, end, cardType, visaType, nationality, selectedOfficeId: selectedOfficeId?.join() }),
+    queryKey: ["profile-reports",filterType, gender, start, end, nationality, selectedOfficeId],
+    queryFn: async () => await fetchGallery({ filterType, gender, start, end, nationality, selectedOfficeId: selectedOfficeId?.join() }),
     placeholderData: (previousData) => previousData,
   });
   return {
@@ -89,10 +80,6 @@ const usePeopleReport = () => {
       setNationality,
       filterType,
       setFilterType,
-      cardType,
-      setCardType,
-      visaType,
-      setVisaType,
     },
     loading: query.isLoading,
     error: query.error instanceof Error ? query.error.message : null,
