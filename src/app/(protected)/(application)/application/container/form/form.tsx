@@ -92,7 +92,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
       });
     }
   }, [form.watch("expirationTerm")]);
-  const dependByOptions = [{ label: "ຂື້ນກັບບ້ານ", value: "VILLAGE" }, { label: "ຫົວໜ່ວຍທຸລະກິດ", value: "COMPANY" }];
   return (
     <div className="w-fit space-y-6 mx-auto">
       <ProfileCard profileId={profileId} onSendAppNumber={setApplicationNumber}/>
@@ -130,21 +129,9 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
             </Form.Field>
           </div>
         </div>
-        <div className="w-full">
-          <Form.Field name="dependBy" control={form.control} label="ຂື້ນກັບ" required={false}>
-            <Form.Input.Radio options={dependByOptions} className=" " />
-          </Form.Field>
-        </div>
-        {dependBy === "COMPANY" && (
           <Form.Field name="companyId" control={form.control} label="ເລືອກຫົວໜ່ວຍທຸລະກິດ">
-            <Form.Input.Combobox placeholder="ຫົວໜ່ວຍທຸລະກິດ" className="w-full" options={companyOptions}/>
+            <Form.Input.Combobox placeholder="ຫົວໜ່ວຍທຸລະກິດ" className="w-full" options={companyOptions} disabled={true}/>
           </Form.Field>
-        )}
-        {dependBy === "VILLAGE" && (
-          <Form.Field name="villageId" control={form.control} label="ເລືອກບ້ານ">
-            <Form.Input.Combobox placeholder="ເລືອກບ້ານ" className="w-full" options={villageOptions} />
-          </Form.Field>
-        )}
         <Form.Field name="applicationFile" control={form.control} label="ອັບໂຫຼດເອກະສານ" required={false}>
           <Form.Input.File name="applicationFile" control={form.control} />
         </Form.Field>

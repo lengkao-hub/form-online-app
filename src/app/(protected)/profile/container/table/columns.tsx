@@ -56,7 +56,7 @@ const userRole = () => {
 export const columnsProfile: Array<ColumnDef<IProfile>> = [
   {
     accessorKey: "image",
-    header: "ຮູບ ໃຫມ່​",
+    header: "ຮູບ​",
     cell: ({ row }) => {
       const profileGallery = row.original?.profileGallery as object as IProfileGallery[] || [];
       return(
@@ -71,11 +71,6 @@ export const columnsProfile: Array<ColumnDef<IProfile>> = [
         </>
       )
     },
-  },
-  {
-    accessorKey: "oldImage",
-    header: "ຮູບ ເກົ່າ",
-    cell: ({ row }) => <ImageViewer src={row.original?.oldImage} className="my-1 h-14 w-14" />,
   },
   {
     accessorKey: "firstName",

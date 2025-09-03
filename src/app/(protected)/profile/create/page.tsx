@@ -64,20 +64,12 @@ export default function UserCreate() {
               <div>
                 <Form formInstance={formProfile} onSubmit={onSubmitProfile} className="border-none shadow-none -mt-6 -mb-10" showButton={false}>
                   <div className="flex flex-wrap gap-4 items-start">
-                    <Form.Field name="image" control={formProfile.control} label="ຮູບພາບ (ຮູບໃຫມ່​)" required={false}>
+                    <Form.Field name="image" control={formProfile.control} label="" required={false}>
                       <Form.Input.Image
                         label="3x4 cm"
                         iconImage={<SquareUserRound className="w-10 h-10" />}
                         accept="image/*"
                         className="flex items-center justify-center rounded-lg border border-dashed"
-                      />
-                    </Form.Field>
-                    <Form.Field name="oldImage" control={formProfile.control} label="ຮູບພາບ (ຮູບເກົ່າ)" required={false}>
-                      <Form.Input.Image
-                        label="3x4 cm"
-                        iconImage={<SquareUserRound className="w-10 h-10" />}
-                        accept="image/*"
-                        className="flex items-center justify-center rounded-lg border border-dashed bg-muted"
                       />
                     </Form.Field>
                   </div>

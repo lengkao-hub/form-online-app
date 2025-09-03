@@ -82,7 +82,6 @@ export default function Sidebar({
                 }`}
             >
               <span className="font-medium">ບັດຢັ້ງຢືນການພັກເຊົາຊົ່ວຄາວ</span>
-              <span className="text-xs">LIT Solution</span>
             </div>
           </div>
           <Button
