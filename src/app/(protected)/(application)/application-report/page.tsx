@@ -1,14 +1,21 @@
 "use client"
-import { Users } from "lucide-react";
+import { Download, Users } from "lucide-react";
 // import { PeopleReportFilterToolbar } from "./container/people-report";
 // import { Button } from "@/components/ui";
 import usePeopleReport from "./hook/hook";
 import { FilterPeopleReport } from "./container/filter";
 import { PeopleReportFilterToolbar } from "./container/people-report";
+import { Button } from "@/components/ui";
+import { exportToExcel } from "./container/exportToExcel";
 
 export default function PeopleReportPage() {
   const { result, filter } = usePeopleReport()
   const visaType = filter.visaType
+  const handleExport = () => {
+    if (result) {
+      exportToExcel(result)
+    }
+  }
   return (
     <main className="min-h-screen">
       <header className="border-b bg-transparent mb-5">
@@ -18,10 +25,10 @@ export default function PeopleReportPage() {
               <Users className="h-8 w-8 text-primary" />
               <h1 className="text-2xl font-bold text-foreground">ລາຍງານຂໍ້ມູນການອອກບັດ</h1>
             </div>
-            {/* <Button variant="outline" className="gap-2 bg-transparent">
+            <Button variant="outline" className="gap-2 bg-transparent" onClick={handleExport}>
               <Download className="h-4 w-4" />
               Export To Excel
-            </Button> */}
+            </Button>
           </div>
         </div>
       </header>

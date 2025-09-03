@@ -18,7 +18,6 @@ export const useApplicationForm = ({ profileId, type ="NEW" }: { profileId: numb
   const lastVisaTypeId = Number(sessionStorage.getItem("visaTypeId"));
   const lastVisaIssuedAt = sessionStorage.getItem("visaIssuedAt");
   const lastVisaIssuedDate = sessionStorage.getItem("visaIssuedDate");
-  // const lastVisaExpiryDate = sessionStorage.getItem("visaExpiryDate");
   const lastPositionId = Number(sessionStorage.getItem("positionId"));
   const form = useForm<z.infer<typeof applicationSchema>>({
     defaultValues: {
@@ -33,7 +32,7 @@ export const useApplicationForm = ({ profileId, type ="NEW" }: { profileId: numb
       issueDate: "",
       visaIssuedAt: lastVisaIssuedAt || "",
       visaIssuedDate: lastVisaIssuedDate || "",
-      // visaExpiryDate: lastVisaExpiryDate || "",
+      visaNumber: "",
       expirationDate: "",
       status: "DEFAULT",
       applicationFile: [],

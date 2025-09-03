@@ -16,7 +16,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
       e.currentTarget.scrollIntoView({
         behavior: "smooth",
-        block: "start",
+        block: "center",
       });
     };
 

@@ -34,7 +34,7 @@ const CompanyForm: React.FC<CompanyFormProps> = ({ form, onSubmit, className, is
         <Form.Field name="name" control={form.control} label="ຊື່ຫົວໜ່ວຍທຸລະກິດ">
           <Form.Input.Input placeholder="ປ້ອນຊື່" />
         </Form.Field>
-        <Form.Field name="businessCode" control={form.control} label="ເລກທະບຽນ" required={false}>
+        <Form.Field name="businessCode" control={form.control} label="ເລກທະບຽນວິສາຫະກິດເລກທີ" required={false}>
           <Form.Input.Input placeholder="000001" />
         </Form.Field>
         <Form.Field name="businessRegisterBy" control={form.control} label="ອອກໂດຍ" required={false}>

@@ -54,12 +54,12 @@ export const FolderForm: React.FC<FolderFormProps> = ({ form, onSubmit, isEdit =
             <Form.Field name="companyId" control={form.control} label="ຫົວໜ່ວຍທຸລະກິດ">
               <Form.Input.Combobox placeholder="ເລືອກ" options={extendedCompanyOptions} onChange={handleVillageChange}/>
             </Form.Field>
-            <Form.Field name="billDate" control={form.control} label="ວັນທີອອກບິນຮັບເງີນ" required={false}>
+            {/* <Form.Field name="billDate" control={form.control} label="ວັນທີອອກບິນຮັບເງີນ" required={false}>
               <Form.Input.DateTimePicker name="billDate"/>
             </Form.Field>
             <Form.Field name="billNumber" control={form.control} label="ເລກທີບິນ" required={false}>
               <Form.Input.Input placeholder="ເລກທີບິນ"/>
-            </Form.Field>
+            </Form.Field> */}
           </div>
         </div>
         <Separator />

@@ -241,6 +241,12 @@ export const resources: IResources[] = [
         href: "/visa",
         icon: <IdCard size={18}/>,
       },
+      {
+        title: "ປະເພດບັນຊີດໍາ",
+        subject: "blacklist-type",
+        href: "/blacklist-type",
+        icon: <IdCard size={18}/>,
+      },
     ],
   },
 ];

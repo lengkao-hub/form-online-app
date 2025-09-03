@@ -284,6 +284,7 @@ function FolderListAdmin() {
     <div className="pl-4 space-y-2">
       <div className="flex justify-between items-center">
         <TitleLabel title='ຄຸ້ມຄອງແຟ້ມ ແລະ ແບບຟອມ' subtitle='ນີ້ແມ່ນລາຍການຂໍ້ມູນແຟ້ມ ແລະ ແບບຟອມຜູ່ຂໍອອກບັດພັກເຊົາຊົ່ວຄາວ!' />
+        <CreateButton resouce="folder" title='ສ້າງແຟ້ມ' />
       </div>
       <Tabs defaultValue="tab-1" className="space-y-4">
         <TabsList className="mb-3">

@@ -42,6 +42,9 @@ export const applicationSchema = z.object({
   visaIssuedAt: z.string().min(1, {
     message: "ກະລຸນາເລືອກປະເພດ",
   }),
+  visaNumber: z.string().min(1, {
+    message: "ກະລຸນາປ້ອນເລກທີວິຊ່າ",
+  }),
   dependBy: z.string().min(1, {
     message: "ກະລຸນາເລືອກຂື້ນກັບ",
   }),
@@ -140,4 +143,5 @@ export const applicationDefaultValues = {
   visaTypeId: 0,
   applicationFile: [],
   visaIssuedAt: "",
+  visaNumber: "",
 };

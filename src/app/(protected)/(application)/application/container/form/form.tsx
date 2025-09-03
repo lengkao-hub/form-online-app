@@ -114,12 +114,12 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
             <Form.Field name="visaIssuedAt" control={form.control} label="ບ່ອນຂໍວິຊ່າ" >
               <Form.Input.Input placeholder="ບ່ອນຂໍວິຊ່າ" className="w-96" />
             </Form.Field>
-            <Form.Field name="visaIssuedDate" control={form.control} label="ລົງວັນທີ" >
+            <Form.Field name="visaIssuedDate" control={form.control} label="ມື້ລົງວັນທີວິຊ່າ" >
               <Form.Input.DateTimePicker  />
             </Form.Field>
-            {/* <Form.Field name="visaExpiryDate" control={form.control} label="ວັນທີໝົດອາຍຸ" >
-              <Form.Input.DateTimePicker  />
-            </Form.Field> */}
+            <Form.Field name="visaNumber" control={form.control} label="ເລກທີວິຊ່າ" >
+              <Form.Input.Input placeholder="ເລກທີວິຊ່າ" className="w-96" />
+            </Form.Field>
           </div>
         </div>
         <div className="space-y-4">

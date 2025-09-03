@@ -87,12 +87,12 @@ export function FolderCardView({ folder, action, status, showReject = false }: F
             <span>ແຟ້ມເລກທີ: {folder?.code}</span>
             <span>ສ້າງວັນທີ: {formatDate({ date: folder?.createdAt })}</span>
           </div>
-          <div className="flex gap-x-2 text-sm text-gray-500">
+          {/* <div className="flex gap-x-2 text-sm text-gray-500">
             <span>ວັນທີອອກບິນຮັບເງີນ: {formatDate( { date: folder?.billDate }) === "01/01/1970" ? "" : formatDate( { date: folder?.billDate }) }</span>
           </div>
           <div className="flex gap-x-2 text-sm text-gray-500">
             <span>ບິນເລກທີ: { folder?.billNumber || "---" }</span>
-          </div>
+          </div> */}
           <div className="flex gap-x-2 text-sm text-gray-500">
             <span>ສາຂາ: {folder?.office?.name}</span>
           </div>

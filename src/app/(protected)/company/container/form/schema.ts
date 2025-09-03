@@ -25,9 +25,7 @@ export const companyFormSchema = z.object({
     message: "ລະບຸປະເພດຫົວໜ່ວຍທຸລະກິດ",
   }),
   customBusinessType: z.string().optional(),
-  businessCode: z.string().regex(/^[A-Z0-9]*$/, {
-    message: "ເລກທະບຽນ",
-  }).optional(),
+  businessCode: z.string().optional(),
   companyFile: z.array(
     z.object({
       file: z
