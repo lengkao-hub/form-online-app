@@ -39,5 +39,6 @@ export type Subjects =
   | "profile-report"
   | "application-report"
   | "visa"
+  | "quick-application"
 
 export type AppAbility = MongoAbility<[Actions, Subjects]>;

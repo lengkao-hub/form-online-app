@@ -59,14 +59,14 @@ const BlacklistProfileForm: React.FC<BlacklistProfileFormProps> = ({ form, onSub
           </Form.Field>
 
           <Form.Field name="identityNumber" control={form.control} label="ໜັງສືຜ່ານແດນເລກທີ">
-            <Form.Input.Input placeholder="ເລທີ"/>
+            <Form.Input.Input placeholder="ໜັງສືຜ່ານແດນເລກທີ"/>
           </Form.Field>
         </div>
       </div>
       <Button
         loading={form?.formState.isSubmitting}
         disabled={form?.formState.isSubmitting}
-      >ກວດ</Button>
+      >ຖັດໄປ</Button>
     </Form>
   );
 };

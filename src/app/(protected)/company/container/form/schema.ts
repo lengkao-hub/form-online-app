@@ -56,6 +56,15 @@ export const companyFormSchema = z.object({
   return data;
 });
 
+export const companyQuickFormSchema = z.object({
+  companyId: z.number().positive({ message: "ກະລຸນາເລືອກຫົວໜ່ວຍທຸລະກິດ" }),
+  count: z.string().min(1, { message: "ກະລຸນາລະບຸຈໍານວນຄົນ" }),
+})
+export const companyQuickDefaultValues = {
+  companyId: 0,
+  count: "",
+}
+
 export const companyDefaultValues = {
   name: "",
   businessRegisterBy: "ministry",

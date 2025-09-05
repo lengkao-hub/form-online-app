@@ -11,7 +11,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import { applicationSchema } from "../container/form/schema";
 import { buildFormData } from "@/components/containers/form/buildForm";
 
-export const useApplicationForm = ({ profileId, type ="NEW" }: { profileId: number, type: string }) => {
+interface ApplicationProps { 
+  profileId: number, 
+  type: string, 
+  isQuick?: boolean 
+}
+
+export const useApplicationForm = ({ profileId, type ="NEW" }:ApplicationProps ) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const lastFolderId = Number(sessionStorage.getItem("folderId"));

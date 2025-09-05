@@ -20,7 +20,7 @@ const FORM_STEPS: Step[] = [
 ];
 
 export default function UserCreate() {
-  const { step, handleNext, handlePrevious, handleStepClick, handleReset } = useMultiStepForm(FORM_STEPS);
+  const { step, handleNext, handlePrevious, handleStepClick, handleReset } = useMultiStepForm({ steps: FORM_STEPS });
   const { form, onSubmit } = useBlacklistProfileForm({ handleNext });
   const blackProfile = form.watch();
   const { form: formProfile, onSubmit: onSubmitProfile } = useProfileForm({ handleNext });

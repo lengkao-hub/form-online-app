@@ -32,7 +32,7 @@ export const useFinanceForm = ({ folderId }: { folderId: number }) => {
       queryClient.invalidateQueries({ queryKey: ["finances"] });
       queryClient.invalidateQueries({ queryKey: ["folders"] });
       queryClient.invalidateQueries({ queryKey: ["folder-aggregation"] });
-      await apiClient.patch(`/folder/${folderId}/progress`, { data: { status: "PENDING" } });
+      await apiClient.patch(`/folder/${folderId}/progress`, { data: { status: "POLICE_UNDER_REVIEW" } });
       form.reset();
       router.back();
     } catch {

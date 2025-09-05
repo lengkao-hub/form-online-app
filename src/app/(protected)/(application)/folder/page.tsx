@@ -116,7 +116,7 @@ function FolderListPoliceOfficer() {
       <div className="flex justify-between items-center">
         <TitleLabel title='ຄຸ້ມຄອງແຟ້ມ ແລະ ແບບຟອມ' subtitle='ນີ້ແມ່ນລາຍການຂໍ້ມູນແຟ້ມ ແລະ ແບບຟອມຜູ່ຂໍອອກບັດພັກເຊົາຊົ່ວຄາວ!' />
       </div>
-      <Tabs defaultValue="tab-1" className="space-y-4">
+      <Tabs defaultValue="tab-2" className="space-y-4">
         <TabsList className="mb-3">
           <TabsTrigger value="tab-1" className="group gap-x-2">
             <Loader className="-ms-0.5 me-1.5 opacity-60" size={16} strokeWidth={2} aria-hidden="true" />{"ແຟ້ມລໍຖ້າຍອມຮັບ"}

@@ -26,6 +26,7 @@ import {
   ChartCandlestick,
   ChartNoAxesCombined,
   ShieldBan,
+  Clock8,
 } from "lucide-react";
 
 export interface NavLink {
@@ -47,6 +48,12 @@ export const resources: IResources[] = [
     subject: "dashboard",
     href: "/dashboard",
     icon: <Home size={18} />,
+  },
+  {
+    title: "ລົງທະບຽນດ່ວນ",
+    subject: "quick-application",
+    href: "/quick-application",
+    icon: <Clock8 size={18} />,
   },
   {
     title: "ແຟ້ມເອກກະສານ",
