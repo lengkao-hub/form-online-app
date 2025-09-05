@@ -16,7 +16,6 @@ import { type applicationSchema } from "./schema";
 import { useUpdateDefaultValues } from "@/lib/update-default-values";
 import { useOne } from "@/hooks/useOne";
 import { IProfile } from "src/app/(protected)/profile/type";
-import useVillageCombobox from "src/app/(protected)/(address)/village/hook/useDistrictCombobox";
 import { getOfficeId } from "@/lib/getSession";
 import useFolderCombobox from "../../../folder/hook/useCombobox";
 import { useEffect, useState } from "react";
@@ -49,7 +48,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
   const lastSegment = segments[segments.length - 1];
   const folder = form.watch("folderId");
   const numberId = form.watch("numberId");
-  const dependBy = form.watch("dependBy");
   const { result: folderOptions } = useFolderCombobox({ status: "POLICE_UNDER_REVIEW", officeId });
   const { result: visaoptions } = useVisaCombobox();
   const { result: numberOptions, count } = useeNumberCombobox({ folderId: folder });
@@ -64,7 +62,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
   }
   const { result: companyOptions } = useCompanyCombobox();
   const { result: positionOptions } = usePositionCombobox();
-  const { result: villageOptions } = useVillageCombobox({});
   const extendedPositionOptions = [
     { label: '+ ເພີ່ມຕໍາແໜ່ງ', value: 'addPosition' },
     ...positionOptions,
@@ -92,7 +89,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
       });
     }
   }, [form.watch("expirationTerm")]);
-  const dependByOptions = [{ label: "ຂື້ນກັບບ້ານ", value: "VILLAGE" }, { label: "ຫົວໜ່ວຍທຸລະກິດ", value: "COMPANY" }];
   return (
     <div className="w-fit space-y-6 mx-auto">
       <ProfileCard profileId={profileId} onSendAppNumber={setApplicationNumber}/>
@@ -130,21 +126,9 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
             </Form.Field>
           </div>
         </div>
-        <div className="w-full">
-          <Form.Field name="dependBy" control={form.control} label="ຂື້ນກັບ" required={false}>
-            <Form.Input.Radio options={dependByOptions} className=" " />
-          </Form.Field>
-        </div>
-        {dependBy === "COMPANY" && (
-          <Form.Field name="companyId" control={form.control} label="ເລືອກຫົວໜ່ວຍທຸລະກິດ">
-            <Form.Input.Combobox placeholder="ຫົວໜ່ວຍທຸລະກິດ" className="w-full" options={companyOptions}/>
-          </Form.Field>
-        )}
-        {dependBy === "VILLAGE" && (
-          <Form.Field name="villageId" control={form.control} label="ເລືອກບ້ານ">
-            <Form.Input.Combobox placeholder="ເລືອກບ້ານ" className="w-full" options={villageOptions} />
-          </Form.Field>
-        )}
+        <Form.Field name="companyId" control={form.control} label="ເລືອກຫົວໜ່ວຍທຸລະກິດ">
+          <Form.Input.Combobox placeholder="ຫົວໜ່ວຍທຸລະກິດ" className="w-full" options={companyOptions} disabled={true}/>
+        </Form.Field>
         <Form.Field name="applicationFile" control={form.control} label="ອັບໂຫຼດເອກະສານ" required={false}>
           <Form.Input.File name="applicationFile" control={form.control} />
         </Form.Field>
