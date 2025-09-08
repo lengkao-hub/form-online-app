@@ -35,7 +35,7 @@ function DateField(props: DateFieldProps) {
     >
       {state.segments.map((segment, i) => (
         <div>
-          <DateSegment key={i} segment={segment} state={state} /> 
+          <DateSegment key={i} segment={segment} state={state}/> 
         </div>
       ))}
       {state.validationState === "invalid" && (

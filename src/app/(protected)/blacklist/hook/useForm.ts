@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import type * as z from "zod";
 import { blacklistDefaultValues, blacklistFormCreateSchema, type BlacklistFormCreateType, checkBlacklistFormSchema, defaultValues } from "../container/form/schema";
 import { useState } from "react";
+import { IFoundResponse } from "../type";
+import { IProfile } from "../../profile/type";
 
 export const useBlacklistProfileForm = ({ handleNext }: { handleNext: () => void }) => {
   const form = useForm<z.infer<typeof checkBlacklistFormSchema>>({
@@ -42,6 +44,79 @@ export const useBlacklistProfileForm = ({ handleNext }: { handleNext: () => void
   };
   return { form, onSubmit };
 };
+
+export const useQuickBlacklistProfileForm = ({ 
+  handleGotoStep,
+  setCount,
+  setRegistered, 
+  currentCount, 
+}: {
+  handleGotoStep: (stepNumber: number) => void;
+  setCount: React.Dispatch<React.SetStateAction<number>>;
+  setRegistered: React.Dispatch<React.SetStateAction<number>>;
+  currentCount: number; 
+}) => {
+  const [foundProfile, setFoundProfile] = useState<IProfile | undefined>();
+  const form = useForm<z.infer<typeof checkBlacklistFormSchema>>({
+    defaultValues,
+    resolver: zodResolver(checkBlacklistFormSchema),
+  });
+  const onSubmit = async (data: z.infer<typeof checkBlacklistFormSchema>) => {
+    try {
+      const { identityNumber, identityType } = data;
+      const response = await apiClient.get<ApiResponse<string>>("/backlist-check", { params: data });
+      if (response.status === "exists" || response.status === "blacklisted") {
+        form.setError("root", { type: "manual", message: response.message });
+      }
+      const checkResponse = await apiClient.post<IFoundResponse>("/profile-check-existence", {
+        data: { identityNumber, identityType },
+      });
+      if (checkResponse?.identityExists) {
+        setFoundProfile(checkResponse.data)
+        form.setError("identityNumber", {
+          type: "manual",
+          message: `${checkResponse?.identityNumber}`,
+        });
+        form.setError("identityType", {
+          type: "manual",
+          message: `${checkResponse?.identityType}`,
+        });
+        return;
+      }
+      if (currentCount > 1) {
+        handleGotoStep(2)
+      } else {
+        handleGotoStep(3);
+      }
+    } catch {
+      showToast({ type: "error", title: "ລະບົບຂັດຂ້ອງ" });
+    }
+  };
+  const addProfile = async() => {
+    if (!foundProfile) {
+      return;
+    }
+    const savedIds = localStorage.getItem("profileIds");
+    const profileIds: number[] = savedIds ? JSON.parse(savedIds) : [];
+    // add current profile id if not exist
+    if (!profileIds.includes(foundProfile.id)) {
+      profileIds.push(foundProfile.id);
+    }
+    localStorage.setItem("profileIds", JSON.stringify(profileIds));
+    await setCount((prev) => prev - 1);
+    await setRegistered((prev) => prev + 1);
+    setFoundProfile(undefined);
+    if (profileIds.length < currentCount) {
+      handleGotoStep(2);
+    } else {
+      handleGotoStep(4);
+    }
+  };
+
+  const clearProfile = () => setFoundProfile(undefined);
+  return { form, onSubmit, foundProfile, addProfile, clearProfile };
+};
+
 export const useBlacklistCheck = () => {
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const form = useForm<z.infer<typeof checkBlacklistFormSchema>>({

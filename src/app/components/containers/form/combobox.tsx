@@ -106,7 +106,7 @@ export const Combobox = forwardRef<
   const handleFocus = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.scrollIntoView({
       behavior: "smooth",
-      block: "start",
+      block: "center",
     });
   };
 

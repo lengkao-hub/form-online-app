@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { IOffice } from "../../office/type";
 import { IPrice } from "../../(finance)/price/type";
+import { ICompany } from "../../company/type";
 
 interface FolderPrice {
     amount: number;
@@ -38,7 +39,8 @@ export interface IFolder {
     folderReject?: FolderReject[]
     totalAmount: number;
     totalPrice: number;
-    office: IOffice
+    office: IOffice;
+    company: ICompany;
 }
 export interface IAction {
     editText?: string;
@@ -47,6 +49,7 @@ export interface IAction {
     approveText?: string;
     showDetail?: string;
     reject?: string;
+    application?: string;
   }
 
 export interface FolderCardViewProps {
@@ -54,6 +57,7 @@ export interface FolderCardViewProps {
     action?: IAction;
     status: ProcessStatus;
     showReject?: boolean;
+    onClick?: () => void;
   }
 
 export type FolderType = "YELLOW" | "BLUE";

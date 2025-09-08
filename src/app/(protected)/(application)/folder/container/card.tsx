@@ -25,10 +25,14 @@ import RejectCreateForm from "./rejectForm";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
-export function FolderCardView({ folder, action, status, showReject = false }: FolderCardViewProps): JSX.Element {
+export function FolderCardView({ 
+  folder, 
+  action, 
+  status, 
+  showReject = false,
+  onClick, 
+}: FolderCardViewProps): JSX.Element {
   const router = useRouter();
-  // const pathname = usePathname();
-  // const segments = pathname.split('/');
   const { data: userRole } = useSession()
   const pathName = usePathname()
   const basePath = pathName.split("/").slice(0, 3).join("/") + "/";
@@ -51,7 +55,7 @@ export function FolderCardView({ folder, action, status, showReject = false }: F
     }
     return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
   };
-  const { editText = false, statusText = false, acceptText = false, approveText = false, reject = false, showDetail = false } = action || {};
+  const { editText = false, statusText = false, acceptText = false, approveText = false, reject = false, showDetail = false, application = false } = action || {};
   return (
     <div
       key={folder?.id}
@@ -87,14 +91,11 @@ export function FolderCardView({ folder, action, status, showReject = false }: F
             <span>ແຟ້ມເລກທີ: {folder?.code}</span>
             <span>ສ້າງວັນທີ: {formatDate({ date: folder?.createdAt })}</span>
           </div>
-          {/* <div className="flex gap-x-2 text-sm text-gray-500">
-            <span>ວັນທີອອກບິນຮັບເງີນ: {formatDate( { date: folder?.billDate }) === "01/01/1970" ? "" : formatDate( { date: folder?.billDate }) }</span>
-          </div>
-          <div className="flex gap-x-2 text-sm text-gray-500">
-            <span>ບິນເລກທີ: { folder?.billNumber || "---" }</span>
-          </div> */}
           <div className="flex gap-x-2 text-sm text-gray-500">
             <span>ສາຂາ: {folder?.office?.name}</span>
+          </div>
+          <div className="flex gap-x-2 text-sm text-gray-500">
+            <span>{folder?.company?.name}</span>
           </div>
         </div>
       </div>
@@ -188,6 +189,17 @@ export function FolderCardView({ folder, action, status, showReject = false }: F
             >
               <CheckCheck size={18}/>
               ຮັບເອກກະສານ
+            </Button>
+          </div>
+        )}
+        {(application) && (
+          <div className="flex justify-end">
+            <Button 
+              className="mt-4 flex gap-1"
+              onClick={onClick}  
+            >
+              <CheckCheck size={18}/>
+              ລົງທະບຽນດ່ວນ
             </Button>
           </div>
         )}

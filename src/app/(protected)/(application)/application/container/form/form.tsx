@@ -35,11 +35,12 @@ const expirationTermOptions = [
 
 interface ApplicationFormProps {
   profileId: number;
+  selectedFolderId?: number;
   form: UseFormReturn<z.infer<typeof applicationSchema>>;
   onSubmit: (data: z.infer<typeof applicationSchema>) => Promise<void>;
 }
 
-const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profileId }) => {
+const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profileId, selectedFolderId }) => {
   const [applicationNumber, setApplicationNumber] = useState<string>("");
   const [isAddingPosition, setIsAddingPosition] = useState<boolean>(false);
   const officeId = getOfficeId()
@@ -57,6 +58,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
   useUpdateDefaultValues({ form, fieldName: "positionId", value: 10, shouldUpdate: true });
   useUpdateDefaultValues({ form, fieldName: "dependBy", value: "COMPANY", shouldUpdate: true });
   useUpdateDefaultValues({ form, fieldName: "companyId", value: Number(foundFolder?.companyId), shouldUpdate: true });
+  useUpdateDefaultValues({ form, fieldName: "folderId", value: selectedFolderId ? selectedFolderId : 0, shouldUpdate: true });
+  useUpdateDefaultValues({ form, fieldName: "numberId", value: numberOptions.length > 0 ? numberOptions[0].value : 0, shouldUpdate: true });
   if (lastSegment === "NEW") {
     useUpdateDefaultValues({ form, fieldName: "applicationNumber", value: applicationNumber, shouldUpdate: true });
   }
@@ -110,8 +113,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
             <Form.Field name="visaIssuedAt" control={form.control} label="ບ່ອນຂໍວິຊ່າ" >
               <Form.Input.Input placeholder="ບ່ອນຂໍວິຊ່າ" className="w-96" />
             </Form.Field>
-            <Form.Field name="visaIssuedDate" control={form.control} label="ມື້ລົງວັນທີວິຊ່າ" >
-              <Form.Input.DateTimePicker  />
+            <Form.Field name="visaIssuedDate" control={form.control} label="ມື້ລົງວັນທີວິຊ່າ">
+              <Form.Input.DateTimePicker label="ມື້ລົງວັນທີວິຊ່າ"/>
             </Form.Field>
             <Form.Field name="visaNumber" control={form.control} label="ເລກທີວິຊ່າ" >
               <Form.Input.Input placeholder="ເລກທີວິຊ່າ" className="w-96" />
@@ -127,7 +130,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
           </div>
         </div>
         <Form.Field name="companyId" control={form.control} label="ເລືອກຫົວໜ່ວຍທຸລະກິດ">
-          <Form.Input.Combobox placeholder="ຫົວໜ່ວຍທຸລະກິດ" className="w-full" options={companyOptions} disabled={true}/>
+          <Form.Input.Combobox placeholder="ຫົວໜ່ວຍທຸລະກິດ" className="w-full" options={companyOptions} />
         </Form.Field>
         <Form.Field name="applicationFile" control={form.control} label="ອັບໂຫຼດເອກະສານ" required={false}>
           <Form.Input.File name="applicationFile" control={form.control} />

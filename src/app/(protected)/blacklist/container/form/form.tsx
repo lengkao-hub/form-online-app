@@ -6,10 +6,17 @@ import { Button } from "@/components/containers";
 import { Form } from "@/components/containers/form";
 import { type checkBlacklistFormSchema } from "./schema";
 import { useUpdateDefaultValues } from "@/lib/update-default-values";
+import { IProfile } from "src/app/(protected)/profile/type";
+import Image from "next/image";
+import { formatDate } from "@/lib/format-date";
+import { X } from "lucide-react";
 interface BlacklistProfileFormProps {
   form: UseFormReturn<z.infer<typeof checkBlacklistFormSchema>>;
   onSubmit: (data: z.infer<typeof checkBlacklistFormSchema>) => Promise<void>;
   statusMessage?: string | null;
+  found?: IProfile;
+  add?: (profileId: number) => void;
+  clear?: () => void;
 }
 
 const IdentifyOptions = [
@@ -18,7 +25,7 @@ const IdentifyOptions = [
   { value: "driverLicense", label: "ໃບຂັບຂີ່" },
 ];
 
-const BlacklistProfileForm: React.FC<BlacklistProfileFormProps> = ({ form, onSubmit, statusMessage }) => {
+const BlacklistProfileForm: React.FC<BlacklistProfileFormProps> = ({ form, onSubmit, statusMessage, add, found, clear }) => {
   const { errors } = form.formState;
   useUpdateDefaultValues({ form, fieldName: "identityType", value: "passport", shouldUpdate: true });
 
@@ -32,6 +39,32 @@ const BlacklistProfileForm: React.FC<BlacklistProfileFormProps> = ({ form, onSub
               <li key={key}>{error?.message || key}</li>
             ))}
           </ul>
+        </div>
+      )}
+      {found && (
+        <div className="p-4 border border-gray-300 rounded-lg shadow mb-4">
+          <div className="flex gap-4">
+            <div>
+              <Image 
+                src={found.image || "/user_Icon.png"}
+                alt="profile-image"
+                width={1000}
+                height={1000}
+                className="w-[100px] h-[100px]"
+              />
+            </div>
+            <div>
+              <h4 className="font-[500] mb-2 uppercase">ຊື່ ແລະ ນາມສະກຸນ: {found.firstName} {found.lastName}</h4>
+              <p></p>
+              <p className="capitalize text-xl">ວັນເດືອນປີເກີດ: {formatDate({ date: found.dateOfBirth })}</p>
+              <p></p>
+              <p className="capitalize text-xl">{found.identityType}: {found.id}</p>
+            </div>
+          </div>
+          <div className="flex gap-2 mt-2">
+            <Button type="button" onClick={() => add?.(found.id)} className="bg-green-500">ເພີ່ມ</Button>
+            <Button onClick={clear} className="bg-red-500"><X /></Button>
+          </div>
         </div>
       )}
       {statusMessage && (

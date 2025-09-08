@@ -1,31 +1,23 @@
+/* eslint-disable max-nested-callbacks */
 /* eslint-disable no-nested-ternary */
 
 "use client";
-import { Card, CardContent } from "@/components/ui";
+import { Button, Card, CardContent, Separator, Spinner } from "@/components/ui";
 
 import { type Step, useMultiStepForm } from "src/app/hook/useMultiStepForm";
 import { Form } from "@/components/containers/form";
 import { CheckCheck, SquareUserRound, X } from "lucide-react";
 import { useQuickProfileForm } from "../profile/hook/useForm";
-import { useBlacklistProfileForm } from "../blacklist/hook/useForm";
+import { useQuickBlacklistProfileForm } from "../blacklist/hook/useForm";
 import ProfileForm from "../profile/container/form/form";
-import useCompanyCombobox from "../company/hook/useeCompanyCombobox";
 import { useState } from "react";
-import { AddCompanyDialog } from "../company/container/table/addCompanyDialog";
-import z from "zod";
-import { UseFormReturn } from "react-hook-form";
-import { companyQuickFormSchema } from "../company/container/form/schema";
-import { useQuickForm } from "../company/hook/useQuickCompany";
 import BlacklistProfileForm from "../blacklist/container/form/form";
 import { cn } from "@/lib/utils";
-import ApplicationForm from "../(application)/application/container/form/form";
-import { useApplicationForm } from "../(application)/application/hook/useForm";
-
-interface QuickCompanyProps {
-  form: UseFormReturn<z.infer<typeof companyQuickFormSchema>>;
-  onSubmit: (data: z.infer<typeof companyQuickFormSchema>) => Promise<void>;
-  statusMessage?: string | null;
-}
+import FolderCardView from "../(application)/folder/container/card";
+import useFolderTable from "../(application)/folder/hook/useFolderList";
+import { getOfficeId } from "@/lib/getSession";
+import { FolderToolbar } from "./container/filter";
+import { ApplicationStep } from "./container/applicationStep";
 
 const FORM_STEPS: Step[] = [
   { number: 1, title: "ເລືອກບໍລິສັດ" },
@@ -38,47 +30,38 @@ export default function QuickApplication() {
   const [count, setCount] = useState<number>(0)
   const [registered, setRegistered] = useState<number>(0)
   const { step, handleNext, handlePrevious, handleGotoStep, handleReset } = useMultiStepForm({ steps: FORM_STEPS, setCount, setRegistered });
-  const { form: formQuickCompany, onSubmit: onSubmitQuickCompany } = useQuickForm({ handleNext , setCount });
-  const { form, onSubmit } = useBlacklistProfileForm({ handleNext });
+  const { form, onSubmit, foundProfile, addProfile, clearProfile  } = useQuickBlacklistProfileForm({ handleGotoStep, setCount, setRegistered, currentCount: count });
   const blackProfile = form.watch();
   const { form: formProfile, onSubmit: onSubmitProfile } = useQuickProfileForm({ handleNext, handleGotoStep, setCount, setRegistered, currentCount: count });
-  const { form: formApplication, onSubmit: onSubmitApplication } = useApplicationForm({ profileId: 1, type: "NEW" });
-  // const handleResetForm = () => {
-  //   form.reset();
-  //   handleReset();
-  // };
-  // Step 4 state
   const savedIds = localStorage.getItem("profileIds");
   const profileIds: number[] = savedIds ? JSON.parse(savedIds) : [];
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  const handleApplicationSubmit = async (data: any) => {
-    await onSubmitApplication(data);
-
-    if (currentIndex < profileIds.length - 1) {
-      setCurrentIndex((prev) => prev + 1);
-    } else {
-      handleReset();
-    }
-  };
+  
   const renderStepContent = () => {
     switch (step) {
       case 1:
-        return <CompanyForm form={formQuickCompany} onSubmit={onSubmitQuickCompany} />;
+        return <FolderListPoliceOfficer setCount={setCount} setRegistered={setRegistered} handleGotoStep={handleGotoStep}/>;
       case 2:
-        return <BlacklistProfileForm form={form} onSubmit={onSubmit} />;
+        return <BlacklistProfileForm form={form} onSubmit={onSubmit} found={foundProfile} add={addProfile} clear={clearProfile}/>;
       case 3:
         return <ProfileForm form={formProfile} handleNext={handleNext} onSubmit={onSubmitProfile} handlePrevious={handlePrevious} blackProfile={blackProfile} />;
-      case 4: {
-        return <ApplicationForm form={formApplication} onSubmit={handleApplicationSubmit} profileId={profileIds[currentIndex]}/>
-      }
+      case 4:
+        return (
+          <ApplicationStep
+            profileId={profileIds[currentIndex]}
+            currentIndex={currentIndex}
+            setCurrentIndex={setCurrentIndex}
+            profileIds={profileIds}
+            handleReset={handleReset}
+          />
+        );
       default:
         return null;
     }
   };
   return (
-    <div className="w-full bg-gradient-to-b p-4 flex items-center">
-      <Card className={cn("shadow-lg", step > 1 ? "w-full" : "w-full lg:w-1/2")}>
+    <div className="w-full bg-gradient-to-b flex items-center">
+      <Card className={cn("w-full", step > 1 ? "shadow-lg" : "border-none shadow-none")}>
         <CardContent className="pt-6 -mb-8">
           <div className="flex items-start gap-1">
             <div>
@@ -131,39 +114,60 @@ export default function QuickApplication() {
   );
 }
 
-const CompanyForm: React.FC<QuickCompanyProps> = ({ form, onSubmit }) => {
-  const [isAddingCompany, setIsAddingCompany] = useState<boolean>(false);
-  const { result: companyOptions } = useCompanyCombobox();
-  const extendedCompanyOptions = [
-    { label: '+ ເພີ່ມຫົວໜ່ວຍທຸລະກິດ', value: 'addCompany' },
-    ...companyOptions,
-  ];
-  const handleVillageChange = (value: string | number) => {
-    if (value === 'addCompany') {
-      setIsAddingCompany?.(true);
-      form.setValue('companyId', 0);
-    } else {
-      setIsAddingCompany?.(false);
-      form.setValue('companyId', Number(value));
-    }
-  };
+function FolderListPoliceOfficer({ 
+  setCount,
+  setRegistered,
+  handleGotoStep, 
+}: { 
+  setCount: (id: number) => void, 
+  handleGotoStep: (id: number) => void 
+  setRegistered: (id: number) => void 
+}) {
+  const officeListIds = getOfficeId()
+  const { result: resultPreview, updateSearch: updateSearchPreview, filter: filterPreview, limit: previewLimit, loading } = useFolderTable({ status: "POLICE_UNDER_REVIEW", officeId: officeListIds, manual: true  });
+  if (loading) {
+    return <Spinner />
+  }
   return (
-    <div className="pb-10">
-      <Form formInstance={form} onSubmit={onSubmit} className="border-none shadow-none -mt-6 -mb-10 pb-8" showButton={true} saveButtonText="ຖັດໄປ">
-        <Form.Field name="companyId" control={form.control} label="ຫົວໜ່ວຍທຸລະກິດ" required>
-          <Form.Input.Combobox options={extendedCompanyOptions} onChange={handleVillageChange}/>
-        </Form.Field>
-        <Form.Field name="count" control={form.control} label="ຈໍານວນຄົນ" required>
-          <Form.Input.Input/>
-        </Form.Field>
-      </Form>
-      <AddCompanyDialog 
-        open={isAddingCompany} 
-        onOpenChange={setIsAddingCompany}
-        onSuccess={(newCompany) => {
-          form.setValue("companyId", newCompany.id);
-        }}
-      />
+    <div className="pl-4 space-y-2 mt-3">
+      <div>
+        <div className='space-y-4'>
+          <FolderToolbar updateSearch={updateSearchPreview} filter={filterPreview} />
+          <Separator className="my-4" />
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6'>
+            {resultPreview.length > 0 ? (
+              resultPreview?.map((folder) => (
+                <FolderCardView 
+                  folder={folder} 
+                  status="APPROVED_BY_PROVINCE" 
+                  key={folder?.id} 
+                  action={{ showDetail: "ລາຍລະອຽດ", application: "ລົງທະບຽນດ່ວນ" }}
+                  onClick={() => {
+                    const availableCount = folder.number?.filter((n: any) => n.isAvailable).length ?? 0
+                    const unavailableCount = folder.number?.filter((n: any) => !n.isAvailable).length ?? 0
+                    localStorage.setItem("profileIds", JSON.stringify([]));
+                    localStorage.setItem("selectedFolderId", String(folder.id))
+                    setCount(availableCount)
+                    setRegistered(unavailableCount)
+                    if (availableCount > 0) {
+                      handleGotoStep(2)
+                    }
+                  }} 
+                />
+              ))
+            ):(
+              <div className="text-center col-span-3">
+                No data
+              </div>
+            )}
+          </div>
+          {resultPreview.length > 9 && (
+            <div className="w-full flex justify-end">
+              <Button className="bg-none" onClick={() => previewLimit.setLimit(previewLimit.limit += 9) }>ສະແດງເພີ່ມເຕີມ</Button>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
-  )
+  );
 }

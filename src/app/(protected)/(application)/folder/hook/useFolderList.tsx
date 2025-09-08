@@ -13,7 +13,7 @@ interface IFolderResponse {
   meta: MetaState;
 }
 
-const fetchFolder = async ({ page, limit, search, status, typeFilter, statusFilter, dateFilter, officeId, officeIds }: {
+const fetchFolder = async ({ page, limit, search, status, typeFilter, statusFilter, dateFilter, officeId, officeIds, company }: {
   page: number;
   limit: number;
   search: string;
@@ -22,6 +22,7 @@ const fetchFolder = async ({ page, limit, search, status, typeFilter, statusFilt
   dateFilter?: Date;
   typeFilter?: string;
   officeId?: number;
+  company?: number;
   officeIds?: string
 }): Promise<IFolderResponse> => {
   const params: Record<string, unknown> = { page, limit, search, status, officeId };
@@ -37,23 +38,31 @@ const fetchFolder = async ({ page, limit, search, status, typeFilter, statusFilt
   if (typeFilter) {
     params.type = typeFilter;
   }
+  if (company) {
+    params.company = company;
+  }
+  if (typeFilter) {
+    params.type = typeFilter;
+  }
   const response = await apiClient.get<IFolderResponse>("/folder", {
     params,
   });
   return response;
 };
 
-const useFolderTable = ({ status = "", officeId, officeIds }: { status?: string, officeId?: number, officeIds?: string }) => {
+const useFolderTable = ({ status = "", officeId, officeIds, manual = false }: { status?: string, officeId?: number, officeIds?: string, manual?: boolean }) => {
   const { page, updatePagination, resetPage } = usePaginationStore();
   const [limit, setLimit] = useState<number>(9)
   const { search, updateSearch } = useSearchStore();
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [typeFilter, setTypeFilter] = useState<string>("");
+  const [company, setCompany] = useState<number | undefined>(undefined);
   const [dateFilter, setDateFilter] = useState<Date | undefined>()
   const [debouncedSearch] = useDebounce(search, 500);
   const query = useQuery<IFolderResponse, Error>({
-    queryKey: ["folders", page, limit, debouncedSearch, status, statusFilter, dateFilter, typeFilter, officeId, officeIds],
-    queryFn: async () => await fetchFolder({ page, limit, search: debouncedSearch, status, statusFilter, dateFilter, typeFilter, officeId, officeIds }),
+    queryKey: ["folders", page, limit, debouncedSearch, status, statusFilter, company, dateFilter, typeFilter, officeId, officeIds, { manual }],
+    queryFn: async () => await fetchFolder({ page, limit, search: debouncedSearch, company, status, statusFilter, dateFilter, typeFilter, officeId, officeIds }),
+    enabled: !manual || !!company,
     placeholderData: (previousData) => previousData,
   });
   return {
@@ -71,6 +80,8 @@ const useFolderTable = ({ status = "", officeId, officeIds }: { status?: string,
       setStatusFilter,
       dateFilter,
       setDateFilter,
+      company,
+      setCompany,
     },
     limit: {
       limit,

@@ -106,9 +106,7 @@ function FolderListFinance() {
 function FolderListPoliceOfficer() {
   const officeListIds = getOfficeId()
   const { result: resultPreview, updateSearch: updateSearchPreview, filter: filterPreview, limit: previewLimit } = useFolderTable({ status: "POLICE_UNDER_REVIEW", officeId: officeListIds  });
-  const { result: resultPending, updateSearch: updateSearchPending, filter: filterPending, limit: pendingLimit } = useFolderTable({ status: "PENDING", officeId: officeListIds  });
   const { result: resultRejected, updateSearch: updateSearchRejected, filter: filterRejected, limit: rejectedLimit } = useFolderTable({ status: "REJECTED_BY_COMMANDER", officeId: officeListIds  });
-  const { result: aggregationPending } = useFolderAggregation({ status: "PENDING" });
   const { result: aggregationPreview } = useFolderAggregation({ status: "POLICE_UNDER_REVIEW" });
   const { result: aggregationRejected } = useFolderAggregation({ status: "REJECTED_BY_COMMANDER" });
   return (
@@ -118,10 +116,6 @@ function FolderListPoliceOfficer() {
       </div>
       <Tabs defaultValue="tab-2" className="space-y-4">
         <TabsList className="mb-3">
-          <TabsTrigger value="tab-1" className="group gap-x-2">
-            <Loader className="-ms-0.5 me-1.5 opacity-60" size={16} strokeWidth={2} aria-hidden="true" />{"ແຟ້ມລໍຖ້າຍອມຮັບ"}
-            <Badge variant="secondary" className="ml-1"> {aggregationPending.total} </Badge>
-          </TabsTrigger>
           <TabsTrigger value="tab-2" className="group">
             <RefreshCw className="-ms-0.5 me-1.5 opacity-60" size={16} strokeWidth={2} aria-hidden="true" /> {"ແຟ້ມທີ່​ກຳລັງຕື່ມຟອມ"}
             <Badge variant="secondary" className="ml-1"> {aggregationPreview.total} </Badge>
@@ -134,24 +128,6 @@ function FolderListPoliceOfficer() {
             <MessageSquareX className="-ms-0.5 me-1.5 opacity-60" size={16} strokeWidth={2} aria-hidden="true" /> {"ແຟ້ມທັງໝົດ"}
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="tab-1">
-          <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-3'>
-            <AggregationCard value={aggregationPending?.total || 0} title="ແຟ້ມມາໃຫມ່" icon={<FolderOpenDot />} label="ແຟ້ມ" />
-          </div>
-          <div className='space-y-4'>
-            <FolderToolbar updateSearch={updateSearchPending} filter={filterPending} showStatus={false} />
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 '>
-              {resultPending?.map((folder) => (
-                <FolderCardView folder={folder}  status= "POLICE_UNDER_REVIEW" key={folder?.id} action={{ acceptText: "ຮັບເອກກະສານ", showDetail: "ລາຍລະອຽດ" }} />
-              ))}
-            </div>
-            {aggregationPending.total > 9 && (
-              <div className="w-full flex justify-end">
-                <Button className="bg-none" onClick={() => pendingLimit.setLimit(pendingLimit.limit += 9) }>ສະແດງເພີ່ມເຕີມ</Button>
-              </div>
-            )}
-          </div>
-        </TabsContent>
         <TabsContent value="tab-2">
           <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-3'>
             <AggregationCard value={aggregationPreview?.total || 0 } title="ແຟ້ມທີ່ກໍາລັງຕື່ມຟອມ" icon={<FolderOpenDot />} label="ແຟ້ມ" />
