@@ -8,6 +8,7 @@ import { type checkBlacklistFormSchema } from "src/app/(protected)/blacklist/con
 import { CurrentAddressSection, IdentitySection, OverseasAddressSection, PersonalInfoSection } from "./field";
 import { type profileFormSchema } from "./schema";
 import { AddVillageDialog } from "src/app/(protected)/(address)/village/container/addVillageDialog";
+import { useHandleEnterNavigation } from "@/lib/handleKeyDownNextField";
 
 interface ProfileFormProps {
   form: UseFormReturn<z.infer<typeof profileFormSchema>>;
@@ -29,13 +30,15 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ form, onSubmit, action = "cre
   useUpdateDefaultValues({ form, fieldName: "lastName", value: lastName, shouldUpdate: disabled });
   useUpdateDefaultValues({ form, fieldName: "dateOfBirth", value: dateOfBirth, shouldUpdate: disabled });
   useUpdateDefaultValues({ form, fieldName: "identityNumber", value: identityNumber, shouldUpdate: true });
+  const formRef = React.useRef<HTMLFormElement>(null);
+  useHandleEnterNavigation(formRef)
   return (
     <>
-      <Form formInstance={form} onSubmit={onSubmit} className="border-none shadow-none p-0" showButton={false}>
-        <PersonalInfoSection form={form} disabled={false}  action={disabled}/>
-        <IdentitySection form={form} identityType={identityType} />
-        <CurrentAddressSection form={form} setIsAddingVillage={handleSetIsAddingVillage}/>
-        <OverseasAddressSection form={form} />
+      <Form formInstance={form} onSubmit={onSubmit} className="border-none shadow-none p-0" showButton={false} formRef={formRef}>
+        <PersonalInfoSection form={form} disabled={false}  action={disabled} formRef={formRef}/>
+        <IdentitySection form={form} identityType={identityType} formRef={formRef}/>
+        <CurrentAddressSection form={form} setIsAddingVillage={handleSetIsAddingVillage} formRef={formRef}/>
+        <OverseasAddressSection form={form} formRef={formRef}/>
         <div className=" space-x-3">
           {action === "create" && (
             <>

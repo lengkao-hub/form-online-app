@@ -89,13 +89,14 @@ export const useQuickApplicationForm = ({ profileId, type = "NEW" }: Application
   const lastVisaIssuedAt = sessionStorage.getItem("visaIssuedAt");
   const lastVisaIssuedDate = sessionStorage.getItem("visaIssuedDate");
   const lastPositionId = Number(sessionStorage.getItem("positionId"));
+  // const lastCompanyId = Number(sessionStorage.getItem("companyId"));
 
   const form = useForm<z.infer<typeof applicationSchema>>({
     defaultValues: {
       profileId,
       folderId: lastFolderId || 0,
       positionId: lastPositionId || 0,
-      companyId: profileId,
+      companyId: 0,
       numberId: 0,
       visaTypeId: lastVisaTypeId || 0,
       type,
@@ -113,7 +114,7 @@ export const useQuickApplicationForm = ({ profileId, type = "NEW" }: Application
 
   useEffect(() => {
     form.setValue("profileId", profileId);
-    form.setValue("companyId", profileId);
+    // form.setValue("companyId", profileId);
   }, [profileId]);
 
   const onSubmit = async (data: z.infer<typeof applicationSchema>) => {
@@ -134,6 +135,7 @@ export const useQuickApplicationForm = ({ profileId, type = "NEW" }: Application
       sessionStorage.setItem("visaIssuedAt", String(data.visaIssuedAt));
       sessionStorage.setItem("visaIssuedDate", String(data.visaIssuedDate));
       sessionStorage.setItem("positionId", String(data.positionId));
+      sessionStorage.setItem("companyId", String(data.companyId));
 
       // reset form แต่เก็บ profileId ปัจจุบัน
       form.reset({

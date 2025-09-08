@@ -30,7 +30,7 @@ export default function QuickApplication() {
   const [count, setCount] = useState<number>(0)
   const [registered, setRegistered] = useState<number>(0)
   const { step, handleNext, handlePrevious, handleGotoStep, handleReset } = useMultiStepForm({ steps: FORM_STEPS, setCount, setRegistered });
-  const { form, onSubmit, foundProfile, addProfile, clearProfile  } = useQuickBlacklistProfileForm({ handleGotoStep, setCount, setRegistered, currentCount: count });
+  const { form, onSubmit, foundProfile, addProfile, clearProfile  } = useQuickBlacklistProfileForm({ handleNext, handleGotoStep, setCount, setRegistered, currentCount: count });
   const blackProfile = form.watch();
   const { form: formProfile, onSubmit: onSubmitProfile } = useQuickProfileForm({ handleNext, handleGotoStep, setCount, setRegistered, currentCount: count });
   const savedIds = localStorage.getItem("profileIds");

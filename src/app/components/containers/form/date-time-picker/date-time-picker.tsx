@@ -61,7 +61,7 @@ const DateTimePicker = React.forwardRef<HTMLDivElement, DateTimePickerProps>(
     const handleFocus = (e: React.FocusEvent<Element>) => {
       (e.currentTarget as HTMLElement).scrollIntoView({
         behavior: "smooth",
-        block: "start",
+        block: "center",
       });
     };
     

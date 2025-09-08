@@ -10,6 +10,7 @@ import { formSchema } from "./schema";
 import usePriceCombobox from "src/app/(protected)/(finance)/price/hook/usePriceCombobox";
 import useCompanyCombobox from "src/app/(protected)/company/hook/useeCompanyCombobox";
 import { AddCompanyDialog } from "src/app/(protected)/company/container/table/addCompanyDialog";
+import { useHandleEnterNavigation } from "@/lib/handleKeyDownNextField";
 
 const formTitle = "ສ້າງແຟ້ມເອກກະສານ";
 const formSubtitle = "ກະລຸນາປ້ອນຂໍ້ມູນຂອງແຟ້ມ";
@@ -24,6 +25,8 @@ export const FolderForm: React.FC<FolderFormProps> = ({ form, onSubmit, isEdit =
   const [isAddingCompany, setIsAddingCompany] = useState<boolean>(false);
   const { result: priceOptions } = usePriceCombobox({ status: true });
   const { result: companyOptions } = useCompanyCombobox();
+  const formRef = React.useRef<HTMLFormElement>(null);
+  useHandleEnterNavigation(formRef)
   const { fields: variantFields, append: append, remove: remove } = useFieldArray({
     control: form.control,
     name: "folderPrice",
@@ -44,7 +47,7 @@ export const FolderForm: React.FC<FolderFormProps> = ({ form, onSubmit, isEdit =
   };
   return (
     <>
-      <Form formInstance={form} onSubmit={onSubmit} title={formTitle} subtitle={formSubtitle}>
+      <Form formInstance={form} onSubmit={onSubmit} title={formTitle} subtitle={formSubtitle} formRef={formRef}>
         <div className="space-y-4">
           <h3 className="text-lg font-medium">ຂໍ້ມູນພື້ນຖານ</h3>
           <div className="grid grid-cols-2 gap-4">
@@ -52,14 +55,8 @@ export const FolderForm: React.FC<FolderFormProps> = ({ form, onSubmit, isEdit =
               <Form.Input.Input placeholder="ຊື່ແຟ້ມ" />
             </Form.Field>
             <Form.Field name="companyId" control={form.control} label="ຫົວໜ່ວຍທຸລະກິດ">
-              <Form.Input.Combobox placeholder="ເລືອກ" options={extendedCompanyOptions} onChange={handleVillageChange}/>
+              <Form.Input.Combobox placeholder="ເລືອກ" options={extendedCompanyOptions} onChange={handleVillageChange} formRef={formRef}/>
             </Form.Field>
-            {/* <Form.Field name="billDate" control={form.control} label="ວັນທີອອກບິນຮັບເງີນ" required={false}>
-              <Form.Input.DateTimePicker name="billDate"/>
-            </Form.Field>
-            <Form.Field name="billNumber" control={form.control} label="ເລກທີບິນ" required={false}>
-              <Form.Input.Input placeholder="ເລກທີບິນ"/>
-            </Form.Field> */}
           </div>
         </div>
         <Separator />
@@ -73,10 +70,10 @@ export const FolderForm: React.FC<FolderFormProps> = ({ form, onSubmit, isEdit =
                   <Form.Input.Input placeholder="ຊື່ຕົວເລືອກ" disabled={isEdit}/>
                 </Form.Field>
                 <Form.Field name={`folderPrice.${index}.priceId`} control={form.control} label="ປະເພດບັດ" >
-                  <Form.Input.Combobox placeholder="ປະເພດບັດ" className="w-full" options={priceOptions} disabled={isEdit}/>
+                  <Form.Input.Combobox placeholder="ປະເພດບັດ" className="w-full" options={priceOptions} disabled={isEdit} formRef={formRef}/>
                 </Form.Field>
               </div>
-              <Button variant="destructive" onClick={() => remove(index)} disabled={isEdit}>
+              <Button type="button" variant="destructive" onClick={() => remove(index)} disabled={isEdit}>
                  ລົບ
               </Button>
             </div>

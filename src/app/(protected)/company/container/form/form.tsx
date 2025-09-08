@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui";
 // import { useUpdateDefaultValues } from "@/lib/update-default-values";
 import useBussinessTypeCombobox from "../../hook/useTypeCombobox";
 import { cn } from "@/lib/utils";
+import { useHandleEnterNavigation } from "@/lib/handleKeyDownNextField";
 
 const formTitle = "ສ້າງຫົວໜ່ວຍທຸລະກິດ";
 const formSubtitle = "ກະລຸນາປ້ອນຂໍ້ມູນຂອງຫົວໜ່ວຍທຸລະກິດ";
@@ -22,15 +23,17 @@ interface CompanyFormProps {
 
 const CompanyForm: React.FC<CompanyFormProps> = ({ form, onSubmit, className, isDialog = false }) => {
   const { result: typeOptions } = useBussinessTypeCombobox();
+  const formRef = React.useRef<HTMLFormElement>(null);
+  useHandleEnterNavigation(formRef)
   const extendedTypeOptions = [
     {  label: '+ ເພີ່ມ', value: 'add' },
     ...typeOptions,
   ];
   const selectedType = form.watch("businessType");
   return (
-    <Form formInstance={form} onSubmit={onSubmit} title={formTitle} subtitle={formSubtitle}>
+    <Form formInstance={form} onSubmit={onSubmit} title={formTitle} subtitle={formSubtitle} formRef={formRef}>
       <h3 className="text-lg font-medium">ຂໍ້ມູນຫົວໜ່ວຍທຸລະກິດ</h3>
-      <div className={cn("grid gap-4 sm:grid-cols-2", className)}>
+      <div className={cn("grid gap-4 sm:grid-cols-2", className)} >
         <Form.Field name="name" control={form.control} label="ຊື່ຫົວໜ່ວຍທຸລະກິດ">
           <Form.Input.Input placeholder="ປ້ອນຊື່" />
         </Form.Field>

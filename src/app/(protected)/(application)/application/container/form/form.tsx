@@ -23,6 +23,8 @@ import { IApplication, IApplicationFile } from "../../type";
 import { DocsDialog, UploadDocsDialog } from "../table/docsPreviewDialog";
 import useVisaCombobox from "src/app/(protected)/visa/hook/useVisaCombobox";
 import { AddPositionDialog } from "src/app/(protected)/position/container/table/addPositionDialog";
+import { useHandleEnterNavigation } from "@/lib/handleKeyDownNextField";
+import React from "react";
 
 const formTitle = "ອອກບັດໃຫມ່";
 const formTitle2 = "ອອກບັດຄືນ";
@@ -43,6 +45,8 @@ interface ApplicationFormProps {
 const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profileId, selectedFolderId }) => {
   const [applicationNumber, setApplicationNumber] = useState<string>("");
   const [isAddingPosition, setIsAddingPosition] = useState<boolean>(false);
+  const formRef = React.useRef<HTMLFormElement>(null);
+  useHandleEnterNavigation(formRef)
   const officeId = getOfficeId()
   const pathname = usePathname();
   const segments = pathname.split('/');
@@ -96,19 +100,19 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
     <div className="w-fit space-y-6 mx-auto">
       <ProfileCard profileId={profileId} onSendAppNumber={setApplicationNumber}/>
       <Form formInstance={form} onSubmit={onSubmit} title={lastSegment === "NEW" ? formTitle : formTitle2}
-        subtitle={formSubtitle}
+        subtitle={formSubtitle} formRef={formRef}
       >
         <div className="space-y-4 -mt-8">
           <h3 className="text-lg font-medium">ຂໍ້ມູນແຟ້ມ ແລະ ຟອມ</h3>
           <div className="grid gap-4 sm:grid-cols-2">
             <Form.Field name="folderId" control={form.control} label="ເລືອກແຟ້ມ">
-              <Form.Input.Combobox placeholder="ແຟ້ມ" className="w-96" options={folderOptions} />
+              <Form.Input.Combobox placeholder="ແຟ້ມ" className="w-96" options={folderOptions} formRef={formRef}/>
             </Form.Field>
             <Form.Field name="numberId" control={form.control} label={`ເລືອກຟອມເລກທີ(ຈໍານວນ ${count} ເລກທີ)`} >
-              <Form.Input.Combobox placeholder="ຟອມເລກທິ" className="w-96" options={numberOptions} />
+              <Form.Input.Combobox placeholder="ຟອມເລກທິ" className="w-96" options={numberOptions} formRef={formRef}/>
             </Form.Field>
             <Form.Field name="visaTypeId" control={form.control} label="ປະເພດວິຊ່າ" >
-              <Form.Input.Combobox placeholder="ວິຊ່າ" className="w-96" options={visaoptions} />
+              <Form.Input.Combobox placeholder="ວິຊ່າ" className="w-96" options={visaoptions} formRef={formRef}/>
             </Form.Field>
             <Form.Field name="visaIssuedAt" control={form.control} label="ບ່ອນຂໍວິຊ່າ" >
               <Form.Input.Input placeholder="ບ່ອນຂໍວິຊ່າ" className="w-96" />
@@ -125,12 +129,12 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
           <h3 className="text-lg font-medium">ຂໍ້ມູນຫົວໜ່ວຍທຸລະກິດ</h3>
           <div className="grid gap-4 sm:grid-cols-1">
             <Form.Field name="positionId" control={form.control} label="ເລືອກຕຳແໜ່ງ" >
-              <Form.Input.Combobox placeholder="ຕຳແໜ່ງ" className="w-full" options={extendedPositionOptions} onChange={handlePositionChange}/>
+              <Form.Input.Combobox placeholder="ຕຳແໜ່ງ" className="w-full" options={extendedPositionOptions} onChange={handlePositionChange} formRef={formRef}/>
             </Form.Field>
           </div>
         </div>
         <Form.Field name="companyId" control={form.control} label="ເລືອກຫົວໜ່ວຍທຸລະກິດ">
-          <Form.Input.Combobox placeholder="ຫົວໜ່ວຍທຸລະກິດ" className="w-full" options={companyOptions} />
+          <Form.Input.Combobox placeholder="ຫົວໜ່ວຍທຸລະກິດ" className="w-full" options={companyOptions} formRef={formRef}/>
         </Form.Field>
         <Form.Field name="applicationFile" control={form.control} label="ອັບໂຫຼດເອກະສານ" required={false}>
           <Form.Input.File name="applicationFile" control={form.control} />

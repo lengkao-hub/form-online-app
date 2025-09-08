@@ -28,7 +28,8 @@ export interface IFormProps {
     watch: any;
     control: any;
   };
-  identityType?: string
+  identityType?: string;
+  formRef?: React.RefObject<HTMLFormElement>;
 }
 export interface IFormDistrictProps {
   form: {
@@ -37,4 +38,5 @@ export interface IFormDistrictProps {
     control: any;
   };
   setIsAddingVillage: (value: boolean) => void;
+  formRef?: React.RefObject<HTMLFormElement>;
 }

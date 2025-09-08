@@ -46,11 +46,13 @@ export const useBlacklistProfileForm = ({ handleNext }: { handleNext: () => void
 };
 
 export const useQuickBlacklistProfileForm = ({ 
+  handleNext,
   handleGotoStep,
   setCount,
   setRegistered, 
   currentCount, 
 }: {
+  handleNext: () => void;
   handleGotoStep: (stepNumber: number) => void;
   setCount: React.Dispatch<React.SetStateAction<number>>;
   setRegistered: React.Dispatch<React.SetStateAction<number>>;
@@ -83,11 +85,7 @@ export const useQuickBlacklistProfileForm = ({
         });
         return;
       }
-      if (currentCount > 1) {
-        handleGotoStep(2)
-      } else {
-        handleGotoStep(3);
-      }
+      handleNext();
     } catch {
       showToast({ type: "error", title: "ລະບົບຂັດຂ້ອງ" });
     }

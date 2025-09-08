@@ -22,6 +22,7 @@ import {
   ScrollArea,
   CommandList,
 } from "@/components/ui";
+import { handleKeyDownNextField } from "./select";
 
 interface Option {
   value: string | number;
@@ -45,6 +46,7 @@ type ComboboxProps = Omit<
   clearable?: boolean;
   popoverWidth?: string;
   searchPlaceholder?: string;
+  formRef?: React.RefObject<HTMLFormElement>;
 };
 
 export const Combobox = forwardRef<
@@ -62,6 +64,7 @@ export const Combobox = forwardRef<
   clearable = false,
   popoverWidth,
   searchPlaceholder = "Search...",
+  formRef,
   ...props
 }, ref) => {
   const [open, setOpen] = useState(false);
@@ -110,6 +113,20 @@ export const Combobox = forwardRef<
     });
   };
 
+  const focusNextField = () => {
+    const formEl = formRef?.current;
+    if (!formEl) return;
+
+    const focusables = Array.from(
+      formEl.querySelectorAll<HTMLElement>(
+        "input, select, textarea, button, [role='combobox'], [data-radix-select-trigger], [tabindex]:not([tabindex='-1'])"
+      )
+    ).filter(el => !el.hasAttribute("disabled") && el.offsetParent !== null);
+
+    const index = focusables.findIndex(el => el === document.activeElement);
+    if (index > -1 && focusables[index + 1]) focusables[index + 1].focus();
+  };
+
 
   // Custom Filtering and Sorting Logic
   const filteredAndSortedOptions = options
@@ -137,13 +154,34 @@ export const Combobox = forwardRef<
       // Finally, sort alphabetically if no strong relevance
       return aLabelLower.localeCompare(bLabelLower);
     });
+    
   return (
     <Popover open={open} onOpenChange={setOpen} >
       <PopoverTrigger asChild>
         <FormControl>
           <Button
+            ref={ref as React.Ref<HTMLButtonElement>}
             variant="outline"
             role="combobox"
+            onKeyDown={(e) => {
+              // Enter → focus next field
+              if (e.key === "Enter") {
+                e.preventDefault();
+                focusNextField();
+                return; // อย่าเปิด dropdown
+              }
+
+              // ถ้า key เป็น character → เปิด dropdown และ focus input
+              if (e.key.length === 1) {
+                if (!open) setOpen(true);
+                setTimeout(() => {
+                  const inputEl = document.querySelector<HTMLInputElement>(
+                    `[data-radix-popover-content] input`
+                  );
+                  inputEl?.focus();
+                }, 0);
+              }
+            }}
             onClick={handleFocus}
             aria-expanded={open}
             disabled={disabled}
@@ -185,6 +223,7 @@ export const Combobox = forwardRef<
             className="h-11 border-none focus:ring-0"
             value={searchValue}
             onValueChange={setSearchValue}
+            autoFocus={open}
           />
           <CommandList>
             <CommandEmpty className="py-6 text-center text-sm">{emptyMessage}</CommandEmpty>

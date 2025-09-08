@@ -1,3 +1,4 @@
+/* eslint-disable curly */
 import React from "react";
 import { type UseFormReturn } from "react-hook-form";
 import { type z } from "zod";
@@ -10,6 +11,7 @@ import { IProfile } from "src/app/(protected)/profile/type";
 import Image from "next/image";
 import { formatDate } from "@/lib/format-date";
 import { X } from "lucide-react";
+import { useHandleEnterNavigation } from "@/lib/handleKeyDownNextField";
 interface BlacklistProfileFormProps {
   form: UseFormReturn<z.infer<typeof checkBlacklistFormSchema>>;
   onSubmit: (data: z.infer<typeof checkBlacklistFormSchema>) => Promise<void>;
@@ -28,9 +30,10 @@ const IdentifyOptions = [
 const BlacklistProfileForm: React.FC<BlacklistProfileFormProps> = ({ form, onSubmit, statusMessage, add, found, clear }) => {
   const { errors } = form.formState;
   useUpdateDefaultValues({ form, fieldName: "identityType", value: "passport", shouldUpdate: true });
-
+  const formRef = React.useRef<HTMLFormElement>(null);
+  useHandleEnterNavigation(formRef)
   return (
-    <Form formInstance={form} onSubmit={onSubmit} className="border-none shadow-none p-0" showButton={false}>
+    <Form formInstance={form} onSubmit={onSubmit} className="border-none shadow-none p-0" showButton={false} formRef={formRef}>
       {Object.keys(errors).length > 0 && (
         <div className=" p-4 bg-red-50 border border-red-200 rounded-lg">
           <h3 className="text-lg font-medium text-red-800 mb-2">ຂໍ້ຜິດພາດໃນຟອມ</h3>
@@ -87,12 +90,12 @@ const BlacklistProfileForm: React.FC<BlacklistProfileFormProps> = ({ form, onSub
             <Form.Input.DateTimePicker />
           </Form.Field>
 
-          <Form.Field name="identityType" control={form.control} label="ປະເພດເອກະສານ">
-            <Form.Input.Select options={IdentifyOptions} defaultValue="passport" />
+          <Form.Field name="identityType" control={form.control} label="ປະເພດເອກະສານ" >
+            <Form.Input.Select options={IdentifyOptions} defaultValue="passport" formRef={formRef} />
           </Form.Field>
 
           <Form.Field name="identityNumber" control={form.control} label="ໜັງສືຜ່ານແດນເລກທີ">
-            <Form.Input.Input placeholder="ໜັງສືຜ່ານແດນເລກທີ"/>
+            <Form.Input.Input placeholder="ໜັງສືຜ່ານແດນເລກທີ" />
           </Form.Field>
         </div>
       </div>
