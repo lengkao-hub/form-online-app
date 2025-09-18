@@ -21,9 +21,7 @@ export const companyFormSchema = z.object({
   businessRegisterBy: z.string().min(2, {
     message: "ອອດໂດຍ",
   }),
-  businessType: z.string().min(2, {
-    message: "ລະບຸປະເພດຫົວໜ່ວຍທຸລະກິດ",
-  }),
+  businessType: z.string().optional(),
   customBusinessType: z.string().optional(),
   businessCode: z.string().optional(),
   companyFile: z.array(

@@ -50,6 +50,7 @@ export interface IAction {
     showDetail?: string;
     reject?: string;
     application?: string;
+    edit?: string;
   }
 
 export interface FolderCardViewProps {
@@ -71,4 +72,11 @@ export interface processStatus {
     IN_PRODUCTION: string,
     FINISHED: string,
     REJECTED: string,
+}
+
+
+export interface FolderDialogProps { 
+    folderId: number, 
+    open: boolean, 
+    onOpenChange: (open: boolean) => void 
 }

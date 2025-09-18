@@ -38,7 +38,9 @@ export function FolderCardView({
   const basePath = pathName.split("/").slice(0, 3).join("/") + "/";
   const isShowing = basePath === "/folder/show/";
   const [folderToStatus, setFolderToStatus] = useState<number | null>(null);
-  const [dialogOpen, setDialogOpen] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  
   const handleEdit = (id: number) => {
     router.push(`/folder/edit/${id}`);
   };
@@ -55,7 +57,7 @@ export function FolderCardView({
     }
     return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
   };
-  const { editText = false, statusText = false, acceptText = false, approveText = false, reject = false, showDetail = false, application = false } = action || {};
+  const { editText = false, statusText = false, acceptText = false, approveText = false, reject = false, showDetail = false, application = false, edit = false } = action || {};
   return (
     <div
       key={folder?.id}
@@ -159,11 +161,21 @@ export function FolderCardView({
             </DialogContent>
           </Dialog>
         )}
+        {edit &&(
+          <div className="flex justify-end">
+            <Button 
+              className="mt-4 flex gap-1"
+              onClick={() => handleEdit(folder.id)}  
+            >
+              {userRole?.user.role === "POLICE_COMMANDER_PROVINCE" ||userRole?.user.role === "POLICE_COMMANDER" ? "ອະນຸມັດ" : "cແກ້ໄຂ"}
+            </Button>
+          </div>
+        )}
         {statusText && (
           <div className="flex justify-end">
             <Button 
               className="mt-4 flex gap-1"
-              onClick={() => setFolderToStatus(folder.id)}  
+              onClick={() => setFolderToStatus(folder.id)}
             >
               <Send size={18}/>
               {userRole?.user.role === "POLICE_COMMANDER_PROVINCE" ||userRole?.user.role === "POLICE_COMMANDER" ? "ອະນຸມັດ" : "ສົ່ງ"}

@@ -65,10 +65,10 @@ export const profileFormSchema = z.object({
     .refine((value) => value !== null && value !== "", {
       message: "ກະລຸນາໃສ່ວັນເດືອນປີເກີດໃນຮູບແບບ",
     }),
-  currentProvince: z.number().min(1, { message: "ກະລຸນາໃສ່ແຂວງປັດຈຸບັນ" }),
-  currentDistrict: z.number().min(1, { message: "ກະລຸນາໃສ່ເມືອງປັດຈຸບັນ" }),
-  currentVillageId: z.number().min(1, { message: "ກະລຸນາເລືອກບ້ານ" }),
-  overseasCountryId: z.number().min(1, { message: "ກະລຸນາໃສ່ປະເທດ" }),
+  currentProvince: z.number().optional(),
+  currentDistrict: z.number().optional(),
+  currentVillageId: z.number().optional(),
+  overseasCountryId: z.number().optional(),
   overseasProvince: z.string().optional(),
 }).transform((data) => {
   if (data.applicationFile) {
@@ -96,7 +96,7 @@ export const defaultValues = {
   currentProvince: 0,
   currentDistrict: 0,
   currentVillageId: 0,
-  overseasCountryId: 1,
+  overseasCountryId: 0,
   overseasDistrict: "",
   overseasProvince: "",
   applicationFile: [],

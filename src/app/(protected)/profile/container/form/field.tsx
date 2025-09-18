@@ -108,9 +108,8 @@ export const CurrentAddressSection: React.FC<IFormDistrictProps> = ({ form, setI
   const { result: provinceOptions } = useeProvinceCombobox();
   const { result: districtOptions } = useeDistrictCombobox({ provinceId: initializeProvinceId });
   const { result: villageOptions } = useeVillageCombobox({ districtId: initializeDistrictId });
-  useUpdateDefaultValues({ form, fieldName: "currentVillageId", value: 4, shouldUpdate: true });
-  useUpdateDefaultValues({ form, fieldName: "currentProvince", value: 5, shouldUpdate: true });
-  useUpdateDefaultValues({ form, fieldName: "currentDistrict", value: 149, shouldUpdate: true });
+
+
   const extendedVillageOptions = [
     { label: '+ ເພີ່ມບ້ານ', value: 'add' },
     ...villageOptions,
@@ -144,7 +143,6 @@ export const CurrentAddressSection: React.FC<IFormDistrictProps> = ({ form, setI
 };
 export const OverseasAddressSection: React.FC<IFormProps> = ({ form, formRef }) => {
   const { result: ethnicityOptions } = usenationalitiesCombobox({ isNationality: true });
-  useUpdateDefaultValues({ form, fieldName: "overseasCountryId", value: 104, shouldUpdate: true });
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium">ທີ່ຢູ່ຕ່າງປະເທດ</h3>
