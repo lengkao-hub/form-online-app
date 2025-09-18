@@ -76,7 +76,7 @@ export interface processStatus {
 
 
 export interface FolderDialogProps { 
-    folderId: number, 
+    folderId?: number, 
     open: boolean, 
     onOpenChange: (open: boolean) => void 
 }

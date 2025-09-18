@@ -25,27 +25,19 @@ const formTitle = "ສ້າງແຟ້ມເອກກະສານ";
 const formSubtitle = "ກະລຸນາປ້ອນຂໍ້ມູນຂອງແຟ້ມ";
 interface FolderFormProps {
   form: UseFormReturn<z.infer<typeof formSchema>>;
-  poPup?: boolean;
-  data?: IFolder[] | null;
   onSubmit: (data: z.infer<typeof formSchema>) => Promise<void>;
   isEdit?: boolean;
+  folderId?: number;
 }
 
-export const FolderForm: React.FC<FolderFormProps> = ({ form, poPup, data, onSubmit, isEdit = false }) => {
+export const FolderForm: React.FC<FolderFormProps> = ({ form, onSubmit, isEdit = false, folderId }) => {
   const [isAddingCompany, setIsAddingCompany] = useState<boolean>(false);
   const { result: priceOptions } = usePriceCombobox({ status: true });
   const { result: companyOptions } = useCompanyCombobox();
   const formRef = React.useRef<HTMLFormElement>(null);
-  const [popup, setPoPup] = useState(false);
+  const [isPopup, setIsPoPup] = useState(false);
   const router = useRouter();
   const pathname = usePathname()
-  useEffect(() => {
-    setPoPup(Boolean(poPup))
-    // console.log("popup=========================>", poPup);
-  }, [poPup])
-  const handleEdit = (id: number) => {
-    router.push(`/folder/edit/${id}`);
-  };
   const { fields: variantFields, append: append, remove: remove } = useFieldArray({
     control: form.control,
     name: "folderPrice",
@@ -55,6 +47,11 @@ export const FolderForm: React.FC<FolderFormProps> = ({ form, poPup, data, onSub
     { label: '+ ເພີ່ມຫົວໜ່ວຍທຸລະກິດ', value: 'addCompany' },
     ...companyOptions,
   ];
+  useEffect(() => {
+    if (folderId && folderId > 0) {
+      setIsPoPup(true);
+    }
+  }, [folderId]);
   const handleVillageChange = (value: string | number) => {
     if (value === 'addCompany') {
       setIsAddingCompany?.(true);
@@ -64,8 +61,6 @@ export const FolderForm: React.FC<FolderFormProps> = ({ form, poPup, data, onSub
       form.setValue('companyId', Number(value));
     }
   };
-  // const officeListIds = getOfficeIds()
-  // const { result: resultDefault, updateSearch, filter, limit: defaultLimit } = useFolderTable({ status: "DEFAULT", officeId: officeListIds  });
   return (
     <>
       <Form formInstance={form} onSubmit={onSubmit} title={formTitle} subtitle={formSubtitle} formRef={formRef} showButton={false}
@@ -120,86 +115,7 @@ export const FolderForm: React.FC<FolderFormProps> = ({ form, poPup, data, onSub
           </Button>
         </div>
       </Form>
-
-      {/* {popup && (
-        // <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 left-64">
-        //   <div className="max-w-md mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-4 mt-6">
-        //     <div className="flex items-center space-x-3 w-full">
-        //       <div>
-        //         <Folders className={cn("w-14 h-14 text-yellow-500")} />
-        //       </div>
-        //       <div className="w-full">
-        //         <h5>lengkao</h5>
-        //         <div className="flex flex-row w-full justify-between space-x-4 text-sm text-gray-600">
-        //           <div className="w-full">
-        //             <div>ແຟ້ມເລກທີ:</div>
-        //             <div className="font-bold">0061</div>
-        //           </div>
-        //           <div className=" left-10 w-full">
-        //             <div>ສ້າງວັນທີ:</div>
-        //             <div className="font-bold">16/09/2025</div>
-        //           </div>
-        //         </div>
-        //         <div className="flex flex-col text-sm text-gray-600">
-        //           <span>ສາຂາ: ເສີ້ງໄຫ້</span>
-        //           <span>ຮ້ານຂາຍເຫຼົ້າແລະຢາສູບຜີງຜ່ານ</span>
-        //         </div>
-        //       </div>
-        //     </div>
-        //     <div className="bg-gray-50 border border-gray-500 rounded-lg p-4 space-y-3">
-        //       <div className="text-sm text-gray-700">
-        //         <div className="font-medium">ປະເພດ: ບັດຢູ່ຊົ່ວຄາວສໍາລັບຄູ່ສົມລົດ - Temporary</div>
-        //         <div className="font-medium">Stay Card (ມຽນມ້າ 6 ເດືອນ)</div>
-        //       </div>
-        //       <div className="flex justify-between items-center text-sm">
-        //         <span className="text-gray-600">ລວມຍອດເງິນ:</span>
-        //         <span className="font-semibold text-gray-900">720</span>
-        //       </div>
-
-        //       <div className="flex justify-between items-center text-sm">
-        //         <span className="text-gray-600">ລວມຈໍານວນຟອມ:</span>
-        //         <span className="font-semibold text-gray-900">9</span>
-        //       </div>
-        //     </div>
-        //     <hr className=" border-gray-400 " />
-        //     <div className="space-y-2">
-        //       <div className="flex justify-between items-center text-sm">
-        //         <span className="text-gray-600">ຈໍານວນຟອມ:</span>
-        //         <span className="font-semibold text-gray-900">9</span>
-        //       </div>
-        //       <div className="flex justify-between items-center text-sm">
-        //         <span className="text-gray-600">ລວມຍອດເງິນ:</span>
-        //         <span className="font-semibold text-gray-900">720</span>
-        //       </div>
-        //     </div>
-        //     <button
-        //       className="flex justify-between items-center w-full text-sm text-gray-700 hover:text-gray-900 transition-colors"
-        //     >
-        //       <span>ສະແດງລາຍລະອຽດ</span>
-        //     </button>
-        //     <hr className="border-gray-400" />
-        //     <div className="flex justify-end space-x-4">
-        //       <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
-        //         <span>ແກ້ໄຂ</span>
-        //       </button>
-        //       <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
-        //         <Send size={18}/><span>ສົ່ງ</span>
-        //       </button>
-        //     </div>
-        //   </div>
-        // </div>
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 left-64">
-          <div className="max-w-md mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-4 mt-6 overflow-y-auto max-h-[80vh]"
-          // onClick={()=> setPoPup(false)}
-          >
-            {data?.map((folder) => (
-              <FolderCardView folder={folder} status="FINANCE_UNDER_REVIEW" key={folder.id} action={{ editText: "ແກ້ໄຂ", statusText: "ສົ່ງເອກກະສານ", showDetail: "ລາຍລະອຽດ",edit:"ແກ້ໄຂ" }} />
-            ))}
-          </div>
-        </div>
-
-      )} */}
-      <FolderDialog folderId={folderId} open={popup} onOpenChange={setPopup}/>
+      <FolderDialog folderId={folderId} open={isPopup} onOpenChange={setIsPoPup}/>
       <AddCompanyDialog
         open={isAddingCompany}
         onOpenChange={setIsAddingCompany}

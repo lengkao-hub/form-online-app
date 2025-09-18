@@ -17,14 +17,6 @@ import { P } from "framer-motion/dist/types.d-D0HXPxHm";
 export const useFolderForm = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [poPup, setPoPup] = useState(false)
-  // useEffect(() => {
-  //   console.log("poPup=========================>", poPup);
-  // }, [poPup]);
-  const [data, setData] = useState<IFolder | null>(null);
-  useEffect(() => {
-    console.log("poPup=========================>", data);
-  }, [data]);
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: formDefaultValues,
     resolver: zodResolver(formSchema),
@@ -33,15 +25,11 @@ export const useFolderForm = () => {
     try {
       const response = await apiClient.post<IFolder>("/folder", { data });
       const folder = (response as any)?.data?.result ?? (response as any)?.result ?? null;
-      if (folder) {
-        setPoPup(true)
-        const folderData = fetchFolderById(folder.id);
-        setData(await folderData);
-      }
       showToast({ type: "success", title: "ສ້າງແຟ້ມເອກກະສານສໍາເລັດ" });
-      // queryClient.invalidateQueries({ queryKey: ["folders"] });
-      // form.reset();
+      queryClient.invalidateQueries({ queryKey: ["folders"] });
+      form.reset();
       // router.back();
+      return folder;
     } catch (error) {
       const axiosError = error as { data: { message: string } };
       if (axiosError?.data?.message === "Office not found") {
@@ -50,7 +38,7 @@ export const useFolderForm = () => {
       showToast({ type: "error", title: "ບໍ່ສາມາດສ້າງແຟ້ມເອກກະສານ" });
     }
   };
-  return { form, poPup, onSubmit, data, };
+  return { form, onSubmit };
 };
  const fetchFolderById = async (id: number): Promise<IFolder | null> => {
     try {
