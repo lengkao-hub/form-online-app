@@ -76,7 +76,6 @@ export interface processStatus {
     REJECTED: string,
 }
 
-
 export interface FolderDialogProps { 
     folderId?: number, 
     open: boolean, 

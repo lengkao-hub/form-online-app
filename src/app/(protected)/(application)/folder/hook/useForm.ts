@@ -1,9 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, type UseFormReset } from "react-hook-form";
-import { use, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import type * as z from "zod";
 
 import showToast from "@/components/containers/show-toast";
@@ -13,9 +10,7 @@ import { formDefaultValues, formSchema, rejectFormDefaultValues, rejectFormSchem
 import { type IFolder } from "../type";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { P } from "framer-motion/dist/types.d-D0HXPxHm";
 export const useFolderForm = () => {
-  const router = useRouter();
   const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: formDefaultValues,
@@ -68,26 +63,4 @@ export const useFolderRejectForm = ({ folderId, setDialogOpen }: { setDialogOpen
     }
   };
   return { form, onSubmit, isLoading };
-};
-const resetFormValues = (
-  folder: IFolder | null,
-  formReset: UseFormReset<z.infer<typeof formSchema>>,
-) => {
-  if (!folder) {
-    return
-  }
-  const formValues = {
-    id: folder.id,
-    name: folder.name,
-    companyId: folder.companyId,
-    billDate: folder.billDate,
-    billNumber: folder.billNumber,
-    folderPrice: folder.folderPrice?.map((price) => ({
-      amount: price.amount,
-      priceId: price.priceId,
-    })) ?? [],
-  };
-  console.log("formValues=========================>", formValues);
-
-  formReset(formValues, { keepErrors: false });
 };

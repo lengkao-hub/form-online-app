@@ -3,7 +3,6 @@ import * as z from "zod"
 
 import { Form } from "@/components/containers/form";
 import React, { useEffect, useState } from "react";
-import { usePathname, useRouter } from 'next/navigation';
 import { useFieldArray, type UseFormReturn } from "react-hook-form";
 import { Button, Separator } from "@/components/ui";
 import { PlusCircle } from "lucide-react";
@@ -11,15 +10,7 @@ import { formSchema } from "./schema";
 import usePriceCombobox from "src/app/(protected)/(finance)/price/hook/usePriceCombobox";
 import useCompanyCombobox from "src/app/(protected)/company/hook/useeCompanyCombobox";
 import { AddCompanyDialog } from "src/app/(protected)/company/container/table/addCompanyDialog";
-import { useHandleEnterNavigation } from "@/lib/handleKeyDownNextField";
-import { BadgeCheck, BadgeDollarSign, CheckCheck, CornerDownLeft, Edit, Folders, MessageSquareX, MoreHorizontal, Send } from "lucide-react";
-import { cn } from "@/lib/utils";
-import FolderCardView from "./card";
-import useFolderTable from "../hook/useFolderList";
-import { getOfficeId, getOfficeIds, getUserRole } from "../../../../lib/getSession";
-import { IFolder } from "../type";
 import { FolderDialog } from "./table/folderDialog";
-
 
 const formTitle = "ສ້າງແຟ້ມເອກກະສານ";
 const formSubtitle = "ກະລຸນາປ້ອນຂໍ້ມູນຂອງແຟ້ມ";
@@ -36,8 +27,6 @@ export const FolderForm: React.FC<FolderFormProps> = ({ form, onSubmit, isEdit =
   const { result: companyOptions } = useCompanyCombobox();
   const formRef = React.useRef<HTMLFormElement>(null);
   const [isPopup, setIsPoPup] = useState(false);
-  const router = useRouter();
-  const pathname = usePathname()
   const { fields: variantFields, append: append, remove: remove } = useFieldArray({
     control: form.control,
     name: "folderPrice",

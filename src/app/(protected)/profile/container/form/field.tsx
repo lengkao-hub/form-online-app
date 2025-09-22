@@ -109,7 +109,6 @@ export const CurrentAddressSection: React.FC<IFormDistrictProps> = ({ form, setI
   const { result: districtOptions } = useeDistrictCombobox({ provinceId: initializeProvinceId });
   const { result: villageOptions } = useeVillageCombobox({ districtId: initializeDistrictId });
 
-
   const extendedVillageOptions = [
     { label: '+ ເພີ່ມບ້ານ', value: 'add' },
     ...villageOptions,

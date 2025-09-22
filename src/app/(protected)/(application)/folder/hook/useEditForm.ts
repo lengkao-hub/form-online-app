@@ -33,7 +33,7 @@ export const useFolderEditForm = ({ id }: { id: number }) => {
       showToast({ type: "success", title: "ແກ້ໄຂຂໍ້ມູນແຟ້ມເອກກະສານສໍາເລັດ" });
       queryClient.invalidateQueries({ queryKey: ["folders"] });
       queryClient.invalidateQueries({ queryKey: [resourceWithId] });
-       router.push(`/folder`);
+      router.push(`/folder`);
     } catch {
       showToast({ type: "error", title: "ແກ້ໄຂຂໍ້ມູນແຟ້ມເອກກະສານ" });
     }
