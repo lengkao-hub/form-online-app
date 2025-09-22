@@ -40,15 +40,6 @@ export const useFolderForm = () => {
   };
   return { form, onSubmit };
 };
- const fetchFolderById = async (id: number): Promise<IFolder | null> => {
-    try {
-      const resp = await apiClient.get<{ result: IFolder }>(`/folder/${id}`);
-      return (resp as any)?.data?.result ?? (resp as any)?.result ?? null;
-    } catch (e) {
-      console.error("fetchFolderById error", e);
-      return null;
-    }
-  };
 
 export const useFolderRejectForm = ({ folderId, setDialogOpen }: { setDialogOpen: (open: boolean) => void, folderId: number }) => {
   const queryClient = useQueryClient();

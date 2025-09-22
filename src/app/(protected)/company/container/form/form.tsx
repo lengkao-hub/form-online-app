@@ -45,7 +45,7 @@ const CompanyForm: React.FC<CompanyFormProps> = ({ form, onSubmit, className, is
         </Form.Field>
         {selectedType !== 'add' &&
           <Form.Field name="businessType" control={form.control} label="ປະເພດຫົວໜ່ວຍທຸລະກິດ" required={false}>
-            <Form.Input.Combobox options={extendedTypeOptions} className="w-full" disabled={false} />
+            <Form.Input.Combobox placeholder="ເລືອກປະເພດຫົວໜ່ວຍທຸລະກິດ" options={extendedTypeOptions} className="w-full" disabled={false} />
           </Form.Field>
         }
         {selectedType === 'add' &&

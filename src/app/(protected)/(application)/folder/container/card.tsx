@@ -25,12 +25,13 @@ import RejectCreateForm from "./rejectForm";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
-export function FolderCardView({ 
-  folder, 
-  action, 
-  status, 
+export function FolderCardView({
+  folder,
+  action,
+  status,
+  onOpenChange,
   showReject = false,
-  onClick, 
+  onClick,
 }: FolderCardViewProps): JSX.Element {
   const router = useRouter();
   const { data: userRole } = useSession()
@@ -40,7 +41,7 @@ export function FolderCardView({
   const [folderToStatus, setFolderToStatus] = useState<number | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  
+
   const handleEdit = (id: number) => {
     router.push(`/folder/edit/${id}`);
   };
@@ -51,13 +52,22 @@ export function FolderCardView({
     router.push(`/folder/show/${id}`);
   };
   const DEFAULT_MAX_LENGTH = 20;
+
+  const { onSubmit, loading } = useFolderProgress({ id: folder?.id, status });
+  const setFolderToStatus2 = async (id: number) => {
+    console.log("loading", id, status);
+    if (!loading) {
+      await onSubmit();
+      onOpenChange?.(false);
+    }
+  };
   const truncateText = (text?: string, maxLength: number = DEFAULT_MAX_LENGTH): string => {
     if (!text) {
       return "";
     }
     return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
   };
-  const { editText = false, statusText = false, acceptText = false, approveText = false, reject = false, showDetail = false, application = false, edit = false } = action || {};
+  const { editText = false, statusText = false, statusText2 = false, acceptText = false, approveText = false, reject = false, showDetail = false, application = false, edit = false } = action || {};
   return (
     <div
       key={folder?.id}
@@ -85,8 +95,8 @@ export function FolderCardView({
           <div className='flex items-center'>
             {isShowing ? (
               <div className="text-xl font-bold">{folder?.name} </div>
-            ):(
-              <div className="text-xl font-bold">{truncateText(folder?.name)} </div> 
+            ) : (
+              <div className="text-xl font-bold">{truncateText(folder?.name)} </div>
             )}
           </div>
           <div className="flex gap-x-2 text-sm text-gray-500">
@@ -106,7 +116,7 @@ export function FolderCardView({
         <ScrollArea className=" h-28 w-full">
           <div className="gap-x-2 text-sm text-gray-500 space-y-2">
             {folder?.folderPrice?.map((item, index) => (
-              <div  key={index} className="border rounded-lg p-2">
+              <div key={index} className="border rounded-lg p-2">
                 <div> ປະເພດ: {`${item?.price?.name}`} </div>
                 <div className=" flex justify-between">
                   <span className="text-gray-500">{"ລວມຍອດເງິນ:"}</span>
@@ -127,7 +137,7 @@ export function FolderCardView({
             </div>
           </div>
         )}
-        <Separator/>
+        <Separator />
         {[
           { label: "ຈໍານວນຟອມ:", value: `${folder?.totalAmount?.toLocaleString()}` },
           { label: "ລວມຍອດເງິນ:", value: `${folder?.totalPrice?.toLocaleString()}` },
@@ -161,56 +171,68 @@ export function FolderCardView({
             </DialogContent>
           </Dialog>
         )}
-        {edit &&(
+        {edit && (
           <div className="flex justify-end">
-            <Button 
+            <Button
               className="mt-4 flex gap-1"
-              onClick={() => handleEdit(folder.id)}  
+              onClick={() => handleEdit(folder.id)}
             >
-              {userRole?.user.role === "POLICE_COMMANDER_PROVINCE" ||userRole?.user.role === "POLICE_COMMANDER" ? "ອະນຸມັດ" : "cແກ້ໄຂ"}
+              <Edit size={18} />
+              ແກ້ໄຂ
             </Button>
           </div>
         )}
         {statusText && (
           <div className="flex justify-end">
-            <Button 
+            <Button
               className="mt-4 flex gap-1"
               onClick={() => setFolderToStatus(folder.id)}
             >
-              <Send size={18}/>
-              {userRole?.user.role === "POLICE_COMMANDER_PROVINCE" ||userRole?.user.role === "POLICE_COMMANDER" ? "ອະນຸມັດ" : "ສົ່ງ"}
+              <Send size={18} />
+              {userRole?.user.role === "POLICE_COMMANDER_PROVINCE" || userRole?.user.role === "POLICE_COMMANDER" ? "ອະນຸມັດ" : "ສົ່ງ"}
+            </Button>
+          </div>
+        )}
+        {statusText2 && (
+          <div className="flex justify-end">
+            <Button
+              className="mt-4 flex gap-1"
+              onClick={() => setFolderToStatus2(folder.id)}
+            >
+              <Send size={18} />
+              {userRole?.user.role === "POLICE_COMMANDER_PROVINCE" || userRole?.user.role === "POLICE_COMMANDER" ? "ອະນຸມັດ" : "ສົ່ງ"}
             </Button>
           </div>
         )}
         {approveText && (
           <div className="flex justify-end">
-            <Button 
+            <Button
               className="mt-4 flex gap-1"
-              onClick={() => handleApprove(folder.id)}  
+              onClick={() => handleApprove(folder.id)}
             >
-              <CheckCheck size={18}/>
+              <CheckCheck size={18} />
               ຢັ້ງຢືນຮັບເງິນ
             </Button>
           </div>
         )}
         {(acceptText) && (
           <div className="flex justify-end">
-            <Button 
+            <Button
               className="mt-4 flex gap-1"
-              onClick={() => setFolderToStatus(folder.id)}  
+              onClick={() => setFolderToStatus(folder.id)}
             >
-              <CheckCheck size={18}/>
+              <CheckCheck size={18} />
               ຮັບເອກກະສານ
             </Button>
           </div>
         )}
         {(application) && (
           <div className="flex justify-end">
-            <Button 
+            <Button
               className="mt-4 flex gap-1"
-              onClick={onClick}  
+              onClick={onClick}
             >
-              <CheckCheck size={18}/>
+              <CheckCheck size={18} />
               ລົງທະບຽນດ່ວນ
             </Button>
           </div>
@@ -341,7 +363,7 @@ function FolderOptionsDropdown({
   );
 }
 
-function StatusConfirmationDialog({ isOpen, onClose, folder, status }: { isOpen: boolean; onClose: () => void; folder: IFolder , status: ProcessStatus }) {
+function StatusConfirmationDialog({ isOpen, onClose, folder, status }: { isOpen: boolean; onClose: () => void; folder: IFolder, status: ProcessStatus }) {
   const { onSubmit, loading } = useFolderProgress({ id: folder?.id, status });
   const handleConfirm = async () => {
     if (!loading) {
@@ -355,7 +377,7 @@ function StatusConfirmationDialog({ isOpen, onClose, folder, status }: { isOpen:
         <AlertDialogHeader>
           <AlertDialogTitle>ທ່ານແນ່ໃຈບໍ?</AlertDialogTitle>
           <AlertDialogDescription>
-            <WarningMessage/>
+            <WarningMessage />
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

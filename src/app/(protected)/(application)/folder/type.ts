@@ -46,6 +46,7 @@ export interface IAction {
     editText?: string;
     acceptText?: string;
     statusText?: string;
+    statusText2?: string;
     approveText?: string;
     showDetail?: string;
     reject?: string;
@@ -57,6 +58,7 @@ export interface FolderCardViewProps {
     folder: IFolder;
     action?: IAction;
     status: ProcessStatus;
+    onOpenChange?: (open: boolean) => void;
     showReject?: boolean;
     onClick?: () => void;
   }

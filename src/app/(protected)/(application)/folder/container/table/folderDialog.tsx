@@ -25,10 +25,10 @@ export function FolderDialog({ folderId, open, onOpenChange }:FolderDialogProps 
         }
     }, [data])
     return (
-        <Dialog open={open}>
+        <Dialog open={open} onOpenChange={onOpenChange}>
                 <DialogContent className="sm:max-w-[425px]">
                     {folder && (
-                        <FolderCardView folder={folder} status="FINANCE_UNDER_REVIEW" key={folder.id} action={{ editText: "ແກ້ໄຂ", statusText: "ສົ່ງເອກກະສານ", showDetail: "ລາຍລະອຽດ", edit: "ແກ້ໄຂ" }} />
+                        <FolderCardView folder={folder} status="FINANCE_UNDER_REVIEW" key={folder.id} onOpenChange={onOpenChange} action={{ editText: "ແກ້ໄຂ", statusText2: "ສົ່ງເອກກະສານ", showDetail: "ລາຍລະອຽດ", edit: "ແກ້ໄຂ" }} />
                     )}
                 </DialogContent>
         </Dialog>
