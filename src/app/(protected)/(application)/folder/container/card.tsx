@@ -53,7 +53,8 @@ export function FolderCardView({
   const DEFAULT_MAX_LENGTH = 20;
 
   const { onSubmit, loading } = useFolderProgress({ id: folder?.id, status });
-  const setFolderToStatus2 = async () => {
+  const setFolderToStatus2 = async (id: number) => {
+    console.log("loading", id, status);
     if (!loading) {
       await onSubmit();
       onOpenChange?.(false);
@@ -195,10 +196,10 @@ export function FolderCardView({
           <div className="flex justify-end">
             <Button
               className="mt-4 flex gap-1"
-              onClick={() => setFolderToStatus2()}
+              onClick={() => setFolderToStatus2(folder.id)}
             >
               <Send size={18} />
-              {userRole?.user.role === "POLICE_COMMANDER_PROVINCE" || userRole?.user.role === "POLICE_COMMANDER" ? "ອະນຸມັດ" : "ສົ່ງ"}
+              ສົ່ງ
             </Button>
           </div>
         )}
