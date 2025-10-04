@@ -4,7 +4,7 @@ import { Check } from 'lucide-react';
 
 export function StepIndicator({ steps, currentStep, onStepClick }: StepIndicatorProps) {
   return (
-    <div className="relative flex justify-between w-[130px] px-2">
+    <div className="relative flex justify-between w-[100px] px-2">
       <div className="absolute top-4 left-0 right-0 h-[1px] bg-gray-200" />
       <div
         className="absolute top-4 left-0 h-[1px] bg-primary transition-all duration-500 ease-in-out"

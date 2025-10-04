@@ -9,7 +9,7 @@ import type * as z from "zod";
 import { defaultValues, profileFormSchema } from "../container/form/schema";
 import { type IProfile } from "../type";
 
-export const useProfileForm = ({ handleNext }: { handleNext: () => void }) => {
+export const useProfileForm = ({ handleReset,handleResetForm }: { handleReset: () => void,handleResetForm: () => void }) => {
   const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof profileFormSchema>>({
     defaultValues,
@@ -38,13 +38,14 @@ export const useProfileForm = ({ handleNext }: { handleNext: () => void }) => {
       });
       showToast({ type: "success", title: "ລົງທະບຽນບຸກຄົນໃໝ່ສໍາເລັດ" });
       queryClient.invalidateQueries({ queryKey: ["profiles"] });
-      form.reset();
       form.setValue("phoneNumber", data.phoneNumber);
       form.setValue("overseasProvince", data.overseasProvince);
       form.setValue("identityIssueDate", data.identityIssueDate);
       form.setValue("identityExpiryDate", data.identityExpiryDate);
       form.setValue("identityType", data.identityType);
-      handleNext();
+      form.reset();
+      handleResetForm();
+      handleReset();
     } catch(error: any) {
       showToast({ type: "error", title: "ບໍ່ສາມາດລົງທະບຽນບຸກຄົນໃໝ່ໄດ້" });
       if (error.data.identityNumber || error.data.identityType ) {
