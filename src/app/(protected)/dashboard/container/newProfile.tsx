@@ -17,7 +17,7 @@ export function NewProfile({ profile }: { profile: IProfile[] }) {
                 <div className='flex flex-1 flex-wrap items-center justify-between'>
                   <div className='space-y-1'>
                     <p className='text-sm font-medium leading-none'>{profile?.firstName} {profile?.lastName}</p>
-                    <p className='text-sm text-muted-foreground'> {profile?.ethnicity.name} - {profile?.nationality.code} </p>
+                    {/* <p className='text-sm text-muted-foreground'> {profile?.ethnicity.name} - {profile?.nationality.code} </p> */}
                   </div>
                   <Badge variant={profile?.gender === "ຊາຍ" ? "outline" : "secondary"}>{`${profile.gender}`}</Badge>
                 </div>
