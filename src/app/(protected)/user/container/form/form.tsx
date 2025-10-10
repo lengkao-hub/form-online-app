@@ -14,7 +14,8 @@ const roleOptions = [
   { value: "FINANCE", label: "ທີມງານການເງິນ" },
   { value: "POLICE_OFFICER", label: "ເຈົ້າໜ້າທີ່ຕື່ມຟອມ" },
   { value: "VERSIFICATION_OFFICER", label: "ເຈົ້າໜ້າທີ່ກວດຂໍ້ມູນບັດ" },
-  { value: "POLICE_COMMANDER", label: "ເຈົ້າໜ້າທີ່ອະນຸມັດ" },
+  { value: "POLICE_COMMANDER_PROVINCE", label: "ເຈົ້າໜ້າທີ່ອະນຸມັດຂັ້ນແຂວງ" },
+  { value: "POLICE_COMMANDER", label: "ເຈົ້າໜ້າທີ່ອະນຸມັດສູນກາງ" },
   { value: "POLICE_PRODUCTION", label: "ເຈົ້າໜ້າທີ່ຜະລິດ" },
 ];
 

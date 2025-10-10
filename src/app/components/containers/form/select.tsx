@@ -24,6 +24,7 @@ type SelectProps = SelectCoreProps & {
     className?: string
     disabled?: boolean
     onKeyDown?: React.KeyboardEventHandler<HTMLElement>;
+    formRef?: React.RefObject<HTMLFormElement>; 
 };
 
 export const Select = forwardRef<
@@ -38,7 +39,11 @@ export const Select = forwardRef<
       value={props.value ? props.value : props.defaultValue}
     >
       <FormControl className="h-10">
-        <SelectTrigger className={cn("", props?.className)} onKeyDown={props.onKeyDown }>
+        <SelectTrigger 
+          className={cn("focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2", props?.className)} 
+          ref={ref as React.Ref<HTMLButtonElement>}
+          onKeyDown={(e) => handleKeyDownNextField(e, props.formRef)}
+        >
           <SelectValue placeholder={props?.defaultValue ?? "ເລືອກ"} />
         </SelectTrigger>
       </FormControl>
@@ -56,3 +61,27 @@ export const Select = forwardRef<
 });
 
 Select.displayName = "Select";
+
+
+export const handleKeyDownNextField = (
+  e: React.KeyboardEvent<HTMLElement>,
+  formRef?: React.RefObject<HTMLFormElement>
+) => {
+  if (e.key !== "Enter") return;
+
+  e.preventDefault();
+
+  const formEl = formRef?.current;
+  if (!formEl) return;
+
+  const focusables = Array.from(
+    formEl.querySelectorAll<HTMLElement>(
+      "input, select, textarea, button, [role='combobox'], [data-radix-select-trigger], [tabindex]:not([tabindex='-1'])"
+    )
+  ).filter(el => !el.hasAttribute("disabled") && el.offsetParent !== null);
+
+  const index = focusables.indexOf(e.currentTarget as HTMLElement);
+  if (index > -1 && focusables[index + 1]) {
+    focusables[index + 1].focus();
+  }
+};

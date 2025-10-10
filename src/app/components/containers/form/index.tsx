@@ -26,7 +26,8 @@ interface FormProps<TVariables extends FieldValues = FieldValues> {
     subtitle?: string;
     title?: string;
     className?: string
-    showButton?: boolean
+    showButton?: boolean;
+    formRef?: React.RefObject<HTMLFormElement>;
 }
 export const Form = <TVariables extends FieldValues>({
   formInstance,
@@ -37,10 +38,12 @@ export const Form = <TVariables extends FieldValues>({
   subtitle,
   className,
   showButton = true,
+  formRef,
 }: FormProps<TVariables>) => {
   return (
     <FormUI {...formInstance} >
       <form
+        ref={formRef}
         onSubmit={formInstance.handleSubmit(onSubmit)}
         className={cn(
           "w-full mx-auto sm:max-w-full lg:max-w-full",

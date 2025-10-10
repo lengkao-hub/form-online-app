@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { IOffice } from "../../office/type";
 import { IPrice } from "../../(finance)/price/type";
+import { ICompany } from "../../company/type";
 
 interface FolderPrice {
     amount: number;
@@ -31,32 +32,39 @@ export interface IFolder {
     status: string;
     billDate: string,
     billNumber: string,
+    companyId: number;
     createdAt: string;
     number?: INumber[];
     folderPrice: FolderPrice[];
     folderReject?: FolderReject[]
     totalAmount: number;
     totalPrice: number;
-    office: IOffice
+    office: IOffice;
+    company: ICompany;
 }
 export interface IAction {
     editText?: string;
     acceptText?: string;
     statusText?: string;
+    statusText2?: string;
     approveText?: string;
     showDetail?: string;
     reject?: string;
+    application?: string;
+    edit?: string;
   }
 
 export interface FolderCardViewProps {
     folder: IFolder;
     action?: IAction;
     status: ProcessStatus;
+    onOpenChange?: (open: boolean) => void;
     showReject?: boolean;
+    onClick?: () => void;
   }
 
 export type FolderType = "YELLOW" | "BLUE";
-export type ProcessStatus = "DEFAULT" | "PENDING" | "APPROVED_BY_POLICE" | "FINANCE_UNDER_REVIEW" | "POLICE_UNDER_REVIEW" | "IN_PRODUCTION" | "FINISHED" | "REJECTED";
+export type ProcessStatus = "DEFAULT" | "PENDING" | "APPROVED_BY_POLICE" | "FINANCE_UNDER_REVIEW" | "POLICE_UNDER_REVIEW" | "IN_PRODUCTION" | "FINISHED" | "REJECTED" | "REJECTED_BY_COMMANDER" | "APPROVED_BY_PROVINCE" | "APPROVED_BY_HQ";
 export interface processStatus {
     DEFAULT: string,
     PENDING: string,
@@ -66,4 +74,10 @@ export interface processStatus {
     IN_PRODUCTION: string,
     FINISHED: string,
     REJECTED: string,
+}
+
+export interface FolderDialogProps { 
+    folderId?: number, 
+    open: boolean, 
+    onOpenChange: (open: boolean) => void 
 }

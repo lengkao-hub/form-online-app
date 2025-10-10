@@ -36,11 +36,16 @@ export const useVillageFormDialog = (onOpenChange: (open: boolean) => void) => {
   });
   const onSubmit = async (data: z.infer<typeof villageFormSchema>) => {
     try {
-      await apiClient.post<IVillage>("/village", { data });
+      const response = await apiClient.post<{
+        status: string;
+        message: string;
+        result: IVillage;
+      }>("/village", { data });
       showToast({ type: "success", title: "ສ້າງບ້ານສໍາເລັດ" });
       form.reset();
       queryClient.invalidateQueries({ queryKey: ["villages"] });
       onOpenChange(false);
+      return response.result;
     } catch {
       showToast({ type: "error", title: "ບໍ່ສາມາດສ້າງບ້ານສໍາເລັດໄດ້" });
     }

@@ -11,7 +11,15 @@ export interface StepIndicatorProps {
   onStepClick: (stepNumber: number) => void;
 }
 
-export const useMultiStepForm = (steps: Step[]) => {
+export const useMultiStepForm = ({ 
+  steps,
+  setCount,
+  setRegistered,
+}: { 
+  steps: Step[] 
+  setCount?: React.Dispatch<React.SetStateAction<number>>;
+  setRegistered?: React.Dispatch<React.SetStateAction<number>>;
+}) => {
   const [step, setStep] = useState(1);
 
   const handleNext = () => {
@@ -29,6 +37,16 @@ export const useMultiStepForm = (steps: Step[]) => {
   };
   const handleReset = () => {
     setStep(1);
+    if (setCount && setRegistered) {
+      setCount(0);
+      setRegistered(0);
+    }
+    localStorage.setItem("profileIds", JSON.stringify([]));
+  };
+  const handleGotoStep = (stepNumber: number) => {
+    if (stepNumber >= 1 && stepNumber <= steps.length) {
+      setStep(stepNumber);
+    }
   };
 
   return {
@@ -37,6 +55,7 @@ export const useMultiStepForm = (steps: Step[]) => {
     handlePrevious,
     handleStepClick,
     handleReset,
+    handleGotoStep,
   };
 };
 

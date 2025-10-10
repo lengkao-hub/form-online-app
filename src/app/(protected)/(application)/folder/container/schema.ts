@@ -2,9 +2,17 @@ import { z } from "zod";
 
 export const formSchema = z
   .object({
+    id: z.number().optional(),
     name: z.string().min(1, "ກະລຸນາປ້ອນຊື່"),
-    billNumber: z.string().min(1, "ກະລຸນາປ້ອນເລກທີບິນ"),
-    billDate: z.date().or(z.string()).refine((value) => { return value != null && value !== ""; }, { message: "ກະລຸນາລະບຸວັນທີອອກບິນຮັບເງີນ" }),
+    // billNumber: z.string().optional(),
+    companyId: z.number({ message: "ກະລຸນາເລືອກຫົວໜ່ວຍທຸລະກິດ" }),
+    // billDate: z
+    //   .union([z.date(), z.string()])
+    //   .optional()
+    //   .refine(
+    //     (value) => value == null || value !== "",
+    //     { message: "ກະລຸນາລະບຸວັນທີອອກບິນຮັບເງີນ" },
+    //   ),
     folderPrice: z
       .array(
         z.object({
@@ -45,7 +53,7 @@ export const formDefaultValues = {
   billNumber: "",
 };
 
-export const  rejectFormDefaultValues = {
+export const rejectFormDefaultValues = {
   comment: "",
   folderId: 0,
   status: "REJECTED",

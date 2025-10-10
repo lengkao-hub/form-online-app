@@ -25,8 +25,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useOne } from "@/hooks/useOne"
 import { formatDate } from "@/lib/format-date"
-// import useApplicationList from "src/app/(protected)/application/hook/useTable"
-// import { useApplicationStatus } from "../../../application/hook/useApplicationStatus"
 import FolderCardView from "../../container/card"
 import { getOfficeIds } from "@/lib/getSession"
 import { ImageViewer } from "@/components/containers/image-viewer"
@@ -45,7 +43,6 @@ export default function FolderShow({ params }: { params: { id: number } }) {
   const [selectedIds, setSelectedIds] = useState<number[]>([])
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [viewMode, setViewMode] = useState<"table" | "grid">("table")
-
   const handleCheckboxChange = (id: number) => {
     setSelectedIds((prevIds) => {
       const isIdSelected = prevIds.includes(id)

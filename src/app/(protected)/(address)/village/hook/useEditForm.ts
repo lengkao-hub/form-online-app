@@ -55,7 +55,6 @@ const useFormReset = ({
       return;
     }
     const formValues: Partial<z.infer<typeof villageFormSchema>> = {
-      villageEnglish: village.villageEnglish,
       villageLao: village.villageLao,
       status: village.status,
       districtId: village.districtId,

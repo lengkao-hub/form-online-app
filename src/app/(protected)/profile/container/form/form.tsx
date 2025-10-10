@@ -8,6 +8,7 @@ import { type checkBlacklistFormSchema } from "src/app/(protected)/blacklist/con
 import { CurrentAddressSection, IdentitySection, OverseasAddressSection, PersonalInfoSection } from "./field";
 import { type profileFormSchema } from "./schema";
 import { AddVillageDialog } from "src/app/(protected)/(address)/village/container/addVillageDialog";
+import { useHandleEnterNavigation } from "@/lib/handleKeyDownNextField";
 
 interface ProfileFormProps {
   form: UseFormReturn<z.infer<typeof profileFormSchema>>;
@@ -18,7 +19,7 @@ interface ProfileFormProps {
   blackProfile?: z.infer<typeof checkBlacklistFormSchema>;
 }
 const ProfileForm: React.FC<ProfileFormProps> = ({ form, onSubmit, action = "create", blackProfile, handlePrevious }) => {
-  const { firstName, lastName, dateOfBirth, identityNumber } = blackProfile ?? {};
+  const { firstName, lastName, dateOfBirth, identityNumber, identityType } = blackProfile ?? {};
   const disabled = action === "create";
   const [isAddingVillage, setIsAddingVillage] = useState<boolean>(false); 
   const nextButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -29,17 +30,19 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ form, onSubmit, action = "cre
   useUpdateDefaultValues({ form, fieldName: "lastName", value: lastName, shouldUpdate: disabled });
   useUpdateDefaultValues({ form, fieldName: "dateOfBirth", value: dateOfBirth, shouldUpdate: disabled });
   useUpdateDefaultValues({ form, fieldName: "identityNumber", value: identityNumber, shouldUpdate: true });
+  const formRef = React.useRef<HTMLFormElement>(null);
+  useHandleEnterNavigation(formRef)
   return (
     <>
-      <Form formInstance={form} onSubmit={onSubmit} className="border-none shadow-none p-0" showButton={false}>
-        <PersonalInfoSection form={form} disabled={disabled}  />
-        <IdentitySection form={form} />
-        <CurrentAddressSection form={form} setIsAddingVillage={handleSetIsAddingVillage}/>
-        <OverseasAddressSection form={form} />
+      <Form formInstance={form} onSubmit={onSubmit} className="border-none shadow-none p-0" showButton={false} formRef={formRef}>
+        <PersonalInfoSection form={form} disabled={false}  action={disabled} formRef={formRef}/>
+        <IdentitySection form={form} identityType={identityType} formRef={formRef}/>
+        <CurrentAddressSection form={form} setIsAddingVillage={handleSetIsAddingVillage} formRef={formRef}/>
+        <OverseasAddressSection form={form} formRef={formRef}/>
         <div className=" space-x-3">
           {action === "create" && (
             <>
-              <Button ref={nextButtonRef} loading={form?.formState.isSubmitting} disabled={form?.formState.isSubmitting} >ໄປຕໍ່</Button>
+              <Button ref={nextButtonRef} loading={form?.formState.isSubmitting} disabled={form?.formState.isSubmitting} >ບັນທຶກ</Button>
               <Button variant="outline" onClick={handlePrevious} className="w-full sm:w-auto" > ກັບຄືນ </Button>
             </>
           )}
@@ -50,10 +53,15 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ form, onSubmit, action = "cre
           )}
         </div>
       </Form>
-      <AddVillageDialog open={isAddingVillage} onOpenChange={setIsAddingVillage}/>
+      <AddVillageDialog 
+        open={isAddingVillage} 
+        onOpenChange={setIsAddingVillage}
+        onSuccess={(newVillage) => {
+          form.setValue("currentVillageId", newVillage.id);
+        }}
+      />
     </>
   );
 };
 
 export default ProfileForm;
-

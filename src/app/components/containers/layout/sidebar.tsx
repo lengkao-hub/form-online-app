@@ -82,7 +82,6 @@ export default function Sidebar({
                 }`}
             >
               <span className="font-medium">ບັດຢັ້ງຢືນການພັກເຊົາຊົ່ວຄາວ</span>
-              <span className="text-xs">LIT Solution</span>
             </div>
           </div>
           <Button
@@ -115,7 +114,7 @@ export default function Sidebar({
             className={`h-5 w-5 ${isCollapsed ? "rotate-180" : ""}`}
           />
         </Button>
-        <UserCard isCollapsed={isCollapsed}/>
+        <UserCard isCollapsed={isCollapsed} className="hidden sm:block"/>
       </Layout>
     </aside>
   )

@@ -5,6 +5,7 @@ import { IPrice } from "../../(finance)/price/type";
 import { IProfile } from "../../profile/type";
 import { IVillage } from "../../(address)/village/type";
 import { IFolder } from "../folder/type";
+import { IVisaType } from "../../visa/type";
 
 export interface IApplication {
     no: number;
@@ -14,10 +15,15 @@ export interface IApplication {
     folderId: number;
     positionId: number;
     companyId: number;
+    visaType: IVisaType,
     registrationDocumentId: string | null;
     applicationType: "DEFAULT" | "OTHER_TYPES";
     expirationTerm: "ONE_YEAR" | "TWO_YEARS";
+    applicationFile: IApplicationFile[];
     issueDate: string;
+    visaIssuedAt: string;
+    visaIssuedDate: string;
+    visaExpiryDate: string;
     expirationDate: string;
     applicationNumber: string;
     status: "DEFAULT" | "APPROVED" |"PROCESS" |"FINISHED"
@@ -32,7 +38,7 @@ export interface IApplication {
     folder: IFolder;
     position: IPosition;
     office: IOffice | null;
-    application: IApplicationFile[],
+    // application: IApplicationFile[],
     printCount: number;
     dependBy: "VILLAGE" | "COMPANY";
     villageId: number | null;
@@ -82,4 +88,23 @@ export interface ILastApplication {
     id: number,
     issueDate: string,
     expirationDate: string, 
+}
+
+export interface IReportResponse {
+  result: {
+    total: {
+      male: number;
+      female: number;
+    };
+    nationalityCount: number;
+    rows: {
+      nationality: string;
+      visaType: string;
+      cardType: {
+        expirationTerm: string;
+        male: number;
+        female: number;
+      }[];
+    }[];
+  }
 }

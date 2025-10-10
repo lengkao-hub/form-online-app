@@ -27,6 +27,9 @@ export const applicationSchema = z.object({
   positionId: z.number().positive({
     message: "ກະລຸນາເລືອກຕຳແໜ່ງ",
   }),
+  visaTypeId: z.number().positive({
+    message: "ກະລຸນາເລືອກປະເພດວິຊ່າ",
+  }),
   companyId: z.number({
     message: "ກະລຸນາເລືອກຫົວໜ່ວຍທຸລະກິດ",
   }).optional(),
@@ -35,6 +38,12 @@ export const applicationSchema = z.object({
   }).optional(),
   type: z.string().min(1, {
     message: "ກະລຸນາເລືອກປະເພດ",
+  }),
+  visaIssuedAt: z.string().min(1, {
+    message: "ກະລຸນາເລືອກປະເພດ",
+  }),
+  visaNumber: z.string().min(1, {
+    message: "ກະລຸນາປ້ອນເລກທີວິຊ່າ",
   }),
   dependBy: z.string().min(1, {
     message: "ກະລຸນາເລືອກຂື້ນກັບ",
@@ -45,6 +54,16 @@ export const applicationSchema = z.object({
     .refine((value) => value !== null && value !== "", {
       message: "ວັນທີອອກ",
     }),
+  visaIssuedDate: z
+    .union([z.date(), z.string()])
+    .refine((value) => value !== null && value !== "", {
+      message: "ວັນທີອອກ",
+    }),
+  // visaExpiryDate: z
+  //   .union([z.date(), z.string()])
+  //   .refine((value) => value !== null && value !== "", {
+  //     message: "ວັນໝົດອາຍຸ",
+  //   }).optional(),
   expirationDate: z
     .union([z.date(), z.string()])
     .refine((value) => value !== null && value !== "", {
@@ -53,7 +72,6 @@ export const applicationSchema = z.object({
   status: z.string().min(1, {
     message: "Status is required.",
   }),
-  applicationNumber: z.string().min(1, { message: "ກະລຸນາລະບຸເລກທີໃບຄໍາຮ້ອງ" }),
   applicationFile: z.array(
     z.object({
       file: z
@@ -122,5 +140,8 @@ export const applicationDefaultValues = {
   type: "NEW",
   status: "DEFAULT",
   numberId: 0,
+  visaTypeId: 0,
   applicationFile: [],
+  visaIssuedAt: "",
+  visaNumber: "",
 };

@@ -21,13 +21,9 @@ export const companyFormSchema = z.object({
   businessRegisterBy: z.string().min(2, {
     message: "ອອດໂດຍ",
   }),
-  businessType: z.string().min(2, {
-    message: "ລະບຸປະເພດຫົວໜ່ວຍທຸລະກິດ",
-  }),
+  businessType: z.string().optional(),
   customBusinessType: z.string().optional(),
-  businessCode: z.string().regex(/^[A-Z0-9]*$/, {
-    message: "ເລກທະບຽນ",
-  }).optional(),
+  businessCode: z.string().optional(),
   companyFile: z.array(
     z.object({
       file: z
@@ -57,6 +53,15 @@ export const companyFormSchema = z.object({
   }
   return data;
 });
+
+export const companyQuickFormSchema = z.object({
+  companyId: z.number().positive({ message: "ກະລຸນາເລືອກຫົວໜ່ວຍທຸລະກິດ" }),
+  count: z.string().min(1, { message: "ກະລຸນາລະບຸຈໍານວນຄົນ" }),
+})
+export const companyQuickDefaultValues = {
+  companyId: 0,
+  count: "",
+}
 
 export const companyDefaultValues = {
   name: "",

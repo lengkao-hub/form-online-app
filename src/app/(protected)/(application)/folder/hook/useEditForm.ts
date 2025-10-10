@@ -33,7 +33,7 @@ export const useFolderEditForm = ({ id }: { id: number }) => {
       showToast({ type: "success", title: "ແກ້ໄຂຂໍ້ມູນແຟ້ມເອກກະສານສໍາເລັດ" });
       queryClient.invalidateQueries({ queryKey: ["folders"] });
       queryClient.invalidateQueries({ queryKey: [resourceWithId] });
-      router.back();
+      router.push(`/folder`);
     } catch {
       showToast({ type: "error", title: "ແກ້ໄຂຂໍ້ມູນແຟ້ມເອກກະສານ" });
     }
@@ -78,6 +78,9 @@ const resetFormValues = (
   }
   const formValues = {
     name: folder.name,
+    companyId: folder.companyId,
+    billDate: folder.billDate,
+    billNumber: folder.billNumber,
     folderPrice: folder.folderPrice?.map((price) => ({
       amount: price.amount,
       priceId: price.priceId,

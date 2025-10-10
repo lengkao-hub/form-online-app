@@ -8,6 +8,9 @@ import { IApplication, IApplicationColumns } from "../../../application/type";
 import { getIdentityLabel } from "src/app/(protected)/profile/lib";
 import { DataTableRowActions } from "@/components/containers/table/data-table-row-actions";
 import { formatDate } from "@/lib/format-date";
+import { useRouter } from "next/navigation";
+import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui";
+import { UserPen } from "lucide-react";
 
 const FullNameCell = ({ row }: IApplicationColumns) => (
   <div className="font-medium">
@@ -150,4 +153,34 @@ export const columnsProfile = ({ refetch }: { refetch: () => void }): Array<Colu
       return <DataTableRowActions rowId={rowId} resource="application" />;
     },
   },
+  {
+    accessorKey: "id",
+    header: "",
+    cell: ({ row: { original: row } }) => {
+      const rowId = Number(row.profile.id);
+      return <ProductEditProfile id={rowId}/>
+    },
+  },
 ];
+
+const ProductEditProfile = ({ id }: { id:number }) => {
+  const router = useRouter();
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button 
+            variant="ghost"
+            onClick={() => router.push(`/profile/edit/${id}`)}
+            className="p-2"
+          >
+            <UserPen className='h-6 w-6 opacity-70'/>
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>ແກ້ໄຂຂໍ້ມູນບຸກຄົນ</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  )
+}

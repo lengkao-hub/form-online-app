@@ -21,7 +21,7 @@ export const columnsUser: Array<ColumnDef<IUser>> = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center gap-3">
-          <span className="font-medium">{row.original.username}</span>
+          <span className="font-normal">{row.original.username}</span>
         </div>
       )
     },
@@ -40,7 +40,7 @@ export const columnsUser: Array<ColumnDef<IUser>> = [
   },
   {
     accessorKey: "email",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="ອີເມວ" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="ອີເມວ"/>,
     cell: ({ row }) => <span className="text-muted-foreground text-sm">{row.original.email || "—"}</span>,
   },
   {
@@ -58,7 +58,7 @@ export const columnsUser: Array<ColumnDef<IUser>> = [
             <Badge
               key={item.id}
               variant="outline"
-              className="bg-primary/5 hover:bg-primary/10 transition-colors text-xs py-0.5"
+              className="bg-primary/5 hover:bg-primary/10 transition-colors font-normal text-xs py-0.5"
             >
               {item.office.name}
             </Badge>

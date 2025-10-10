@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+/* eslint-disable max-nested-callbacks */
+import { useEffect, useState } from "react";
 import { useForm, type UseFormReset } from "react-hook-form";
 import { type z } from "zod";
 
@@ -26,7 +27,9 @@ export const useApplicationEditForm = ({ id }: { id: number }) => {
     resolver: zodResolver(applicationSchema),
     defaultValues: applicationDefaultValues,
   });
-  useFormReset({ application, loading, formReset: form.reset });
+
+  const [removedFileIds, setRemovedFileIds] = useState<number[]>([]);
+  useFormReset({ application, loading, formReset: form.reset, removedFileIds });
   const onSubmit = async (data: z.infer<typeof applicationSchema>) => {
     try {
       const FormData = buildFormData({ data, fieldName: "applicationFile" });
@@ -45,17 +48,19 @@ export const useApplicationEditForm = ({ id }: { id: number }) => {
       showToast({ type: "error", title: "ບໍ່ສາມາດແກ້ໄຂຂໍ້ມູນ" });
     }
   };
-  return { form, onSubmit };
+  return { form, onSubmit, setRemovedFileIds };
 };
 
 const useFormReset = ({
   application,
   loading,
   formReset,
+  removedFileIds,
 }: {
   application: IApplication | null,
   loading: boolean,
-  formReset: UseFormReset<z.infer<typeof applicationSchema>>
+  formReset: UseFormReset<z.infer<typeof applicationSchema>>,
+  removedFileIds: number[],
 }) => {
   useEffect(() => {
     const shouldResetForm = application && !loading;
@@ -70,12 +75,43 @@ const useFormReset = ({
       type: application.type,
       expirationTerm: application.expirationTerm,
       issueDate: application.issueDate,
-      applicationNumber: application.applicationNumber,
+      visaTypeId: application.visaType.id,
+      visaIssuedAt: application.visaIssuedAt,
+      visaIssuedDate: application.visaIssuedDate,
       expirationDate: application.expirationDate,
       status: application.status,
       numberId: application.numberId,
       dependBy: application.dependBy,
       villageId: application.villageId ?? 0,
+      applicationFile: Array.isArray(application.applicationFile)
+        ? application.applicationFile
+          .filter((file: any) => !removedFileIds.includes(file.id))
+          .map((file: any) => {
+            if (file.filePath && typeof file.filePath === "string") {
+              return {
+                ...file,
+                filePath: "",
+                preview: file.filePath,
+                name: file.name ?? "",
+              };
+            }
+            if (file.filePath instanceof Blob) {
+              const newFile = new File([file.filePath], file.name || "document.pdf");
+              return {
+                ...file,
+                filePath: newFile,
+                preview: URL.createObjectURL(newFile),
+                name: file.name ?? "",
+              };
+            }
+            return {
+              ...file,
+              filePath: "",
+              preview: "",
+              name: file.name ?? "",
+            };
+          })
+        : [],
     };
     formReset(formValues, {
       keepDefaultValues: true,

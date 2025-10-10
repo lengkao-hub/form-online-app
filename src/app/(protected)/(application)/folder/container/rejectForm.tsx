@@ -6,7 +6,7 @@ import { useUpdateDefaultValues } from "@/lib/update-default-values";
 
 interface RejectCreateFormCreateFormProps {
     folderId: number
-    setDialogOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setDialogOpen: (open: boolean) => void
 }
 
 const RejectCreateForm: React.FC<RejectCreateFormCreateFormProps> = ({ folderId, setDialogOpen }) => {

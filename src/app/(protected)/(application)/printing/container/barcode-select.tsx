@@ -20,7 +20,7 @@ export function BarCodeOptions({ onChange }: BarCodeOptionsProps) {
       <SelectContent>
         <SelectGroup>
           <SelectItem value="barcode">1.Barcode</SelectItem>
-          <SelectItem value="qrcode">2. QR code(Beta)</SelectItem>
+          <SelectItem value="qrcode">2.QR code</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>

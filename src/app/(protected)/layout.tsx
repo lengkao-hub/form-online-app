@@ -16,7 +16,7 @@ export default function ProtectedLayout({ children }: { children: React.ReactNod
           <ThemeProvider defaultTheme="light" storageKey="ui-theme">
             <AppShell >
               <Layout className="">
-                <Layout.Header className="">
+                <Layout.Header className="hidden md:block">
                   <div className="flex flex-col sm:flex-row justify-between w-full">
                     <ChangelogVersion/>
                     <div className="flex items-center gap-x-2 ">

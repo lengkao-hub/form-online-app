@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@media print {
+  .qr-wrapper svg {
+    width: 44px !important;
+    height: 44px !important;
+  }
+}
+
 @layer base {
   @font-face {
     font-family: "Phetsarath";
@@ -14,7 +21,7 @@
   @font-face {
     font-family: "TimesNewRoman";
     src: url("/fonts/OPTITimes-Roman.otf") format("opentype");
-    font-weight: 400;
+    font-weight: 300;
     font-style: normal;
     font-display: swap;
     unicode-range: U+0000-007F;
@@ -78,7 +85,7 @@
   
 
 :root  {
-  --background: 198.6 100% 88%;
+  --background: 198.6 70% 88%;
   --foreground: 198.6 5% 0%;
   --card: 198.6 50% 90%;
   --card-foreground: 198.6 5% 10%;
@@ -99,7 +106,7 @@
   --ring: 198.6 88.7% 48.4%;
   --radius: 0.5rem;
 }
-.dark  {
+/* .dark  {
   --background: 198.6 50% 5%;
   --foreground: 198.6 5% 90%;
   --card: 198.6 50% 0%;
@@ -120,7 +127,7 @@
   --input: 198.6 30% 18%;
   --ring: 198.6 88.7% 48.4%;
   --radius: 0.5rem;
-}
+} */
 
 
 

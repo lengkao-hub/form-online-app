@@ -18,6 +18,7 @@ import useVillageCombobox from "src/app/(protected)/(address)/village/hook/useDi
 import useFolderCombobox from "../../../folder/hook/useCombobox";
 import { DocsDialog, UploadDocsDialog } from "../table/docsPreviewDialog";
 import { IApplication, IApplicationFile } from "../../type";
+import useVisaCombobox from "src/app/(protected)/visa/hook/useVisaCombobox";
 
 const formTitle = "ອອກບັດໃຫມ່";
 const formSubtitle = "ກະລຸນາປ້ອນຂໍ້ມູນອອກບັດໃຫມ່";
@@ -36,12 +37,13 @@ interface ApplicationFormProps {
 const ApplicationFormEdit: React.FC<ApplicationFormProps> = ({ form, onSubmit, profileId }) => {
   const folder = form.watch("folderId");
   const dependBy = form.watch("dependBy");
-  const { result: folderOptions } = useFolderCombobox({ status: "APPROVED_BY_POLICE" });
+  const { result: folderOptions } = useFolderCombobox({ status: "IN_PRODUCTION" });
   const { result: numberOptions } = useeNumberCombobox({ folderId: folder, isAvailable: false });
   const { result: companyOptions } = useCompanyCombobox();
   const { result: positionOptions } = usePositionCombobox();
   const dependByOptions = [{ label: "ຂື້ນກັບບ້ານ", value: "VILLAGE" }, { label: "ຫົວໜ່ວຍທຸລະກິດ", value: "COMPANY" }];
   const { result: villageOptions } = useVillageCombobox({});
+  const { result: visaoptions } = useVisaCombobox();
   return (
     <div className="w-fit space-y-6 mx-auto">
       <ProfileCard profileId={profileId} />
@@ -51,15 +53,24 @@ const ApplicationFormEdit: React.FC<ApplicationFormProps> = ({ form, onSubmit, p
           <div className="grid gap-4 sm:grid-cols-1">
             <div className="grid gap-4 sm:grid-cols-2">
               <Form.Field name="folderId" control={form.control} label="ເລືອກແຟ້ມ">
-                <Form.Input.Combobox placeholder="ແຟ້ມ" className="w-96" options={folderOptions} />
+                <Form.Input.Combobox placeholder="ແຟ້ມ" className="w-96" options={folderOptions} disabled/>
               </Form.Field>
               <Form.Field name="numberId" control={form.control} label={`ເລືອກຟອມເລກທີ`} >
-                <Form.Input.Combobox placeholder="ຟອມເລກທິ" className="w-96" options={numberOptions} />
+                <Form.Input.Combobox placeholder="ຟອມເລກທິ" className="w-96" options={numberOptions} disabled/>
               </Form.Field>
+              <Form.Field name="visaTypeId" control={form.control} label="ປະເພດວິຊ່າ" >
+                <Form.Input.Combobox placeholder="ວິຊ່າ" className="w-96" options={visaoptions} />
+              </Form.Field>
+              <Form.Field name="visaIssuedAt" control={form.control} label="ບ່ອນຂໍວິຊ່າ" >
+                <Form.Input.Input placeholder="ບ່ອນຂໍວິຊ່າ" className="w-96" />
+              </Form.Field>
+              <Form.Field name="visaIssuedDate" control={form.control} label="ລົງວັນທີ" >
+                <Form.Input.DateTimePicker  />
+              </Form.Field>
+              {/* <Form.Field name="visaExpiryDate" control={form.control} label="ວັນທີໝົດອາຍຸ" >
+                <Form.Input.DateTimePicker  />
+              </Form.Field> */}
             </div>
-            <Form.Field name="applicationNumber" control={form.control} label="ເລກທີໃບຄໍາຮ້ອງ" >
-              <Form.Input.Input placeholder="ເລກທີໃບຄໍາຮ້ອງ" />
-            </Form.Field>
           </div>
         </div>
         <div className="space-y-4">
@@ -136,8 +147,8 @@ const ProfileCard = ({ profileId }: { profileId: number }) => {
             <Badge className="mt-2">
               {gender}
             </Badge>
-            <div className="flex flex-col items-center sm:items-start">
-              ເອກະສານຢັ້ງຢືນ: {identityType} {identityNumber}
+            <div className="flex gap-2 items-center sm:items-start">
+              ເອກະສານຢັ້ງຢືນ: <p className="capitalize">{identityType}</p> <p className="uppercase">{identityNumber}</p>
             </div>
             <div className="flex flex-col items-center sm:items-start">
               ອາຍຸ: {formatDate(identityIssueDate ?? "")} - {formatDate(identityExpiryDate ?? "")}
@@ -214,4 +225,3 @@ const ProfileCard = ({ profileId }: { profileId: number }) => {
     </div>
   );
 };
-

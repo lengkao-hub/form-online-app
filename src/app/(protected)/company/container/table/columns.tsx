@@ -3,6 +3,8 @@ import { DataTableRowActions } from "@/components/containers/table/data-table-ro
 import { Badge } from "@/components/ui";
 import { type ColumnDef } from "@tanstack/react-table";
 import { type ICompany } from "../../type";
+import { Trash2 } from "lucide-react";
+import { useDelete } from "../../hook/useDelete";
 
 export const columnsCompany: Array<ColumnDef<ICompany>> = [
   {
@@ -55,6 +57,25 @@ export const columnsCompany: Array<ColumnDef<ICompany>> = [
     cell: ({ row: { original: row } }) => {
       const rwoId = row.id;
       return <DataTableRowActions rowId={rwoId} resource="company" />;
+    },
+  },
+  {
+    accessorKey: "id",
+    header: "",
+    cell: ({ row: { original: row } }) => {
+      const rwoId = row.id;
+      const { onSubmit, loading } = useDelete({ id: rwoId });
+      return (
+        <>
+          <button 
+            className="hover:text-red-500"
+            onClick={onSubmit}
+            disabled={loading}
+          >
+            <Trash2 size={18}/>
+          </button>
+        </>
+      );
     },
   },
 ];

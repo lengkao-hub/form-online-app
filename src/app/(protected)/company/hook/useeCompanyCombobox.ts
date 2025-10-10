@@ -38,7 +38,7 @@ export default useCompanyCombobox;
 
 function useComboboxMapping(folderData: ICompany[]): Array<{ label: string; value: string | number; }> {
   return folderData.map((item, index: number) => ({
-    label: `${index + 1}. ຊື່ ${item.name}`,
+    label: `${index + 1}. ${item.name}`,
     value: item.id,
   }));
 }

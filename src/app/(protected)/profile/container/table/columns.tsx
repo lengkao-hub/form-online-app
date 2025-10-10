@@ -21,8 +21,8 @@ const DocumentIdentityCell = ({ row }: IProfileColumns) => {
   const number = row?.original?.identityNumber;
   return (
     <div className="">
-      <p className="font-semibold text-sm text-muted-foreground">{identityType}</p>
-      <p className="font-semibold">{number}</p>
+      <p className="text-sm text-muted-foreground">{identityType}</p>
+      <p className="">{number}</p>
     </div>
   );
 };
@@ -56,7 +56,7 @@ const userRole = () => {
 export const columnsProfile: Array<ColumnDef<IProfile>> = [
   {
     accessorKey: "image",
-    header: "ຮູບ ໃຫມ່​",
+    header: "ຮູບ​",
     cell: ({ row }) => {
       const profileGallery = row.original?.profileGallery as object as IProfileGallery[] || [];
       return(
@@ -73,18 +73,9 @@ export const columnsProfile: Array<ColumnDef<IProfile>> = [
     },
   },
   {
-    accessorKey: "oldImage",
-    header: "ຮູບ ເກົ່າ",
-    cell: ({ row }) => <ImageViewer src={row.original?.oldImage} className="my-1 h-14 w-14" />,
-  },
-  {
     accessorKey: "firstName",
     header: "ຊື່ ແລະ ນາມສະກຸນ",
     cell: ({ row }) => <FullNameCell row={row} />,
-  },
-  {
-    accessorKey: "applicationNumber",
-    header: "ເລກທີໃບຄໍາຮ້ອງ",
   },
   {
     accessorKey: "barcode",
@@ -98,6 +89,9 @@ export const columnsProfile: Array<ColumnDef<IProfile>> = [
   {
     accessorKey: "phoneNumber",
     header: "ເບີໂທລະສັບ",
+    cell: ({ row }) => {
+      return <p>{row.original.phoneNumber || "ບໍ່ມີເບີໂທ"}</p>
+    },
   },
   {
     accessorKey: "dateOfBirth",

@@ -99,7 +99,7 @@ export const columnsBlacklistProfile: Array<ColumnDef<IBlacklist>> = [
     accessorKey: "id",
     header: "",
     cell: ({ row: { original: row } }) => {
-      const rwoId = row.id;
+      const rwoId = row.profileId;
       return <DataTableRowActions rowId={rwoId} resource="profile" />;
     },
   },

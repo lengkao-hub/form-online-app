@@ -16,12 +16,15 @@ import { type applicationSchema } from "./schema";
 import { useUpdateDefaultValues } from "@/lib/update-default-values";
 import { useOne } from "@/hooks/useOne";
 import { IProfile } from "src/app/(protected)/profile/type";
-import useVillageCombobox from "src/app/(protected)/(address)/village/hook/useDistrictCombobox";
 import { getOfficeId } from "@/lib/getSession";
 import useFolderCombobox from "../../../folder/hook/useCombobox";
 import { useEffect, useState } from "react";
 import { IApplication, IApplicationFile } from "../../type";
 import { DocsDialog, UploadDocsDialog } from "../table/docsPreviewDialog";
+import useVisaCombobox from "src/app/(protected)/visa/hook/useVisaCombobox";
+import { AddPositionDialog } from "src/app/(protected)/position/container/table/addPositionDialog";
+import { useHandleEnterNavigation } from "@/lib/handleKeyDownNextField";
+import React from "react";
 
 const formTitle = "ອອກບັດໃຫມ່";
 const formTitle2 = "ອອກບັດຄືນ";
@@ -34,30 +37,51 @@ const expirationTermOptions = [
 
 interface ApplicationFormProps {
   profileId: number;
+  selectedFolderId?: number;
   form: UseFormReturn<z.infer<typeof applicationSchema>>;
   onSubmit: (data: z.infer<typeof applicationSchema>) => Promise<void>;
 }
 
-const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profileId }) => {
+const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profileId, selectedFolderId }) => {
   const [applicationNumber, setApplicationNumber] = useState<string>("");
+  const [isAddingPosition, setIsAddingPosition] = useState<boolean>(false);
+  const formRef = React.useRef<HTMLFormElement>(null);
+  useHandleEnterNavigation(formRef)
   const officeId = getOfficeId()
   const pathname = usePathname();
   const segments = pathname.split('/');
   const lastSegment = segments[segments.length - 1];
   const folder = form.watch("folderId");
   const numberId = form.watch("numberId");
-  const dependBy = form.watch("dependBy");
-  const { result: folderOptions } = useFolderCombobox({ status: "APPROVED_BY_POLICE", officeId });
+  const { result: folderOptions } = useFolderCombobox({ status: "POLICE_UNDER_REVIEW", officeId });
+  const { result: visaoptions } = useVisaCombobox();
   const { result: numberOptions, count } = useeNumberCombobox({ folderId: folder });
   const foundNumber = numberOptions.find((item) => item.value === numberId);
+  const foundFolder = folderOptions.find((item) => item.value === folder)
   useUpdateDefaultValues({ form, fieldName: "expirationTerm", value: foundNumber?.duration, shouldUpdate: foundNumber?.value });
   useUpdateDefaultValues({ form, fieldName: "positionId", value: 10, shouldUpdate: true });
+  useUpdateDefaultValues({ form, fieldName: "dependBy", value: "COMPANY", shouldUpdate: true });
+  useUpdateDefaultValues({ form, fieldName: "companyId", value: Number(foundFolder?.companyId), shouldUpdate: true });
+  useUpdateDefaultValues({ form, fieldName: "folderId", value: selectedFolderId ? selectedFolderId : 0, shouldUpdate: true });
+  useUpdateDefaultValues({ form, fieldName: "numberId", value: numberOptions.length > 0 ? numberOptions[0].value : 0, shouldUpdate: true });
   if (lastSegment === "NEW") {
     useUpdateDefaultValues({ form, fieldName: "applicationNumber", value: applicationNumber, shouldUpdate: true });
   }
   const { result: companyOptions } = useCompanyCombobox();
   const { result: positionOptions } = usePositionCombobox();
-  const { result: villageOptions } = useVillageCombobox({});
+  const extendedPositionOptions = [
+    { label: '+ ເພີ່ມຕໍາແໜ່ງ', value: 'addPosition' },
+    ...positionOptions,
+  ];
+  const handlePositionChange = (value: string | number) => {
+    if (value === 'addPosition') {
+      setIsAddingPosition?.(true);
+      form.setValue('positionId', 0);
+    } else {
+      setIsAddingPosition?.(false);
+      form.setValue('positionId', Number(value));
+    }
+  };
   useEffect(() => {
     const expirationTerm = form.watch("expirationTerm");
     if (expirationTerm) {
@@ -72,26 +96,32 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
       });
     }
   }, [form.watch("expirationTerm")]);
-  const dependByOptions = [{ label: "ຂື້ນກັບບ້ານ", value: "VILLAGE" }, { label: "ຫົວໜ່ວຍທຸລະກິດ", value: "COMPANY" }];
   return (
     <div className="w-fit space-y-6 mx-auto">
       <ProfileCard profileId={profileId} onSendAppNumber={setApplicationNumber}/>
       <Form formInstance={form} onSubmit={onSubmit} title={lastSegment === "NEW" ? formTitle : formTitle2}
-        subtitle={formSubtitle}
+        subtitle={formSubtitle} formRef={formRef}
       >
         <div className="space-y-4 -mt-8">
           <h3 className="text-lg font-medium">ຂໍ້ມູນແຟ້ມ ແລະ ຟອມ</h3>
-          <div className="grid gap-4 sm:grid-cols-1">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Form.Field name="folderId" control={form.control} label="ເລືອກແຟ້ມ">
-                <Form.Input.Combobox placeholder="ແຟ້ມ" className="w-96" options={folderOptions} />
-              </Form.Field>
-              <Form.Field name="numberId" control={form.control} label={`ເລືອກຟອມເລກທີ(ຈໍານວນ ${count} ເລກທີ)`} >
-                <Form.Input.Combobox placeholder="ຟອມເລກທິ" className="w-96" options={numberOptions} />
-              </Form.Field>
-            </div>
-            <Form.Field name="applicationNumber" control={form.control} label="ເລກທີໃບຄໍາຮ້ອງ" >
-              <Form.Input.Input placeholder="ເລກທີໃບຄໍາຮ້ອງ" />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Form.Field name="folderId" control={form.control} label="ເລືອກແຟ້ມ">
+              <Form.Input.Combobox placeholder="ແຟ້ມ" className="w-96" options={folderOptions} formRef={formRef}/>
+            </Form.Field>
+            <Form.Field name="numberId" control={form.control} label={`ເລືອກຟອມເລກທີ(ຈໍານວນ ${count} ເລກທີ)`} >
+              <Form.Input.Combobox placeholder="ຟອມເລກທິ" className="w-96" options={numberOptions} formRef={formRef}/>
+            </Form.Field>
+            <Form.Field name="visaTypeId" control={form.control} label="ປະເພດວິຊ່າ" >
+              <Form.Input.Combobox placeholder="ວິຊ່າ" className="w-96" options={visaoptions} formRef={formRef}/>
+            </Form.Field>
+            <Form.Field name="visaIssuedAt" control={form.control} label="ບ່ອນຂໍວິຊ່າ" >
+              <Form.Input.Input placeholder="ບ່ອນຂໍວິຊ່າ" className="w-96" />
+            </Form.Field>
+            <Form.Field name="visaIssuedDate" control={form.control} label="ມື້ລົງວັນທີວິຊ່າ">
+              <Form.Input.DateTimePicker label="ມື້ລົງວັນທີວິຊ່າ"/>
+            </Form.Field>
+            <Form.Field name="visaNumber" control={form.control} label="ເລກທີວິຊ່າ" >
+              <Form.Input.Input placeholder="ເລກທີວິຊ່າ" className="w-96" />
             </Form.Field>
           </div>
         </div>
@@ -99,25 +129,13 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
           <h3 className="text-lg font-medium">ຂໍ້ມູນຫົວໜ່ວຍທຸລະກິດ</h3>
           <div className="grid gap-4 sm:grid-cols-1">
             <Form.Field name="positionId" control={form.control} label="ເລືອກຕຳແໜ່ງ" >
-              <Form.Input.Combobox placeholder="ຕຳແໜ່ງ" className="w-full" options={positionOptions} />
+              <Form.Input.Combobox placeholder="ຕຳແໜ່ງ" className="w-full" options={extendedPositionOptions} onChange={handlePositionChange} formRef={formRef}/>
             </Form.Field>
           </div>
         </div>
-        <div className="w-full">
-          <Form.Field name="dependBy" control={form.control} label="ຂື້ນກັບ" required={false}>
-            <Form.Input.Radio options={dependByOptions} className=" " />
-          </Form.Field>
-        </div>
-        {dependBy === "COMPANY" && (
-          <Form.Field name="companyId" control={form.control} label="ເລືອກຫົວໜ່ວຍທຸລະກິດ">
-            <Form.Input.Combobox placeholder="ຫົວໜ່ວຍທຸລະກິດ" className="w-full" options={companyOptions} />
-          </Form.Field>
-        )}
-        {dependBy === "VILLAGE" && (
-          <Form.Field name="villageId" control={form.control} label="ເລືອກບ້ານ">
-            <Form.Input.Combobox placeholder="ເລືອກບ້ານ" className="w-full" options={villageOptions} />
-          </Form.Field>
-        )}
+        <Form.Field name="companyId" control={form.control} label="ເລືອກຫົວໜ່ວຍທຸລະກິດ">
+          <Form.Input.Combobox placeholder="ຫົວໜ່ວຍທຸລະກິດ" className="w-full" options={companyOptions} formRef={formRef}/>
+        </Form.Field>
         <Form.Field name="applicationFile" control={form.control} label="ອັບໂຫຼດເອກະສານ" required={false}>
           <Form.Input.File name="applicationFile" control={form.control} />
         </Form.Field>
@@ -136,8 +154,14 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ form, onSubmit, profi
           </div>
         </div>
       </Form>
+      <AddPositionDialog 
+        open={isAddingPosition} 
+        onOpenChange={setIsAddingPosition}
+        onSuccess={(newPosition) => {
+          form.setValue("positionId", newPosition.id);
+        }}
+      />
     </div>
-
   );
 };
 

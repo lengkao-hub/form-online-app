@@ -1,5 +1,6 @@
+/* eslint-disable max-lines */
 "use client";
-import { BadgeCheck, BadgeDollarSign, Edit, Folders, MessageSquareX, MoreHorizontal, Send } from "lucide-react";
+import { BadgeCheck, BadgeDollarSign, CheckCheck, CornerDownLeft, Edit, Folders, MessageSquareX, MoreHorizontal, Send } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -21,10 +22,24 @@ import { useFolderProgress } from "../hook/useFolderProgress";
 import { FolderCardViewProps, IAction, ProcessStatus, type IFolder } from "../type";
 import { formatDate } from "@/lib/format-date";
 import RejectCreateForm from "./rejectForm";
+import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
-export function FolderCardView({ folder, action, status, showReject = false }: FolderCardViewProps): JSX.Element {
+export function FolderCardView({
+  folder,
+  action,
+  status,
+  onOpenChange,
+  showReject = false,
+  onClick,
+}: FolderCardViewProps): JSX.Element {
   const router = useRouter();
+  const { data: userRole } = useSession()
+  const pathName = usePathname()
+  const basePath = pathName.split("/").slice(0, 3).join("/") + "/";
+  const isShowing = basePath === "/folder/show/";
   const [folderToStatus, setFolderToStatus] = useState<number | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleEdit = (id: number) => {
     router.push(`/folder/edit/${id}`);
@@ -36,13 +51,21 @@ export function FolderCardView({ folder, action, status, showReject = false }: F
     router.push(`/folder/show/${id}`);
   };
   const DEFAULT_MAX_LENGTH = 20;
+
+  const { onSubmit, loading } = useFolderProgress({ id: folder?.id, status });
+  const setFolderToStatus2 = async () => {
+    if (!loading) {
+      await onSubmit();
+      onOpenChange?.(false);
+    }
+  };
   const truncateText = (text?: string, maxLength: number = DEFAULT_MAX_LENGTH): string => {
     if (!text) {
       return "";
     }
     return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
   };
-  const { editText = false, statusText = false, acceptText = false, approveText = false, reject = false, showDetail = false } = action || {};
+  const { editText = false, statusText = false, statusText2 = false, acceptText = false, approveText = false, reject = false, showDetail = false, application = false, edit = false } = action || {};
   return (
     <div
       key={folder?.id}
@@ -59,6 +82,8 @@ export function FolderCardView({ folder, action, status, showReject = false }: F
             action={action}
             onStatus={() => { setFolderToStatus(folder?.id); }}
             showReject={showReject}
+            dialogOpen={dialogOpen}
+            setDialogOpen={setDialogOpen}
           />
         )}
       </div>
@@ -66,20 +91,21 @@ export function FolderCardView({ folder, action, status, showReject = false }: F
         <Folders className={cn("w-14 h-14 text-yellow-500")} />
         <div>
           <div className='flex items-center'>
-            <div className="text-xl font-bold">{truncateText(folder?.name)} </div>
+            {isShowing ? (
+              <div className="text-xl font-bold">{folder?.name} </div>
+            ) : (
+              <div className="text-xl font-bold">{truncateText(folder?.name)} </div>
+            )}
           </div>
           <div className="flex gap-x-2 text-sm text-gray-500">
             <span>ແຟ້ມເລກທີ: {folder?.code}</span>
             <span>ສ້າງວັນທີ: {formatDate({ date: folder?.createdAt })}</span>
           </div>
           <div className="flex gap-x-2 text-sm text-gray-500">
-            <span>ວັນທີອອກບິນຮັບເງີນ: {formatDate( { date: folder?.billDate })}</span>
-          </div>
-          <div className="flex gap-x-2 text-sm text-gray-500">
-            <span>ບິນເລກທີ: { folder?.billNumber || "---" }</span>
-          </div>
-          <div className="flex gap-x-2 text-sm text-gray-500">
             <span>ສາຂາ: {folder?.office?.name}</span>
+          </div>
+          <div className="flex gap-x-2 text-sm text-gray-500">
+            <span>{folder?.company?.name}</span>
           </div>
         </div>
       </div>
@@ -88,7 +114,7 @@ export function FolderCardView({ folder, action, status, showReject = false }: F
         <ScrollArea className=" h-28 w-full">
           <div className="gap-x-2 text-sm text-gray-500 space-y-2">
             {folder?.folderPrice?.map((item, index) => (
-              <div  key={index} className="border rounded-lg p-2">
+              <div key={index} className="border rounded-lg p-2">
                 <div> ປະເພດ: {`${item?.price?.name}`} </div>
                 <div className=" flex justify-between">
                   <span className="text-gray-500">{"ລວມຍອດເງິນ:"}</span>
@@ -109,7 +135,7 @@ export function FolderCardView({ folder, action, status, showReject = false }: F
             </div>
           </div>
         )}
-        <Separator/>
+        <Separator />
         {[
           { label: "ຈໍານວນຟອມ:", value: `${folder?.totalAmount?.toLocaleString()}` },
           { label: "ລວມຍອດເງິນ:", value: `${folder?.totalPrice?.toLocaleString()}` },
@@ -121,6 +147,95 @@ export function FolderCardView({ folder, action, status, showReject = false }: F
         ))}
       </div>
       <FolderNumbersAccordion folder={folder} />
+      <div className="flex gap-1 justify-end items-end">
+        {reject && (
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger asChild >
+              <Button
+                className="bg-red-700 hover:bg-red-600"
+                onClick={(event) => {
+                  event.preventDefault()
+                  setDialogOpen(true)
+                }}
+              >
+                <CornerDownLeft className="mr-2 h-4 w-4" />
+                ຕິກັບ
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <RejectCreateForm folderId={folder.id} setDialogOpen={setDialogOpen} />
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
+        )}
+        {edit && (
+          <div className="flex justify-end">
+            <Button
+              className="mt-4 flex gap-1"
+              onClick={() => handleEdit(folder.id)}
+            >
+              <Edit size={18} />
+              ແກ້ໄຂ
+            </Button>
+          </div>
+        )}
+        {statusText && (
+          <div className="flex justify-end">
+            <Button
+              className="mt-4 flex gap-1"
+              onClick={() => setFolderToStatus(folder.id)}
+            >
+              <Send size={18} />
+              {userRole?.user.role === "POLICE_COMMANDER_PROVINCE" || userRole?.user.role === "POLICE_COMMANDER" ? "ອະນຸມັດ" : "ສົ່ງ"}
+            </Button>
+          </div>
+        )}
+        {statusText2 && (
+          <div className="flex justify-end">
+            <Button
+              className="mt-4 flex gap-1"
+              onClick={() => setFolderToStatus2()}
+            >
+              <Send size={18} />
+              ສົ່ງ
+            </Button>
+          </div>
+        )}
+        {approveText && (
+          <div className="flex justify-end">
+            <Button
+              className="mt-4 flex gap-1"
+              onClick={() => handleApprove(folder.id)}
+            >
+              <CheckCheck size={18} />
+              ຢັ້ງຢືນຮັບເງິນ
+            </Button>
+          </div>
+        )}
+        {(acceptText) && (
+          <div className="flex justify-end">
+            <Button
+              className="mt-4 flex gap-1"
+              onClick={() => setFolderToStatus(folder.id)}
+            >
+              <CheckCheck size={18} />
+              ຮັບເອກກະສານ
+            </Button>
+          </div>
+        )}
+        {(application) && (
+          <div className="flex justify-end">
+            <Button
+              className="mt-4 flex gap-1"
+              onClick={onClick}
+            >
+              <CheckCheck size={18} />
+              ລົງທະບຽນດ່ວນ
+            </Button>
+          </div>
+        )}
+      </div>
       {
         folderToStatus && (
           <StatusConfirmationDialog
@@ -141,7 +256,7 @@ function FolderNumbersAccordion({ folder }: { folder: IFolder }) {
       <AccordionItem value="item-1">
         <AccordionTrigger>ສະແດງຟອມເລກທິ</AccordionTrigger>
         <AccordionContent>
-          <ScrollArea className="h-32 w-full">
+          <ScrollArea className="h-fit w-full">
             <div className='grid grid-cols-2'>
               {folder?.number?.map((item, index) => (
                 <div className='flex gap-x-1' key={index}>
@@ -166,6 +281,8 @@ interface FolderOptionsDropdownProps {
   action?: IAction
   folder: IFolder
   showReject?: boolean
+  setDialogOpen: (open: boolean) => void
+  dialogOpen: boolean
 }
 
 function FolderOptionsDropdown({
@@ -174,10 +291,11 @@ function FolderOptionsDropdown({
   onStatus,
   onApprove,
   handleShowDetail,
+  setDialogOpen,
+  dialogOpen,
   action = { editText: "", statusText: "", acceptText: "", approveText: "", showDetail: "", reject: "" },
 }: FolderOptionsDropdownProps): JSX.Element {
   const { editText = "", statusText = "", acceptText = "", approveText = "", showDetail = "", reject = "" } = action;
-  const [dialogOpen, setDialogOpen] = useState(false)
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -228,7 +346,7 @@ function FolderOptionsDropdown({
                 }}
               >
                 <MessageSquareX className="mr-2 h-4 w-4" />
-                <span>ສົ່ງເອກກະສານສົ່ງກັບຄືນ</span>
+                <span>ສົ່ງເອກກະສານກັບຄືນ</span>
               </DropdownMenuItem>
             </DialogTrigger>
             <DialogContent>
@@ -243,7 +361,7 @@ function FolderOptionsDropdown({
   );
 }
 
-function StatusConfirmationDialog({ isOpen, onClose, folder, status }: { isOpen: boolean; onClose: () => void; folder: IFolder , status: ProcessStatus }) {
+function StatusConfirmationDialog({ isOpen, onClose, folder, status }: { isOpen: boolean; onClose: () => void; folder: IFolder, status: ProcessStatus }) {
   const { onSubmit, loading } = useFolderProgress({ id: folder?.id, status });
   const handleConfirm = async () => {
     if (!loading) {
@@ -257,7 +375,7 @@ function StatusConfirmationDialog({ isOpen, onClose, folder, status }: { isOpen:
         <AlertDialogHeader>
           <AlertDialogTitle>ທ່ານແນ່ໃຈບໍ?</AlertDialogTitle>
           <AlertDialogDescription>
-            <WarningMessage/>
+            <WarningMessage />
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -266,7 +384,7 @@ function StatusConfirmationDialog({ isOpen, onClose, folder, status }: { isOpen:
             onClick={handleConfirm}
             className={`bg-red-600 hover:bg-red-700 ${loading ? "cursor-not-allowed opacity-50" : ""}`}
           >
-            ສືບຕໍ່ {loading && "..."}
+            ຢືນຢັນ {loading && "..."}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

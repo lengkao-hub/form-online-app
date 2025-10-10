@@ -15,7 +15,7 @@ export const BlacklistDialog = ({ profile }: { profile: IProfile }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="destructive" className="w-full sm:w-auto text-sm">
+        <Button variant="default" className="w-full sm:w-auto text-sm">
           {"ຂື້ນບັນຊີດໍາ"}
         </Button>
       </DialogTrigger>

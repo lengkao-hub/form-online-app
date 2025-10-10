@@ -25,6 +25,8 @@ import {
   CircleDollarSign,
   ChartCandlestick,
   ChartNoAxesCombined,
+  ShieldBan,
+  Clock8,
 } from "lucide-react";
 
 export interface NavLink {
@@ -46,6 +48,12 @@ export const resources: IResources[] = [
     subject: "dashboard",
     href: "/dashboard",
     icon: <Home size={18} />,
+  },
+  {
+    title: "ລົງທະບຽນດ່ວນ",
+    subject: "quick-application",
+    href: "/quick-application",
+    icon: <Clock8 size={18} />,
   },
   {
     title: "ແຟ້ມເອກກະສານ",
@@ -110,6 +118,12 @@ export const resources: IResources[] = [
     ],
   },
   {
+    title: "ກວດບັນຊີດໍາ",
+    subject: "blacklist",
+    href: "/blacklist/check",
+    icon: <ShieldBan size={18}/>,
+  },
+  {
     title: "ຮູບພາບ",
     href: "image",
     subject: "/image",
@@ -161,12 +175,24 @@ export const resources: IResources[] = [
         icon: <BadgeDollarSign size={18} />,
       },
       {
-        title: "report",
+        title: "ລາຍງານ",
         subject: "report",
         href: "/report",
         icon: <ChartNoAxesCombined size={18} />,
       },
     ],
+  },
+  {
+    title: "ລາຍງານຂໍ້ມູນບຸກຄົນ",
+    subject: "profile-report",
+    href: "/profile-report",
+    icon: <ChartNoAxesCombined size={18} />,
+  },
+  {
+    title: "ລາຍງານຂໍ້ມູນບັດ",
+    subject: "application-report",
+    href: "/application-report",
+    icon: <ChartNoAxesCombined size={18} />,
   },
   {
     title: "ຕັ້ງຄ່າ",
@@ -215,6 +241,18 @@ export const resources: IResources[] = [
         subject: "office",
         href: "/office",
         icon: <Landmark size={18} />,
+      },
+      {
+        title: "ປະເພດວິຊ່າ",
+        subject: "visa",
+        href: "/visa",
+        icon: <IdCard size={18}/>,
+      },
+      {
+        title: "ປະເພດບັນຊີດໍາ",
+        subject: "blacklist-type",
+        href: "/blacklist-type",
+        icon: <IdCard size={18}/>,
       },
     ],
   },

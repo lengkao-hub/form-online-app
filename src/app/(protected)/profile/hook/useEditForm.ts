@@ -88,7 +88,7 @@ const useFormReset = ({
       oldImage: profile.oldImage,
       firstName: profile.firstName,
       lastName: profile.lastName,
-      phoneNumber: profile.phoneNumber,
+      phoneNumber: profile.phoneNumber || "",
       dateOfBirth: profile.dateOfBirth ? new Date(profile.dateOfBirth) : undefined,
       gender: normalizeGender(profile.gender),
       nationalityId: profile.nationalityId,
@@ -97,12 +97,11 @@ const useFormReset = ({
       identityIssueDate: profile.identityIssueDate ? new Date(profile.identityIssueDate) : undefined,
       identityNumber: profile.identityNumber,
       identityExpiryDate: profile.identityExpiryDate ? new Date(profile.identityExpiryDate) : undefined,
-      currentProvince: profile.currentProvince,
-      currentDistrict: profile.currentDistrict,
+      currentProvince: profile.currentProvince || 0,
+      currentDistrict: profile.currentDistrict || 0,
       currentVillageId: profile.currentVillageId ?? 0,
-      overseasProvince: profile.overseasProvince,
+      overseasProvince: profile.overseasProvince || "",
       overseasCountryId: profile.overseasCountryId ?? 0,
-      applicationNumber: profile.applicationNumber,
     };
     formReset(formValues, {
       keepDefaultValues: true,
@@ -110,7 +109,3 @@ const useFormReset = ({
     });
   }, [profile, loading, formReset]);
 };
-
-// const normalizeImage = ({ data }: IProfileGallery[]) => {
-//   if
-// }

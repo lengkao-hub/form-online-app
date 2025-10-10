@@ -1,6 +1,4 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type * as z from "zod";
@@ -11,9 +9,8 @@ import { apiClient } from "@/lib/axios";
 import { formDefaultValues, formSchema, rejectFormDefaultValues, rejectFormSchema, RejectFormSchemaType } from "../container/schema";
 import { type IFolder } from "../type";
 import { useState } from "react";
-
+import { useSession } from "next-auth/react";
 export const useFolderForm = () => {
-  const router = useRouter();
   const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: formDefaultValues,
@@ -21,12 +18,14 @@ export const useFolderForm = () => {
   });
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      await apiClient.post<IFolder>("/folder", { data });
+      const response = await apiClient.post<IFolder>("/folder", { data });
+      const folder = (response as any)?.data?.result ?? (response as any)?.result ?? null;
       showToast({ type: "success", title: "ສ້າງແຟ້ມເອກກະສານສໍາເລັດ" });
       queryClient.invalidateQueries({ queryKey: ["folders"] });
       form.reset();
-      router.back();
-    } catch(error) {
+      // router.back();
+      return folder;
+    } catch (error) {
       const axiosError = error as { data: { message: string } };
       if (axiosError?.data?.message === "Office not found") {
         form.setError("root", { type: "manual", message: "ທ່ານບໍ່ໄດ້ ບັນຈຸຢູ່ສາຂາໃດ" })
@@ -37,20 +36,21 @@ export const useFolderForm = () => {
   return { form, onSubmit };
 };
 
-export const useFolderRejectForm = ({ folderId, setDialogOpen }: { setDialogOpen: React.Dispatch<React.SetStateAction<boolean>>, folderId: number}) => {
+export const useFolderRejectForm = ({ folderId, setDialogOpen }: { setDialogOpen: (open: boolean) => void, folderId: number }) => {
   const queryClient = useQueryClient();
   const form = useForm<RejectFormSchemaType>({
     defaultValues: rejectFormDefaultValues,
     resolver: zodResolver(rejectFormSchema),
   });
-
+  const { data } = useSession()
+  const userRole = data?.user.role === "FINANCE"
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: RejectFormSchemaType) => {
     try {
       setIsLoading(true);
       await apiClient.post<IFolder>("/folder-reject", { data });
-      await apiClient.patch(`/folder/${folderId}/progress`, { data: { status: "REJECTED" } });
+      await apiClient.patch(`/folder/${folderId}/progress`, { data: { status: userRole ? "REJECTED" : "REJECTED_BY_COMMANDER" } });
       showToast({ type: "success", title: "ສົ່ງແຟ້ມກັບຄືນສໍາເລັດ" });
       queryClient.invalidateQueries({ queryKey: ["folders"] });
       queryClient.invalidateQueries({ queryKey: ["folder-aggregation"] });
@@ -64,4 +64,3 @@ export const useFolderRejectForm = ({ folderId, setDialogOpen }: { setDialogOpen
   };
   return { form, onSubmit, isLoading };
 };
-

@@ -39,7 +39,7 @@ export default useVillageCombobox;
 
 function useComboboxMapping(folderData: IVillage[]): Array<{ label: string; value: string | number; }> {
   return folderData.map((item) => ({
-    label: `${item.villageLao} (${item.villageEnglish})`,
+    label: `${item.villageLao}`,
     value: item.id,
   }));
 }

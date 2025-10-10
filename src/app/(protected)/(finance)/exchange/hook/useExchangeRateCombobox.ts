@@ -38,9 +38,9 @@ const useExchangeRateCombobox = ({ status }: { status: boolean }) => {
 export default useExchangeRateCombobox;
 function useComboboxMapping(folderData: IExchangeRate[]): Array<{ label: string; value: string | number; }> {
   return folderData.map((item) => {
-    const { baseCurrency, targetCurrency, rate } = item;
+    const { targetCurrency } = item;
     return {
-      label: `${baseCurrency.name} (${baseCurrency.code}) → ${targetCurrency.name} (${targetCurrency.code}) @ ${rate}`,
+      label: `${targetCurrency.name} (${targetCurrency.code})`,
       value: item.id,
     };
   });

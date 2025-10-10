@@ -21,6 +21,7 @@ export const rolePermissions: Record<Role, Array<{ action: Actions; subject: Sub
     { action: "read", subject: "add-blacklist-btn" },
     { action: "read", subject: "gallery" },
     { action: "read", subject: "take-photo" },
+    { action: "read", subject: "visa" },
   ],
   FINANCE: [
     { action: "read", subject: "folder" },
@@ -42,8 +43,16 @@ export const rolePermissions: Record<Role, Array<{ action: Actions; subject: Sub
     { action: "read", subject: "village" },
     { action: "read", subject: "gallery" },
     { action: "read", subject: "take-photo" },
+    { action: "read", subject: "profile-report" },
+    { action: "read", subject: "application-report" },
+    { action: "read", subject: "visa" },
+    { action: "read", subject: "quick-application" },
   ],
   POLICE_COMMANDER: [
+    { action: "read", subject: "dashboard" },
+    { action: "read", subject: "folder" },
+  ],
+  POLICE_COMMANDER_PROVINCE: [
     { action: "read", subject: "dashboard" },
     { action: "read", subject: "folder" },
   ],
@@ -53,5 +62,8 @@ export const rolePermissions: Record<Role, Array<{ action: Actions; subject: Sub
   ],
   VERSIFICATION_OFFICER: [
     { action: "read", subject: "scanner" },
+    { action: "read", subject: "folder" },
+    { action: "manage", subject: "create-folder" },
+    // { action: "read", subject: "blacklist" },
   ],
 };

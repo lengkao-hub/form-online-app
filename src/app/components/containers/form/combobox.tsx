@@ -22,6 +22,7 @@ import {
   ScrollArea,
   CommandList,
 } from "@/components/ui";
+import { handleKeyDownNextField } from "./select";
 
 interface Option {
   value: string | number;
@@ -45,6 +46,7 @@ type ComboboxProps = Omit<
   clearable?: boolean;
   popoverWidth?: string;
   searchPlaceholder?: string;
+  formRef?: React.RefObject<HTMLFormElement>;
 };
 
 export const Combobox = forwardRef<
@@ -62,10 +64,12 @@ export const Combobox = forwardRef<
   clearable = false,
   popoverWidth,
   searchPlaceholder = "Search...",
+  formRef,
   ...props
 }, ref) => {
   const [open, setOpen] = useState(false);
   const [internalValue, setInternalValue] = useState<string | number | undefined>(defaultValue);
+  const [searchValue, setSearchValue] = useState("");
   const getSelectedValue = () => {
     if (value !== undefined) {
       if (value !== null && typeof value === 'object' && 'value' in value) {
@@ -101,13 +105,84 @@ export const Combobox = forwardRef<
     onChange?.('' as string);
   };
 
+  // auto scroll to center
+  const handleFocus = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
+
+  const focusNextField = () => {
+    const formEl = formRef?.current;
+    if (!formEl) return;
+
+    const focusables = Array.from(
+      formEl.querySelectorAll<HTMLElement>(
+        "input, select, textarea, button, [role='combobox'], [data-radix-select-trigger], [tabindex]:not([tabindex='-1'])"
+      )
+    ).filter(el => !el.hasAttribute("disabled") && el.offsetParent !== null);
+
+    const index = focusables.findIndex(el => el === document.activeElement);
+    if (index > -1 && focusables[index + 1]) focusables[index + 1].focus();
+  };
+
+
+  // Custom Filtering and Sorting Logic
+  const filteredAndSortedOptions = options
+    .filter((option) =>
+      option.label.toLowerCase().includes(searchValue.toLowerCase()) ||
+      (option.description && option.description.toLowerCase().includes(searchValue.toLowerCase()))
+    )
+    .sort((a, b) => {
+      const searchLower = searchValue.toLowerCase();
+      const aLabelLower = a.label.toLowerCase();
+      const bLabelLower = b.label.toLowerCase();
+
+      // Exact match gets highest priority
+      if (aLabelLower === searchLower) return -1;
+      if (bLabelLower === searchLower) return 1;
+
+      // Starts with search term
+      if (aLabelLower.startsWith(searchLower) && !bLabelLower.startsWith(searchLower)) return -1;
+      if (!aLabelLower.startsWith(searchLower) && bLabelLower.startsWith(searchLower)) return 1;
+
+      // Includes search term (general relevance)
+      if (aLabelLower.includes(searchLower) && !bLabelLower.includes(searchLower)) return -1;
+      if (!aLabelLower.includes(searchLower) && bLabelLower.includes(searchLower)) return 1;
+
+      // Finally, sort alphabetically if no strong relevance
+      return aLabelLower.localeCompare(bLabelLower);
+    });
+    
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen} >
       <PopoverTrigger asChild>
         <FormControl>
           <Button
+            ref={ref as React.Ref<HTMLButtonElement>}
             variant="outline"
             role="combobox"
+            onKeyDown={(e) => {
+              // Enter → focus next field
+              if (e.key === "Enter") {
+                e.preventDefault();
+                focusNextField();
+                return; // อย่าเปิด dropdown
+              }
+
+              // ถ้า key เป็น character → เปิด dropdown และ focus input
+              if (e.key.length === 1) {
+                if (!open) setOpen(true);
+                setTimeout(() => {
+                  const inputEl = document.querySelector<HTMLInputElement>(
+                    `[data-radix-popover-content] input`
+                  );
+                  inputEl?.focus();
+                }, 0);
+              }
+            }}
+            onClick={handleFocus}
             aria-expanded={open}
             disabled={disabled}
             className={cn(
@@ -146,39 +221,42 @@ export const Combobox = forwardRef<
           <CommandInput
             placeholder={searchPlaceholder}
             className="h-11 border-none focus:ring-0"
+            value={searchValue}
+            onValueChange={setSearchValue}
+            autoFocus={open}
           />
           <CommandList>
             <CommandEmpty className="py-6 text-center text-sm">{emptyMessage}</CommandEmpty>
-            <CommandGroup>
+            <CommandGroup >
               <ScrollArea className="overflow-y-auto max-h-60">
-                {options.map((option) => (
-                  <CommandItem
-                    key={option.value}
-                    value={option.label}
-                    onSelect={() => { handleSelect(option.value); }}
-                    className={cn(
-                      "py-2.5 px-3 cursor-pointer flex items-center gap-2 aria-selected:bg-accent",
-                      "transition-colors hover:bg-accent/50 data-[selected=true]:bg-accent"
-                    )}
-                    data-selected={option.value === getSelectedValue()}
-                  >
-                    {option.icon}
-                    <div className="flex flex-col">
-                      <span>{option.label}</span>
-                      {option.description && (
-                        <span className="text-xs text-muted-foreground">{option.description}</span>
-                      )}
-                    </div>
-                    <Check
+                {filteredAndSortedOptions.map((option) => (
+                    <CommandItem
+                      key={option.value}
+                      value={option.label}
+                      onSelect={() => { handleSelect(option.value); }}
                       className={cn(
-                        "ml-auto h-4 w-4 text-primary",
-                        option.value === getSelectedValue()
-                          ? "opacity-100"
-                          : "opacity-0"
+                        "py-2.5 px-3 cursor-pointer flex items-center gap-2 aria-selected:bg-accent",
+                        "transition-colors hover:bg-accent/50 data-[selected=true]:bg-accent"
                       )}
-                    />
-                  </CommandItem>
-                ))}
+                      data-selected={option.value === getSelectedValue()}
+                    >
+                      {option.icon}
+                      <div className="flex flex-col">
+                        <span>{option.label}</span>
+                        {option.description && (
+                          <span className="text-xs text-muted-foreground">{option.description}</span>
+                        )}
+                      </div>
+                      <Check
+                        className={cn(
+                          "ml-auto h-4 w-4 text-primary",
+                          option.value === getSelectedValue()
+                            ? "opacity-100"
+                            : "opacity-0"
+                        )}
+                      />
+                    </CommandItem>
+                  ))}
               </ScrollArea>
             </CommandGroup>
           </CommandList>

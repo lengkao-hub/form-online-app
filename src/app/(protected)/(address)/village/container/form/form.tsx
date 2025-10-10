@@ -25,9 +25,6 @@ const DistrictForm: React.FC<DistrictFormProps> = ({ form, onSubmit, className }
         <Form.Field name="villageLao" control={form.control} label="ຊື່ບ້ານພາສາລາວ">
           <Form.Input.Input placeholder="ຊື່ບ້ານພາສາລາວ" />
         </Form.Field>
-        <Form.Field name="villageEnglish" control={form.control} label="ຊື່ບ້ານຊື່ພາສາອັງກິດ">
-          <Form.Input.Input placeholder="ຊື່ບ້ານຊື່ພາສາອັງກິດ" />
-        </Form.Field>
         <div className="space-y-2">
           <Form.Field name="districtId" control={form.control} label="ເມືອງ">
             <Form.Input.Combobox options={districtOptions} />

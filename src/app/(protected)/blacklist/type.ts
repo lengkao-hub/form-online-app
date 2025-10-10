@@ -20,3 +20,10 @@ export interface IBlacklistColumns {
     original?: IBlacklist;
   };
 }
+
+export interface IFoundResponse {
+  identityType: string,
+  identityNumber: string,
+  identityExists: true,
+  data: IProfile
+}

@@ -8,7 +8,6 @@ import { type Step, useMultiStepForm } from "src/app/hook/useMultiStepForm";
 import BlacklistProfileForm from "../../blacklist/container/form/form";
 import { useBlacklistProfileForm } from "../../blacklist/hook/useForm";
 import ProfileForm from "../container/form/form";
-import { SuccessStep } from "../container/form/successStep";
 import { useProfileForm } from "../hook/useForm"; 
 import { Form } from "@/components/containers/form";
 import { SquareUserRound } from "lucide-react";
@@ -16,26 +15,23 @@ import { SquareUserRound } from "lucide-react";
 const FORM_STEPS: Step[] = [
   { number: 1, title: "ກວດບັນຊີດໍາ" },
   { number: 2, title: "ປ້ອນຂໍ້ມູນບຸກຄົນ" },
-  { number: 3, title: "ສໍາເລັດ" },
 ];
 
 export default function UserCreate() {
-  const { step, handleNext, handlePrevious, handleStepClick, handleReset } = useMultiStepForm(FORM_STEPS);
+  const { step, handleNext, handlePrevious, handleStepClick, handleReset } = useMultiStepForm({ steps: FORM_STEPS });
   const { form, onSubmit } = useBlacklistProfileForm({ handleNext });
   const blackProfile = form.watch();
-  const { form: formProfile, onSubmit: onSubmitProfile } = useProfileForm({ handleNext });
   const handleResetForm = () => {
     form.reset();
     handleReset();
   };
+  const { form: formProfile, onSubmit: onSubmitProfile } = useProfileForm({ handleReset,handleResetForm });
   const renderStepContent = () => {
     switch (step) {
       case 1:
         return <BlacklistProfileForm form={form} onSubmit={onSubmit} />;
       case 2:
         return <ProfileForm form={formProfile} handleNext={handleNext} onSubmit={onSubmitProfile} handlePrevious={handlePrevious} blackProfile={blackProfile} />;
-      case 3:
-        return <SuccessStep handleReset={handleResetForm} />;
       default:
         return null;
     }
@@ -64,20 +60,12 @@ export default function UserCreate() {
               <div>
                 <Form formInstance={formProfile} onSubmit={onSubmitProfile} className="border-none shadow-none -mt-6 -mb-10" showButton={false}>
                   <div className="flex flex-wrap gap-4 items-start">
-                    <Form.Field name="image" control={formProfile.control} label="ຮູບພາບ (ຮູບໃຫມ່​)" required={false}>
+                    <Form.Field name="image" control={formProfile.control} label="" required={false}>
                       <Form.Input.Image
                         label="3x4 cm"
                         iconImage={<SquareUserRound className="w-10 h-10" />}
                         accept="image/*"
                         className="flex items-center justify-center rounded-lg border border-dashed"
-                      />
-                    </Form.Field>
-                    <Form.Field name="oldImage" control={formProfile.control} label="ຮູບພາບ (ຮູບເກົ່າ)" required={false}>
-                      <Form.Input.Image
-                        label="3x4 cm"
-                        iconImage={<SquareUserRound className="w-10 h-10" />}
-                        accept="image/*"
-                        className="flex items-center justify-center rounded-lg border border-dashed bg-muted"
                       />
                     </Form.Field>
                   </div>
