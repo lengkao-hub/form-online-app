@@ -50,6 +50,12 @@ export const resources: IResources[] = [
     icon: <Home size={18} />,
   },
   {
+    title: "ຂໍ້ມູນບຸກຄົນ",
+    subject: "profile-of-customer",
+    href: "/profile-of-customer",
+    icon: <Clock8 size={18} />,
+  },
+  {
     title: "ລົງທະບຽນດ່ວນ",
     subject: "quick-application",
     href: "/quick-application",

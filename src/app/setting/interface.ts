@@ -1,12 +1,13 @@
 import { type MongoAbility } from "@casl/ability";
 
-export type Role = "ADMIN" | "FINANCE" | "POLICE_OFFICER" | "POLICE_COMMANDER" | "POLICE_PRODUCTION" | "VERSIFICATION_OFFICER" | "SUPER_ADMIN" | "POLICE_COMMANDER_PROVINCE";
+export type Role = "ADMIN" | "USER" | "FINANCE";
 
 export type Actions = "create" | "read" | "update" | "delete" | "manage";
 
 export type Subjects =
   | "all"
   | "user"
+  | "profile-of-customer"
   | "manage"
   | "position"
   | "setting"

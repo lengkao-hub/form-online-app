@@ -2,8 +2,14 @@
 import { Button } from "@/components/containers/button";
 import { Form } from "@/components/containers/form";
 import { hookLoginForm } from "./hook";
+import { useRouter } from "next/navigation";
 export function LoginForm() {
   const { form, onSubmit, isLoading } = hookLoginForm();
+  const router = useRouter();
+
+  const register=()=>{
+    router.push('/register')
+  }
   return (
     <div className="mx-10">
       <Form formInstance={form} onSubmit={onSubmit} showButton={false} className="m-auto flex w-full flex-col justify-center space-y-2 sm:w-[350px] bg-card rounded-lg">
@@ -30,6 +36,9 @@ export function LoginForm() {
         <Button className="mt-11 w-full" loading={isLoading}>
           ເຂົ້າສູ່ລະບົບ
         </Button>
+        <p className="text-center cursor-pointer text-sm text-muted-foreground font-noto-lao"
+        onClick={()=>register()}
+        >ລົງທະບຽນ</p>
       </Form >
     </div>
   );

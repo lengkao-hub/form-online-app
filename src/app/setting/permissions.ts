@@ -2,14 +2,14 @@
 import { type Actions, type Role, type Subjects } from "./interface";
 
 export const rolePermissions: Record<Role, Array<{ action: Actions; subject: Subjects | Subjects[] }>> = {
-  SUPER_ADMIN: [{ action: "manage", subject: "all" }],
+
   ADMIN: [
     { action: "read", subject: "dashboard" },
     { action: "read", subject: "folder" },
     { action: "read", subject: "position" },
     { action: "read", subject: "profile" },
     { action: "read", subject: "application" },
-    { action: "read", subject: "company" },
+    { action: "read", subject: "user" },
     { action: "read", subject: "village" },
     { action: "read", subject: "printing" },
     { action: "read", subject: "renew" },
@@ -23,47 +23,13 @@ export const rolePermissions: Record<Role, Array<{ action: Actions; subject: Sub
     { action: "read", subject: "take-photo" },
     { action: "read", subject: "visa" },
   ],
-  FINANCE: [
-    { action: "read", subject: "folder" },
-    { action: "read", subject: "setting" },
+  USER: [
     { action: "read", subject: "dashboard" },
-    { action: "read", subject: "finance" },
-    { action: "read", subject: "refund" },
-    { action: "read", subject: "report" },
-  ],
-  POLICE_OFFICER: [
-    { action: "read", subject: "setting" },
-    { action: "read", subject: "folder" },
-    { action: "read", subject: "dashboard" },
-    { action: "read", subject: "position" },
     { action: "read", subject: "profile" },
-    { action: "read", subject: "application" },
-    { action: "read", subject: "company" },
-    { action: "read", subject: "renew" },
-    { action: "read", subject: "village" },
-    { action: "read", subject: "gallery" },
-    { action: "read", subject: "take-photo" },
-    { action: "read", subject: "profile-report" },
-    { action: "read", subject: "application-report" },
-    { action: "read", subject: "visa" },
-    { action: "read", subject: "quick-application" },
   ],
-  POLICE_COMMANDER: [
-    { action: "read", subject: "dashboard" },
-    { action: "read", subject: "folder" },
-  ],
-  POLICE_COMMANDER_PROVINCE: [
-    { action: "read", subject: "dashboard" },
-    { action: "read", subject: "folder" },
-  ],
-  POLICE_PRODUCTION: [
-    { action: "read", subject: "dashboard" },
-    { action: "read", subject: "printing" },
-  ],
-  VERSIFICATION_OFFICER: [
-    { action: "read", subject: "scanner" },
-    { action: "read", subject: "folder" },
-    { action: "manage", subject: "create-folder" },
-    // { action: "read", subject: "blacklist" },
-  ],
+  FINANCE:[
+    {action: "read", subject: "dashboard" },
+    {action: "read", subject: "profile-of-customer"},
+  ]
+  
 };
