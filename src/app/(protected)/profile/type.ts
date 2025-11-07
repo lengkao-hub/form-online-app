@@ -5,41 +5,53 @@ import { IVillage } from "../(address)/village/type";
 import { ICompany } from "../company/type";
 import { IPosition } from "../position/type";
 import { IProfileGallery } from "../(image)/profileGallery/type";
+export interface IFolder {
+    id: number
+    userId: number
+    createdAt: string
+    updatedAt: string
+    user: IUser
+    profile: IProfile[]
+}
+
+export interface IUser {
+    id: number
+    firstName: string
+    lastName: string
+    email: string
+    phone: string
+}
 
 export interface IProfile {
-    ethnicity: INationality;
-    barcode?: number
-    nationality: INationality;
-    ethnicityId: number;
-    nationalityId: number;
-    status: string;
-    id: number;
-    no: number;
-    image: string;
-    oldImage: string
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-    dateOfBirth: string;
-    gender: string;
-    identityType: string;
-    identityNumber: string;
-    identityIssueDate: string;
-    identityExpiryDate: string;
-    currentProvince: number;
-    district: IDistrict
-    province: IProvince
-    currentDistrict: number;
-    currentVillageId: number;
-    currentVillage: IVillage;
-    overseasProvince: string;
-    overseasCountry: INationality;
-    overseasCountryId: number;
-    createdAt: string;
-    updatedAt: string;
-    applicationNumber: string;
-    profileGallery: IProfileGallery[]
+    id: number
+    barcode: number
+    firstName: string
+    lastName: string
+    phoneNumber: string | null
+    dateOfBirth: string
+    gender: "MALE" | "FEMALE" | string
+    status: "PENDING" | "APPROVED" | "REJECTED" | string
+    nationalityId: number
+    ethnicityId: number
+    identityType: string
+    identityNumber: string
+    identityIssueDate: string
+    identityExpiryDate: string
+    currentProvince: string | null
+    currentDistrict: string | null
+    currentVillageId: number | null
+    overseasCountryId: number | null
+    overseasProvince: string | null
+    image: string | null
+    oldImage: string | null
+    createdAt: string
+    updatedAt: string
+    deletedAt: string | null
+    companyId: number | null
+    userId: number
+    folderId: number
 }
+
 
 export interface Position {
     id: number;

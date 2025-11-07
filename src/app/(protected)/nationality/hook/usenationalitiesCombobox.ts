@@ -2,25 +2,32 @@ import { apiClient } from "@/lib/axios";
 import { type MetaState } from "@/lib/interface";
 import { useQuery } from "@tanstack/react-query";
 import { type INationality } from "../type";
+import axios from "axios";
 
 interface InationalityResponse {
   result: INationality[];
   meta: MetaState;
 }
 
-const fetchnationality = async ({ paginate, nationalityId }: {
+const fetchnationality = async ({
+  paginate,
+  nationalityId,
+}: {
   paginate: boolean;
   nationalityId?: number;
 }): Promise<InationalityResponse> => {
   const params: Record<string, unknown> = { paginate };
+
   if (nationalityId) {
     params.nationalityId = nationalityId;
   }
-  const response = await apiClient.get<InationalityResponse>("/nationality", {
+
+  const response = await axios.get<InationalityResponse>("https://fmsbcapi.l-itlaos.com/nationality", {
     params,
-  });
-  return response;
+  }); 
+  return response.data;
 };
+
 
 export const usenationalitiesCombobox = ({ nationalityId, isNationality }: { nationalityId?: number; isNationality?: boolean }) => {
   const paginate = false;

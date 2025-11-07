@@ -52,10 +52,8 @@ const mapUserToFormValues = (user: IUser | null): Partial<z.infer<typeof userSch
     lastName: user.lastName,
     email: user.email,
     phone: user.phone,
-    isActive: user.isActive,
-    officeId: user.officeId ?? undefined,
-    username: user.username,
-    userOffice: user.userOffice.map((item) => item.officeId) ?? [],
+    isActive: user.isActive, 
+    username: user.username, 
   };
 };
 

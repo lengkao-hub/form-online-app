@@ -13,7 +13,7 @@ interface IProfileResponse {
   meta: MetaState;
 }
 
-const fetchProfile = async ({ page, limit, search, excludeApplications, genderFilter, yearFilter, dateFilter, officeId, officeIds }: {
+const fetchFolder = async ({ page, limit, search, excludeApplications, genderFilter, yearFilter, dateFilter, officeId, officeIds }: {
   page: number;
   limit: number;
   officeId?: number;
@@ -37,13 +37,13 @@ const fetchProfile = async ({ page, limit, search, excludeApplications, genderFi
   if (officeIds) {
     params.officeIds = officeIds;
   }
-  const response = await apiClient.get<IProfileResponse>("/profile", {
+  const response = await apiClient.get<IProfileResponse>("/approved",{
     params,
   });
   return response;
 };
 
-const useProfileTable = ({ excludeApplications = false, officeIds }: { excludeApplications?: boolean, officeIds?: string }) => {
+const useTable = ({ excludeApplications = false, officeIds }: { excludeApplications?: boolean, officeIds?: string }) => {
   const { page, limit, updatePagination, resetPage } = usePaginationStore();
   const { search, updateSearch } = useSearchStore();
   const [genderFilter, setGenderFilter] = useState<string>("");
@@ -52,8 +52,8 @@ const useProfileTable = ({ excludeApplications = false, officeIds }: { excludeAp
   const [debouncedSearch] = useDebounce(search, 500);
   // const [searchTriggered, setSearchTriggered] = useState(false);
   const query = useQuery<IProfileResponse, Error>({
-    queryKey: ["profiles", page, limit, debouncedSearch, excludeApplications, genderFilter, dateFilter, yearFilter, officeIds],
-    queryFn: async () => await fetchProfile({ page, limit, search: debouncedSearch, excludeApplications, genderFilter, yearFilter, dateFilter, officeIds }),
+    queryKey: ["approved", page, limit, debouncedSearch, excludeApplications, genderFilter, dateFilter, yearFilter, officeIds],
+    queryFn: async () => await fetchFolder({ page, limit, search: debouncedSearch, excludeApplications, genderFilter, yearFilter, dateFilter, officeIds }),
     placeholderData: (previousData) => previousData,
     enabled: true,
     retry: (failureCount, error) => {
@@ -64,7 +64,7 @@ const useProfileTable = ({ excludeApplications = false, officeIds }: { excludeAp
     retryDelay: (attempt) => attempt * 2000,
 
   });
-  return {
+  return { 
     result: query.data?.result || [],
     meta: {
       ...query.data?.meta,
@@ -92,4 +92,4 @@ const useProfileTable = ({ excludeApplications = false, officeIds }: { excludeAp
   };
 };
 
-export default useProfileTable;
+export default useTable;

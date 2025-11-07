@@ -84,7 +84,7 @@ const useFormReset = ({
       return value;
     }
     const formValues: Partial<z.infer<typeof profileFormSchema>> = {
-      image: profile?.profileGallery[0]?.gallery?.image ?? profile.image,
+      image: profile?.profileGallery?.[0]?.gallery?.image ?? profile.image,
       oldImage: profile.oldImage,
       firstName: profile.firstName,
       lastName: profile.lastName,

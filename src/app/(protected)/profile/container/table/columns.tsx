@@ -49,7 +49,7 @@ const ProfileLinkCell = ({ item }: any) => {
 const userRole = () => {
   const { data: session } = useSession()
   const userRole = session?.user?.role;
-  const columnTitle = userRole === "ADMIN" || userRole === "SUPER_ADMIN" ? "ຂື້ນບັນຊີດໍາ" : null;
+  const columnTitle = userRole === "ADMIN" ? "ຂື້ນບັນຊີດໍາ" : null;
   return columnTitle;
 }
 
@@ -58,14 +58,14 @@ export const columnsProfile: Array<ColumnDef<IProfile>> = [
     accessorKey: "image",
     header: "ຮູບ​",
     cell: ({ row }) => {
-      const profileGallery = row.original?.profileGallery as object as IProfileGallery[] || [];
-      return(
+      const profileGallery = row.original as object as IProfileGallery[] || [];
+      return (
         <>
           {profileGallery.length > 0 ? (
             profileGallery.map((item) => (
               <ImageViewer key={item?.id} src={item?.gallery.image} className="my-1 h-14 w-14" />
             ))
-          ):(
+          ) : (
             <ImageViewer src={row.original?.image} className="my-1 h-14 w-14" />
           )}
         </>
@@ -76,10 +76,6 @@ export const columnsProfile: Array<ColumnDef<IProfile>> = [
     accessorKey: "firstName",
     header: "ຊື່ ແລະ ນາມສະກຸນ",
     cell: ({ row }) => <FullNameCell row={row} />,
-  },
-  {
-    accessorKey: "barcode",
-    header: "ບາໂຄດ",
   },
   {
     accessorKey: "document_identity",
@@ -111,18 +107,38 @@ export const columnsProfile: Array<ColumnDef<IProfile>> = [
     header: "ສັນຊາດ",
   },
   {
-    accessorKey: "id",
-    header: "ຮູບພາບ",
-    cell: ({ row }) => <ProfileLinkCell item={row.original} />,
+    accessorKey: "status",
+    header: "ສະຖານະ",
+    cell: ({ row }) => {
+      const status = row.original?.status ?? "ບໍ່ຮູ້ສະຖານະ";
+      let colorClass = "";
+      switch (status) {
+        case "PENDING":
+          colorClass = "bg-yellow-100 text-yellow-800 border-yellow-300";
+          break;
+        case "APPROVED":
+          colorClass = "bg-green-100 text-green-800 border-green-300";
+          break;
+        case "REJECTED":
+          colorClass = "bg-red-100 text-red-800 border-red-300";
+          break;
+        default:
+          colorClass = "bg-gray-100 text-gray-800 border-gray-300";
+      }
+      return (
+        <Badge
+          variant="outline"
+          className={`px-3 py-1 rounded-md text-sm font-medium border ${colorClass}`}
+        >
+          {status}
+        </Badge>
+      );
+    },
   },
   {
     accessorKey: "id",
-    header: userRole,
-    cell: ({ row }) => (
-      <RoleBasedGuard subject="add-blacklist-btn" action="read" fallback={<div></div>}>
-        <BlacklistDialog profile={row.original} />
-      </RoleBasedGuard>
-    ),
+    header: "ຮູບພາບ",
+    cell: ({ row }) => <ProfileLinkCell item={row.original} />,
   },
   {
     accessorKey: "id",

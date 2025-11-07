@@ -11,6 +11,7 @@ import { useEffect } from "react";
 
 export default function UserPage() {
   const { result, meta, updatePagination, updateSearch, filter, loading } = useUserTable();
+  console.log("User Page Meta:", meta);
   useEffect(() => {
     updateSearch("");
     filter.setDateFilter(undefined);
@@ -26,7 +27,7 @@ export default function UserPage() {
         </div>
         <div className="space-y-4">
           <DataTableToolbar updateSearch={updateSearch} filter={filter} />
-          <DataTable columns={columnsUser} data={result} meta={meta} updatePagination={updatePagination} loading={loading}/>
+          <DataTable columns={columnsUser} data={result} meta={meta} updatePagination={updatePagination} loading={loading} />
         </div>
       </div>
     </RoleBasedGuard>

@@ -13,7 +13,6 @@ const authenticateUser = async (username: string, password: string) => {
     password,
     redirect: false,
   });
-  console.log("response", response);
   if (!response || response?.error) {
     throw new Error(response?.error || "An unexpected error occurred");
   }

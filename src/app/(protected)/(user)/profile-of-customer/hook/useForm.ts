@@ -1,41 +1,45 @@
 /* eslint-disable max-depth */
-import { appendObjectFields } from "@/components/containers/form/buildForm";
+import { appendObjectFields, buildFormData } from "@/components/containers/form/buildForm";
 import showToast from "@/components/containers/show-toast";
 import { apiClient } from "@/lib/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import type * as z from "zod";
-import { defaultValues, profileFormSchema } from "../../profile/container/form/schema";
-import { type IProfile } from "../../profile/type";
-
-export const useProfileForm = ({ handleReset,handleResetForm }: { handleReset: () => void,handleResetForm: () => void }) => {
+import { defaultValues, profileFormSchema } from "../container/form/schema";
+import { type IProfile } from "../type";
+import { getRoleUser } from "@/lib/auth/getRoleUser";
+export const useProfileForm = ({ handleReset, handleResetForm }: { handleReset: () => void, handleResetForm: () => void }) => {
   const queryClient = useQueryClient();
+  const { id } = getRoleUser();
   const form = useForm<z.infer<typeof profileFormSchema>>({
-    defaultValues,
     resolver: zodResolver(profileFormSchema),
+    mode: "onChange", // ✅ validate ທຸກຄັ້ງທີ່ປ້ອນ
+    reValidateMode: "onChange", // ✅ revalidate ໃໝ່ທຸກຄັ້ງທີ່ປ້ອນ
+    defaultValues,
   });
-  const onSubmit = async (data: z.infer<typeof profileFormSchema>) => {
+  const onSubmit = async (data: any) => {
     try {
-      const { identityNumber, identityType } = data;
-      const checkResponse: any = await apiClient.post("/profile-check-existence", {
-        data: { identityNumber, identityType },
-      });
-      if (checkResponse?.data?.identityExists) {
-        return;
-      }
+      // const formData = buildFormData({ data, fieldName: "refundImage" });
+      console.log("📦 Submitted Data ===> ", data);
+      console.log("📦 Submitted Data ===> ", data.image);
+
       const formData = new FormData();
-      appendObjectFields({ formData, data, excludeKeys: ["image", "oldImage"] });
+      appendObjectFields({ formData, data, excludeKeys: ["image"] });
       if (data.image instanceof File) {
+        console.log("📦 Image File ===> ", data.image);
         formData.append("image", data.image);
       }
       if (data.oldImage instanceof File) {
         formData.append("oldImage", data.oldImage);
       }
-      await apiClient.post<IProfile>("/profile", {
-        data: formData,
-        config: { headers: { "Content-Type": "multipart/form-data" } },
+      await apiClient.post<IProfile>("/profile-of-customer", {
+        data: formData, 
+        config: {
+          headers: { "Content-Type": "multipart/form-data" },
+        },
       });
+      form.reset();
       showToast({ type: "success", title: "ລົງທະບຽນບຸກຄົນໃໝ່ສໍາເລັດ" });
       queryClient.invalidateQueries({ queryKey: ["profiles"] });
       form.setValue("phoneNumber", data.phoneNumber);
@@ -46,9 +50,9 @@ export const useProfileForm = ({ handleReset,handleResetForm }: { handleReset: (
       form.reset();
       handleResetForm();
       handleReset();
-    } catch(error: any) {
+    } catch (error: any) {
       showToast({ type: "error", title: "ບໍ່ສາມາດລົງທະບຽນບຸກຄົນໃໝ່ໄດ້" });
-      if (error.data.identityNumber || error.data.identityType ) {
+      if (error.data.identityNumber || error.data.identityType) {
         form.setError("identityNumber", {
           type: "manual",
           message: `${error.data.identityNumber}`,
@@ -69,13 +73,13 @@ interface ProfileResponse {
   result: IProfile
 }
 
-export const useQuickProfileForm = ({ 
+export const useQuickProfileForm = ({
   handleNext,
   handleGotoStep,
   setCount,
-  setRegistered, 
+  setRegistered,
   currentCount,
-}: { 
+}: {
   handleNext: () => void;
   handleGotoStep: (stepNumber: number) => void;
   setCount: React.Dispatch<React.SetStateAction<number>>;
@@ -144,9 +148,9 @@ export const useQuickProfileForm = ({
       } else {
         handleNext();
       }
-    } catch(error: any) {
+    } catch (error: any) {
       showToast({ type: "error", title: "ບໍ່ສາມາດລົງທະບຽນບຸກຄົນໃໝ່ໄດ້" });
-      if (error.data.identityNumber || error.data.identityType ) {
+      if (error.data.identityNumber || error.data.identityType) {
         form.setError("identityNumber", {
           type: "manual",
           message: `${error.data.identityNumber}`,

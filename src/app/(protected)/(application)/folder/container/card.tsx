@@ -187,7 +187,7 @@ export function FolderCardView({
               onClick={() => setFolderToStatus(folder.id)}
             >
               <Send size={18} />
-              {userRole?.user.role === "POLICE_COMMANDER_PROVINCE" || userRole?.user.role === "POLICE_COMMANDER" ? "ອະນຸມັດ" : "ສົ່ງ"}
+              {userRole?.user.role === "ADMIN" ? "ອະນຸມັດ" : "ສົ່ງ"}
             </Button>
           </div>
         )}

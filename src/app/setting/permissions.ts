@@ -5,31 +5,15 @@ export const rolePermissions: Record<Role, Array<{ action: Actions; subject: Sub
 
   ADMIN: [
     { action: "read", subject: "dashboard" },
-    { action: "read", subject: "folder" },
-    { action: "read", subject: "position" },
     { action: "read", subject: "profile" },
-    { action: "read", subject: "application" },
     { action: "read", subject: "user" },
-    { action: "read", subject: "village" },
-    { action: "read", subject: "printing" },
-    { action: "read", subject: "renew" },
-    { action: "read", subject: "printed" },
-    { action: "read", subject: "nationality" },
-    { action: "read", subject: "province" },
-    { action: "read", subject: "district" },
-    { action: "read", subject: "office" },
-    { action: "read", subject: "add-blacklist-btn" },
-    { action: "read", subject: "gallery" },
-    { action: "read", subject: "take-photo" },
-    { action: "read", subject: "visa" },
+    { action: "read", subject: "approved" }, 
   ],
   USER: [
     { action: "read", subject: "dashboard" },
-    { action: "read", subject: "profile" },
-  ],
-  FINANCE:[
-    {action: "read", subject: "dashboard" },
-    {action: "read", subject: "profile-of-customer"},
-  ]
+    { action: "read", subject: "profile-of-customer"},
+     { action: "read", subject: "approved-user" }, 
+     { action: "read", subject: "rejected-user" }, 
+  ], 
   
 };

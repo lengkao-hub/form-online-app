@@ -37,7 +37,7 @@ export function LoginForm() {
           ເຂົ້າສູ່ລະບົບ
         </Button>
         <p className="text-center cursor-pointer text-sm text-muted-foreground font-noto-lao"
-        onClick={()=>register()}
+          onClick={()=>register()}
         >ລົງທະບຽນ</p>
       </Form >
     </div>

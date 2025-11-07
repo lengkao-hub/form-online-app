@@ -45,7 +45,9 @@
         "ເຫດຜົນທິ",
         "ເຫດຜົນທີ່ຂື້ນບັນຊີດໍາ",
         "ເຫດຜົນທີ່ສົ່ງແຟ້ມເອກກະສານກັບ"
-    ]
+    ],
+    "editor.rename.enablePreview": false,
+    "workbench.editor.enablePreview": false
 } // {
 //     "spellright.language": [
 //         "en"

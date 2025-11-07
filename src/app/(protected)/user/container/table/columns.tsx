@@ -44,31 +44,6 @@ export const columnsUser: Array<ColumnDef<IUser>> = [
     cell: ({ row }) => <span className="text-muted-foreground text-sm">{row.original.email || "—"}</span>,
   },
   {
-    accessorKey: "office.name",
-    header: "ຫ້ອງການທີ່ປະຈໍາການ",
-  },
-  {
-    accessorKey: "office.name",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="ສັງກັດຫ້ອງການມທີສິດການເຂົ້າເຖີງຂໍ້ມູນ" />,
-    cell: ({ row }) => {
-      const office = row.original?.userOffice
-      return (
-        <div className="flex flex-wrap gap-1.5 max-w-[200px]">
-          {office.map((item) => (
-            <Badge
-              key={item.id}
-              variant="outline"
-              className="bg-primary/5 hover:bg-primary/10 transition-colors font-normal text-xs py-0.5"
-            >
-              {item.office.name}
-            </Badge>
-          ))}
-        </div>
-      )
-    },
-  },
-  
-  {
     accessorKey: "role",
     header: ({ column }) => <DataTableColumnHeader column={column} title="ສີດໃຊ້ງານ" />,
     cell: ({ row }) => {

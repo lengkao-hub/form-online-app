@@ -12,14 +12,8 @@ export const userBaseSchema = z.object({
     .length(8, { message: "ເບີໂທຕ້ອງມີ 8 ຕົວເລກ." }),
   lastName: z.string()
     .min(2, { message: "ນາມສະກຸນຕ້ອງມີຢ່າງໜ້ອຍ 2 ຕົວອັກສອນ." }),
-  role: z.string()
-    .nonempty({ message: "ບົດບາດຕ້ອງບໍ່ວ່າງ." }),
-  officeId: z.number({ message: "Office ID ຕ້ອງເປັນຈຳນວນບວກ." })
-    .optional(),
-  isActive: z.boolean(),
-  userOffice: z.array(
-    z.number().optional(),
-  ),
+  role: z.string().optional(),
+  isActive: z.boolean(), 
 });
 
 export const userSchemaEdit = userBaseSchema.extend({
@@ -45,14 +39,12 @@ export const userSchemaCreate = userBaseSchema.extend({
 });
 
 export const defaultValues = {
-  role: "",
+  role: "USER",
   firstName: "",
   lastName: "",
   email: undefined,
   phone: "",
-  password: "",
-  officeId: undefined,
+  password: "", 
   isActive: true,
-  username: "",
-  userOffice: [],
+  username: "", 
 };

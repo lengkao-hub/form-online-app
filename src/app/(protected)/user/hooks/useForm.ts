@@ -17,6 +17,7 @@ export const useUserForm = () => {
     resolver: zodResolver(userSchemaCreate),
   });
   const onSubmit = async (data: z.infer<typeof userSchemaCreate>) => {
+    console.log("data", data);
     try {
       await apiClient.post<IUser>("/user", { data });
       showToast({ type: "success", title: "ສ້າງຜູ້ໃຊ້ງານລະບົບສໍາເລັດ" });

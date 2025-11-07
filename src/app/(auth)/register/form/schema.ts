@@ -40,7 +40,7 @@ export const userSchemaCreate = userBaseSchema.extend({
 });
 
 export const defaultValues = {
-  role: "FINANCE",
+  role: "USER",
   firstName: "",
   lastName: "",
   email: undefined,
