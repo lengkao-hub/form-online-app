@@ -15,6 +15,7 @@ import { useState } from "react";
 
 import { defaultValues } from "../container/form/schema"
 import { set } from "date-fns";
+import { ImageViewer } from "@/components/containers/image-viewer";
 
 const FORM_STEPS: Step[] = [
   { number: 1, title: "ກວດບັນຊີດໍາ" },
@@ -32,7 +33,8 @@ export default function UserCreate() {
   const [savedData, setSavedData] = useState<any[]>([]);
   const handleSubmit = () => {
     onSubmitProfile(savedData);
-    setSavedData([]);
+    console.log("data=====>", savedData)
+    // setSavedData([]);
   };
   const { form: formProfile, onSubmit: onSubmitProfile } = useProfileForm({ handleReset, handleResetForm });
   const renderStepContent = () => {
@@ -95,6 +97,7 @@ export default function UserCreate() {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="border border-gray-300 p-2">ລໍາດັບ</TableHead>
+                    <TableHead className="border border-gray-300 p-2">ຮູບພາບ</TableHead>
                     <TableHead className="border border-gray-300 p-2">ຊື່</TableHead>
                     <TableHead className="border border-gray-300 p-2">ນາມສະກຸນ</TableHead>
                     <TableHead className="border border-gray-300 p-2">ເບີໂທລະສັບ</TableHead>
@@ -119,6 +122,9 @@ export default function UserCreate() {
                     <TableRow key={index}>
 
                       <TableCell className="border border-gray-300 p-2">{index + 1}</TableCell>
+                      <TableCell className="border border-gray-300 p-2">
+                        <ImageViewer src={item.imageUrl} className="my-1 h-14 w-14" />
+                      </TableCell>
                       <TableCell className="border border-gray-300 p-2">{item.firstName}</TableCell>
                       <TableCell className="border border-gray-300 p-2">{item.lastName}</TableCell>
                       <TableCell className="border border-gray-300 p-2">{item.phoneNumber}</TableCell>

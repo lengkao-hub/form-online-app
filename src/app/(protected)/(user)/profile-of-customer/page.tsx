@@ -1,16 +1,14 @@
 "use client";
-import { LayoutGrid, TableProperties } from "lucide-react";
 import { useEffect } from "react";
 
 import { CreateButton } from "@/components/containers/create-button";
 import { DataTable } from "@/components/containers/table/data-table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
+import { Tabs } from "@/components/ui";
 import { Tab } from "@headlessui/react";
 
 import { TitleLabel } from "@/components/containers/headerLabel";
 import { CardPagination } from "@/components/containers/table/data-card-pagination";
-import { BlacklistTable } from "../../blacklist/table";
-import ProfileGrid from "../../profile/container/card/profile-grid";
+
 import { columnsProfile } from "./container/table/columns";
 import { DataTableToolbar } from "../../profile/container/table/filter";
 import useProfileTable from "./hook/useTable";

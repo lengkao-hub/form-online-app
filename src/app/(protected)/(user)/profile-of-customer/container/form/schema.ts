@@ -20,10 +20,6 @@ export const profileFormSchema = z.object({
     required: false,
     message: "ກະລຸນາເລືອກຮູບພາບ",
   }).or(z.string()),
-  oldImage: validateImageSchema({
-    required: false,
-    message: "ກະລຸນາເລືອກຮູບພາບ",
-  }).or(z.string()),
   identityIssueDate: z.date().or(z.string()).refine((value) => { return value != null && value !== ""; }, { message: "ກະລຸນາລະບຸວັນທີອອກເອກະສານ" }),
   firstName: z.string().min(1, { message: "ກະລຸນາໃສ່ຊື່" }),
   lastName: z.string().min(1, { message: "ກະລຸນາໃສ່ນາມສະກຸນ" }),
@@ -81,7 +77,7 @@ export const profileFormSchema = z.object({
   }
   return data;
 });
-export const defaultValues = {
+export const defaultValues = { 
   firstName: "",
   lastName: "",
   phoneNumber: "",

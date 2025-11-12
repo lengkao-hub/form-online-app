@@ -1,5 +1,5 @@
 /* eslint-disable max-depth */
-import { appendObjectFields, buildFormData } from "@/components/containers/form/buildForm";
+import { appendObjectFields } from "@/components/containers/form/buildForm";
 import showToast from "@/components/containers/show-toast";
 import { apiClient } from "@/lib/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,62 +8,56 @@ import { useForm } from "react-hook-form";
 import type * as z from "zod";
 import { defaultValues, profileFormSchema } from "../container/form/schema";
 import { type IProfile } from "../type";
-import { getRoleUser } from "@/lib/auth/getRoleUser";
 export const useProfileForm = ({ handleReset, handleResetForm }: { handleReset: () => void, handleResetForm: () => void }) => {
   const queryClient = useQueryClient();
-  const { id } = getRoleUser();
   const form = useForm<z.infer<typeof profileFormSchema>>({
     resolver: zodResolver(profileFormSchema),
     mode: "onChange", // ✅ validate ທຸກຄັ້ງທີ່ປ້ອນ
     reValidateMode: "onChange", // ✅ revalidate ໃໝ່ທຸກຄັ້ງທີ່ປ້ອນ
     defaultValues,
   });
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (rawData: any) => {
     try {
-      // const formData = buildFormData({ data, fieldName: "refundImage" });
-      console.log("📦 Submitted Data ===> ", data);
-      console.log("📦 Submitted Data ===> ", data.image);
+      const dataItems = Array.isArray(rawData) ? rawData : [rawData]
+      const formData = new FormData()
 
-      const formData = new FormData();
-      appendObjectFields({ formData, data, excludeKeys: ["image"] });
-      if (data.image instanceof File) {
-        console.log("📦 Image File ===> ", data.image);
-        formData.append("image", data.image);
+      // Send customers without images
+      formData.append(
+        "customers",
+        JSON.stringify(
+          dataItems.map((data) => {
+            const dataWithoutImage = { ...data }
+            delete dataWithoutImage.image
+            return dataWithoutImage
+          }),
+        ),
+      )
+      dataItems.forEach((data, index) => {
+        if (data.image) {
+          formData.append(`image_${index}`, data.image) // image_0, image_1, image_2
+        }
+      })
+
+      // Debug logging
+      for (const [key, value] of formData.entries()) {
+        if (value instanceof File) {
+          console.log(`🖼️ ${key}:`, value.name, `(${(value.size / 1024).toFixed(2)} KB)`)
+        } else {
+          console.log(`📝 ${key}:`, value)
+        }
       }
-      if (data.oldImage instanceof File) {
-        formData.append("oldImage", data.oldImage);
-      }
-      await apiClient.post<IProfile>("/profile-of-customer", {
-        data: formData, 
-        config: {
-          headers: { "Content-Type": "multipart/form-data" },
-        },
-      });
-      form.reset();
-      showToast({ type: "success", title: "ລົງທະບຽນບຸກຄົນໃໝ່ສໍາເລັດ" });
-      queryClient.invalidateQueries({ queryKey: ["profiles"] });
-      form.setValue("phoneNumber", data.phoneNumber);
-      form.setValue("overseasProvince", data.overseasProvince);
-      form.setValue("identityIssueDate", data.identityIssueDate);
-      form.setValue("identityExpiryDate", data.identityExpiryDate);
-      form.setValue("identityType", data.identityType);
-      form.reset();
-      handleResetForm();
-      handleReset();
+
+      await apiClient.post("/profile-of-customer", {
+        data: formData,
+        config: { headers: { "Content-Type": "multipart/form-data" } },
+      })
+
+      showToast({ type: "success", title: "ລົງທະບຽນສຳເລັດ" })
     } catch (error: any) {
-      showToast({ type: "error", title: "ບໍ່ສາມາດລົງທະບຽນບຸກຄົນໃໝ່ໄດ້" });
-      if (error.data.identityNumber || error.data.identityType) {
-        form.setError("identityNumber", {
-          type: "manual",
-          message: `${error.data.identityNumber}`,
-        });
-        form.setError("identityType", {
-          type: "manual",
-          message: `${error.data.identityType}`,
-        });
-      }
+      console.error("❌", error)
+      showToast({ type: "error", title: "ບໍ່ສາມາດລົງທະບຽນໄດ້" })
     }
-  };
+  }
   return { form, onSubmit };
 };
 
@@ -104,9 +98,6 @@ export const useQuickProfileForm = ({
       appendObjectFields({ formData, data, excludeKeys: ["image", "oldImage"] });
       if (data.image instanceof File) {
         formData.append("image", data.image);
-      }
-      if (data.oldImage instanceof File) {
-        formData.append("oldImage", data.oldImage);
       }
       const { result } = await apiClient.post<ProfileResponse>("/profile", {
         data: formData,

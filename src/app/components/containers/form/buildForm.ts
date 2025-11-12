@@ -45,7 +45,9 @@ export const appendObjectFields = ({
 
   Object.entries(data).forEach(([key, value]) => {
     if (exclusions.includes(key)) return;
-    if (value instanceof File) {
+    if (Array.isArray(value)) {
+      formData.append(key, JSON.stringify(value))
+    } else if (value instanceof File) {
       formData.append(key, value);
     } else if (typeof value === "string") {
       const result = value.replace(host, "");

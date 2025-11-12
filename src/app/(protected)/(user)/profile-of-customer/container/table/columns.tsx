@@ -58,16 +58,12 @@ export const columnsProfile: Array<ColumnDef<IProfile>> = [
     accessorKey: "image",
     header: "ຮູບ​",
     cell: ({ row }) => {
-      const profileGallery = row.original?.profileGallery as object as IProfileGallery[] || [];
+      const profileGallery = row.original?.image;
+      console.log('==========> imgae', profileGallery);
       return (
         <>
-          {profileGallery.length > 0 ? (
-            profileGallery.map((item) => (
-              <ImageViewer key={item?.id} src={item?.gallery.image} className="my-1 h-14 w-14" />
-            ))
-          ) : (
-            <ImageViewer src={row.original?.image} className="my-1 h-14 w-14" />
-          )}
+          <ImageViewer src={row.original?.image} className="my-1 h-14 w-14" />
+
         </>
       )
     },

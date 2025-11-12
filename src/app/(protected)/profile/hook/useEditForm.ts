@@ -17,9 +17,9 @@ export interface IProfileData {
   status: string;
   result: IProfile[];
 }
-export const useProfileEditForm = ({ id }: { id: number }) => {
+export const useProfileEditForm = ({ id }: { id: number }) => { 
   const router = useRouter();
-  const { data, isLoading: loading } = useOne<IProfile>({ resource: "profile", id });
+  const { data, isLoading: loading } = useOne<IProfile>({ resource: "profile", id }); 
   const profile = data?.result ?? null;
   const form = useForm<z.infer<typeof profileFormSchema>>({
     resolver: zodResolver(profileFormSchema),
@@ -84,7 +84,7 @@ const useFormReset = ({
       return value;
     }
     const formValues: Partial<z.infer<typeof profileFormSchema>> = {
-      image: profile?.profileGallery[0]?.gallery?.image ?? profile.image,
+      image: profile.image,
       oldImage: profile.oldImage,
       firstName: profile.firstName,
       lastName: profile.lastName,
@@ -96,9 +96,7 @@ const useFormReset = ({
       identityType: profile.identityType,
       identityIssueDate: profile.identityIssueDate ? new Date(profile.identityIssueDate) : undefined,
       identityNumber: profile.identityNumber,
-      identityExpiryDate: profile.identityExpiryDate ? new Date(profile.identityExpiryDate) : undefined,
-      currentProvince: profile.currentProvince || 0,
-      currentDistrict: profile.currentDistrict || 0,
+      identityExpiryDate: profile.identityExpiryDate ? new Date(profile.identityExpiryDate) : undefined, 
       currentVillageId: profile.currentVillageId ?? 0,
       overseasProvince: profile.overseasProvince || "",
       overseasCountryId: profile.overseasCountryId ?? 0,

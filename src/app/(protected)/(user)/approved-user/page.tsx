@@ -1,10 +1,7 @@
 "use client";
-import { LayoutGrid, Table, TableProperties } from "lucide-react";
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 
-import { CreateButton } from "@/components/containers/create-button";
 import { DataTable } from "@/components/containers/table/data-table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui";
 import { Tab } from "@headlessui/react";
 
 import { TitleLabel } from "@/components/containers/headerLabel";
@@ -52,10 +49,12 @@ export function TableUpdateStatus() {
 interface Pagination {
     limit: number;
 }
+
 function newFunction(updatePagination: (newPagination: Pagination) => void) {
     useEffect(() => {
         updatePagination({ limit: 10 });
     }, [updatePagination]);
+
     const handleTabChange = (index: number) => {
         if (index === 0) {
             updatePagination({ limit: 10 });
@@ -63,5 +62,6 @@ function newFunction(updatePagination: (newPagination: Pagination) => void) {
             updatePagination({ limit: 8 });
         }
     };
+
     return handleTabChange;
 }

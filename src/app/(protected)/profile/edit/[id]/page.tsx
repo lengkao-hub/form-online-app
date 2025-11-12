@@ -1,8 +1,8 @@
 "use client";
 
 import { Card } from "@/components/ui";
-import ProfileForm from "../../profile/container/form/form";
-import { useProfileEditForm } from "../hook/useEditForm";
+import ProfileForm from "../../container/form/form";
+import { useProfileEditForm } from "../../hook/useEditForm";
 import { SquareUserRound } from "lucide-react";
 import { Form } from "@/components/containers/form";
 
@@ -21,7 +21,7 @@ export default function EditProfile({ params }: { params: { id: number } }) {
           </Form.Field>
         </div>
       </Form>
-      <ProfileForm form={form} onSubmit={onSubmit} action="edit"/>
+      <ProfileForm form={form} onSubmit={onSubmit} action="edit" />
     </Card>
   );
 }

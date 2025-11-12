@@ -39,6 +39,19 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ form, setSavedData, action = 
   const handleSave = form.handleSubmit(
     async (data) => {
       const fullData = { ...defaultValues, ...data };
+
+      // ເກັບ File object ຕົວຈິງໄວ້ດ້ວຍ
+      if (fullData.image) {
+        if (Array.isArray(fullData.image) && fullData.image[0] instanceof File) {
+          const file = fullData.image[0];
+          (fullData as any).imageUrl = URL.createObjectURL(file);
+          (fullData as any).image = file
+        } else if (fullData.image instanceof File) {
+          (fullData as any).imageUrl = URL.createObjectURL(fullData.image);
+          (fullData as any).image = fullData.image;
+        }
+      }
+
       setSavedData((prev: any) => [...prev, fullData]);
       form.reset();
       handleReset?.();
@@ -47,7 +60,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ form, setSavedData, action = 
       console.log("❌ Validation errors:", errors);
     }
   );
-
   return (
     <>
       <Form formInstance={form} onSubmit={() => handleSave()} className="border-none shadow-none p-0" showButton={false} formRef={formRef}>
