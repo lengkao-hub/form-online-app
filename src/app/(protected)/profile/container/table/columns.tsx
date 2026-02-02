@@ -3,14 +3,11 @@
 import { DataTableRowActions } from "@/components/containers/table/data-table-row-actions";
 import { Badge } from "@/components/ui";
 import { type ColumnDef } from "@tanstack/react-table";
-import { type IProfile, type IProfileColumns } from "../../type";
-import { BlacklistDialog } from "./blacklist";
+import { type IProfile, type IProfileColumns } from "../../type"; 
 import { getIdentityLabel } from "../../lib";
 import { ImageViewer } from "@/components/containers/image-viewer";
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui';
-import { RoleBasedGuard } from "@/lib/ability/roleBasedGuard";
-import { useSession } from "next-auth/react";
 import { IProfileGallery } from "src/app/(protected)/(image)/profileGallery/type";
 const FullNameCell = ({ row }: IProfileColumns) => (
   <span>{`${row.original?.firstName} ${row.original?.lastName}`}</span>
@@ -44,14 +41,7 @@ const ProfileLinkCell = ({ item }: any) => {
       </Button>
     </div>
   );
-};
-
-const userRole = () => {
-  const { data: session } = useSession()
-  const userRole = session?.user?.role;
-  const columnTitle = userRole === "ADMIN" ? "ຂື້ນບັນຊີດໍາ" : null;
-  return columnTitle;
-}
+}; 
 
 export const columnsProfile: Array<ColumnDef<IProfile>> = [
   {

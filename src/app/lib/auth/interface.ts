@@ -14,6 +14,7 @@ interface BaseUser {
     email: string;
     role: Role;
     officeId: number;
+    companyId: number
     userOffice: IUserOffice[]
 }
 
@@ -40,7 +41,7 @@ export interface AuthorizationResult {
 
 export interface SessionUser extends AdapterUser, BaseUser {
     accessToken: string;
-    refreshToken: string;
+    refreshToken: string; 
     iat: number;
 }
 

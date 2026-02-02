@@ -1,19 +1,22 @@
-import { type IDistrict } from "../(address)/district/type";
-import { type INationality } from "../nationality/type";
-import { type IProvince } from "../(address)/province/type";
 import { IVillage } from "../(address)/village/type";
 import { ICompany } from "../company/type";
-import { IPosition } from "../position/type";
-import { IProfileGallery } from "../(image)/profileGallery/type";
+import { IPosition } from "../position/type"; 
 export interface IFolder {
     id: number
     userId: number
+    content: string,
     createdAt: string
     updatedAt: string
     user: IUser
     profile: IProfile[]
+    folderPrice:IFolderPrice[]
 }
-
+export interface IFolderPrice {
+    id: number,
+    amount: number,
+    price: number,
+    totalPrice:number,
+}
 export interface IUser {
     id: number
     firstName: string
@@ -42,7 +45,7 @@ export interface IProfile {
     currentVillageId: number | null
     overseasCountryId: number | null
     overseasProvince: string | null
-    image: string | null
+    image: string
     oldImage: string | null
     createdAt: string
     updatedAt: string
@@ -51,7 +54,6 @@ export interface IProfile {
     userId: number
     folderId: number
 }
-
 
 export interface Position {
     id: number;

@@ -7,19 +7,7 @@ import { handleEnterFocusNext } from "src/app/(protected)/profile/container/form
 const formTitle = "ສ້າງຜູ້ໃຊ້ງານລະບົບ";
 const formSubtitle = "ກະລຸນາປ້ອນຂໍ້ມູນຜູ້ໃຊ້ງານລະບົບໃຫ້ຖ້ວນ";
 
-const roleOptions = [
-  { value: "ADMIN", label: "ແອັດມິນ" },
-  { value: "SUPER_ADMIN", label: "ຊູເປີແອັດມິນ" },
-  { value: "FINANCE", label: "ທີມງານການເງິນ" },
-  { value: "POLICE_OFFICER", label: "ເຈົ້າໜ້າທີ່ຕື່ມຟອມ" },
-  { value: "VERSIFICATION_OFFICER", label: "ເຈົ້າໜ້າທີ່ກວດຂໍ້ມູນບັດ" },
-  { value: "POLICE_COMMANDER_PROVINCE", label: "ເຈົ້າໜ້າທີ່ອະນຸມັດຂັ້ນແຂວງ" },
-  { value: "POLICE_COMMANDER", label: "ເຈົ້າໜ້າທີ່ອະນຸມັດສູນກາງ" },
-  { value: "POLICE_PRODUCTION", label: "ເຈົ້າໜ້າທີ່ຜະລິດ" },
-];
-
-const UserForm: React.FC<any> = ({ form, onSubmit }) => {
-  console.log("form", form.formState.errors);
+const UserForm: React.FC<any> = ({ form, onSubmit }) => { 
   return (
     <Form formInstance={form} onSubmit={onSubmit} title={formTitle} subtitle={formSubtitle}>
       <div className="grid gap-4 sm:grid-cols-2">

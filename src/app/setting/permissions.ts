@@ -10,10 +10,11 @@ export const rolePermissions: Record<Role, Array<{ action: Actions; subject: Sub
     { action: "read", subject: "approved" }, 
   ],
   USER: [
-    { action: "read", subject: "dashboard" },
-    { action: "read", subject: "profile-of-customer"},
-     { action: "read", subject: "approved-user" }, 
-     { action: "read", subject: "rejected-user" }, 
+    { action: "read", subject: "dashboard" }, 
+    { action: "read", subject: "approved-profile" }, 
+    { action: "read", subject: "rejected-profile" }, 
+    { action: "read", subject: "profile-user" }, 
+    { action: "read", subject: "new-card" }, 
   ], 
   
 };

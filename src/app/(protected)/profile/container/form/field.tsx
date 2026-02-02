@@ -5,11 +5,11 @@ import { useUpdateDefaultValues } from "@/lib/update-default-values";
 
 import React, { useEffect } from "react";
 import useeDistrictCombobox from "src/app/(protected)/(address)/district/hook/useDistrictCombobox";
-import { usenationalitiesCombobox } from "src/app/(protected)/nationality/hook/usenationalitiesCombobox";
 import useeProvinceCombobox from "src/app/(protected)/(address)/province/hook/useProvinceCombobox";
 import useeVillageCombobox from "src/app/(protected)/(address)/village/hook/useDistrictCombobox";
 import { handleEnterFocusNext } from "./field-focus";
-import { CalendarDate } from "@internationalized/date"; 
+import { CalendarDate } from "@internationalized/date";
+import useNationalitiesCombobox from "src/app/(protected)/nationality/hook/useNationalitiesCombobox";
 
 const genderOptions = [
   { value: "MALE", label: "ຊາຍ" },
@@ -21,14 +21,14 @@ const IdentifyOptions = [
   { value: "nationalId", label: "ບັດປະຈຳຕົວ" },
   { value: "driverLicense", label: "ໃບຂັບຂີ່" },
 ];
-export const PersonalInfoSection: React.FC<IFormProps & { 
+export const PersonalInfoSection: React.FC<IFormProps & {
   disabled?: boolean,
   action: boolean,
   formRef?: React.RefObject<HTMLFormElement>;
 }> = ({ form, disabled, action, formRef }) => {
   const nationalityId = form.watch("nationalityId") ?? 0;
-  const { result: countriesOptions } = usenationalitiesCombobox({ isNationality: true });
-  const { result: ethnicityOptions } = usenationalitiesCombobox({ isNationality: true });
+  const { result: countriesOptions } = useNationalitiesCombobox({ isNationality: true });
+  const { result: ethnicityOptions } = useNationalitiesCombobox({ isNationality: true });
   useUpdateDefaultValues({ form, fieldName: "gender", value: "MALE", shouldUpdate: true });
   useUpdateDefaultValues({ form, fieldName: "nationalityId", value: 104, shouldUpdate: true });
   if (action) {
@@ -52,15 +52,15 @@ export const PersonalInfoSection: React.FC<IFormProps & {
             <Form.Input.Input placeholder="ປ້ອນເບີໂທ" />
           </Form.Field>
           <Form.Field name="gender" control={form.control} label="ເພດ">
-            <Form.Input.Select options={genderOptions} className='w-full' defaultValue="MALE" formRef={formRef}/>
+            <Form.Input.Select options={genderOptions} className='w-full' defaultValue="MALE" formRef={formRef} />
           </Form.Field>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <Form.Field name="nationalityId" control={form.control} label="ສັນຊາດ" >
-            <Form.Input.Combobox placeholder="ເລືອກສັນຊາດ" className="w-full" options={countriesOptions} formRef={formRef}/>
+            <Form.Input.Combobox placeholder="ເລືອກສັນຊາດ" className="w-full" options={countriesOptions} formRef={formRef} />
           </Form.Field>
           <Form.Field name="ethnicityId" control={form.control} label="ເລືອກ​ເຊື້ອຊາດ" >
-            <Form.Input.Combobox placeholder="ເລືອກ​ເຊື້ອຊາດ" className="w-full" defaultValue={nationalityId} options={ethnicityOptions} formRef={formRef}/>
+            <Form.Input.Combobox placeholder="ເລືອກ​ເຊື້ອຊາດ" className="w-full" defaultValue={nationalityId} options={ethnicityOptions} formRef={formRef} />
           </Form.Field>
         </div>
       </div>
@@ -70,10 +70,10 @@ export const PersonalInfoSection: React.FC<IFormProps & {
 
 export const IdentitySection: React.FC<IFormProps> = ({ form, identityType, formRef }) => {
   useUpdateDefaultValues({ form, fieldName: "identityType", value: identityType || "passport", shouldUpdate: true });
-  const currentDay = new Date();  
+  const currentDay = new Date();
   const year = currentDay.getUTCFullYear();
   const month = currentDay.getUTCMonth() + 1;
-  const day = currentDay.getUTCDate(); 
+  const day = currentDay.getUTCDate();
   // eslint-disable-next-line no-magic-numbers
   const expireDate = new CalendarDate(year, month, day);
   useEffect(() => {
@@ -87,7 +87,7 @@ export const IdentitySection: React.FC<IFormProps> = ({ form, identityType, form
       <h3 className="text-lg font-medium">ຂໍ້ມູນເອກະສານຢັ້ງຢືນ</h3>
       <div className="grid gap-4 sm:grid-cols-4">
         <Form.Field name="identityType" control={form.control} label="ປະເພດເອກະສານ" >
-          <Form.Input.Select options={IdentifyOptions} className='w-full'  defaultValue={identityType} formRef={formRef}/>
+          <Form.Input.Select options={IdentifyOptions} className='w-full' defaultValue={identityType} formRef={formRef} />
         </Form.Field>
         <Form.Field name="identityNumber" control={form.control} label="ເລກທີເອກະສານ">
           <Form.Input.Input placeholder="ປ້ອນເລກເອກະສານ" />
@@ -96,7 +96,7 @@ export const IdentitySection: React.FC<IFormProps> = ({ form, identityType, form
           <Form.Input.DateTimePicker />
         </Form.Field>
         <Form.Field name="identityExpiryDate" control={form.control} label="ວັນຫມົດອາຍຸ">
-          <Form.Input.DateTimePicker  defaultValue={expireDate}/>
+          <Form.Input.DateTimePicker defaultValue={expireDate} />
         </Form.Field>
       </div>
     </div>
@@ -127,30 +127,30 @@ export const CurrentAddressSection: React.FC<IFormDistrictProps> = ({ form, setI
       <h3 className="text-lg font-medium">ທີ່ຢູ່ປັດຈຸບັນ</h3>
       <div className="grid gap-4 sm:grid-cols-3">
         <Form.Field name="currentProvince" control={form.control} label="ແຂວງ">
-          <Form.Input.Combobox placeholder="ເລືອກແຂວງ" className="w-full" options={provinceOptions} formRef={formRef}/>
+          <Form.Input.Combobox placeholder="ເລືອກແຂວງ" className="w-full" options={provinceOptions} formRef={formRef} />
         </Form.Field>
         <Form.Field name="currentDistrict" control={form.control} label="ເມືອງ" >
-          <Form.Input.Combobox placeholder="ເລືອກເມືອງ" className="w-full" options={districtOptions} formRef={formRef}/>
+          <Form.Input.Combobox placeholder="ເລືອກເມືອງ" className="w-full" options={districtOptions} formRef={formRef} />
         </Form.Field>
         <Form.Field name="currentVillageId" control={form.control} label="ບ້ານ">
           {/* <Form.Input.Combobox placeholder="ເລືອກບ້ານ" className="w-full" options={villageOptions} onKeyDown={handleEnterFocusNext}/> */}
-          <Form.Input.Combobox placeholder="ເລືອກບ້ານ" className="w-full" options={extendedVillageOptions} onChange={handleVillageChange} formRef={formRef}/>
+          <Form.Input.Combobox placeholder="ເລືອກບ້ານ" className="w-full" options={extendedVillageOptions} onChange={handleVillageChange} formRef={formRef} />
         </Form.Field>
       </div>
     </div>
   );
 };
 export const OverseasAddressSection: React.FC<IFormProps> = ({ form, formRef }) => {
-  const { result: ethnicityOptions } = usenationalitiesCombobox({ isNationality: true });
+  const { result: ethnicityOptions } = useNationalitiesCombobox({ isNationality: true });
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium">ທີ່ຢູ່ຕ່າງປະເທດ</h3>
       <div className="grid gap-4 sm:grid-cols-2">
         <Form.Field name="overseasCountryId" control={form.control} label="ປະເທດ">
-          <Form.Input.Combobox placeholder="ປະເທດ" className="w-full" options={ethnicityOptions} formRef={formRef}/>
+          <Form.Input.Combobox placeholder="ປະເທດ" className="w-full" options={ethnicityOptions} formRef={formRef} />
         </Form.Field>
         <Form.Field name="overseasProvince" control={form.control} label="ແຂວງ" required={false}>
-          <Form.Input.Input placeholder="ປ້ອນແຂວງ" onKeyDown={handleEnterFocusNext}/>
+          <Form.Input.Input placeholder="ປ້ອນແຂວງ" onKeyDown={handleEnterFocusNext} />
         </Form.Field>
       </div>
     </div>
@@ -162,7 +162,7 @@ export const ProfileDocuments: React.FC<IFormProps> = ({ form }) => {
       <h3 className="text-lg font-medium">ອັບໂຫຼດເອກະສານ</h3>
       <div className="grid gap-4 sm:grid-cols-2">
         <Form.Field name="profileFile" control={form.control} label="ເອກກະສານ" required={false}>
-          <Form.Input.File name="profileFile" control={form.control} maxFiles={10}/>
+          <Form.Input.File name="profileFile" control={form.control} maxFiles={10} />
         </Form.Field>
       </div>
     </div>

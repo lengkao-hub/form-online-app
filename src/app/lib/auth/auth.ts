@@ -36,6 +36,7 @@ async function login(credentials: UserCredentials): Promise<SessionUser> {
       email: user.email,
       emailVerified: null,
       userOffice: user.userOffice,
+      companyId: user.companyId,
     };
   } catch {
     throw new Error("Invalid credentials");
@@ -110,6 +111,7 @@ export const authOptions: NextAuthOptions = {
         phone: token.phone,
         userOffice: token.userOffice,
         accessToken: token.accessToken,
+        companyId: token.companyId,
       } as any
       return session;
     },

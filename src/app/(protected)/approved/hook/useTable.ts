@@ -13,18 +13,16 @@ interface IProfileResponse {
   meta: MetaState;
 }
 
-const fetchFolder = async ({ page, limit, search, excludeApplications, genderFilter, yearFilter, dateFilter, officeId, officeIds }: {
+const fetchFolder = async ({ page, limit, search, genderFilter, yearFilter, dateFilter, status }: {
   page: number;
   limit: number;
-  officeId?: number;
   search: string;
-  excludeApplications: boolean;
   genderFilter?: string;
   yearFilter: string;
   dateFilter?: Date;
-  officeIds?: string;
+  status:string;
 }): Promise<IProfileResponse> => {
-  const params: Record<string, unknown> = { page, limit, search, excludeApplications, officeId };
+  const params: Record<string, unknown> = { page, limit, search };
   if (genderFilter) {
     params.gender = genderFilter;
   }
@@ -34,8 +32,8 @@ const fetchFolder = async ({ page, limit, search, excludeApplications, genderFil
   if (dateFilter) {
     params.date = dateFilter;
   }
-  if (officeIds) {
-    params.officeIds = officeIds;
+  if (status) {
+    params.status = status;
   }
   const response = await apiClient.get<IProfileResponse>("/approved",{
     params,
@@ -43,17 +41,16 @@ const fetchFolder = async ({ page, limit, search, excludeApplications, genderFil
   return response;
 };
 
-const useTable = ({ excludeApplications = false, officeIds }: { excludeApplications?: boolean, officeIds?: string }) => {
+const useTable = ({ status }:{status:string}) => {
   const { page, limit, updatePagination, resetPage } = usePaginationStore();
   const { search, updateSearch } = useSearchStore();
   const [genderFilter, setGenderFilter] = useState<string>("");
   const [yearFilter, setYearFilter] = useState<string>("")
   const [dateFilter, setDateFilter] = useState<Date | undefined>()
-  const [debouncedSearch] = useDebounce(search, 500);
-  // const [searchTriggered, setSearchTriggered] = useState(false);
+  const [debouncedSearch] = useDebounce(search, 500); 
   const query = useQuery<IProfileResponse, Error>({
-    queryKey: ["approved", page, limit, debouncedSearch, excludeApplications, genderFilter, dateFilter, yearFilter, officeIds],
-    queryFn: async () => await fetchFolder({ page, limit, search: debouncedSearch, excludeApplications, genderFilter, yearFilter, dateFilter, officeIds }),
+    queryKey: ["approved", page, limit, debouncedSearch, genderFilter, dateFilter, yearFilter, status],
+    queryFn: async () => await fetchFolder({ page, limit, search: debouncedSearch, genderFilter, yearFilter, dateFilter, status }),
     placeholderData: (previousData) => previousData,
     enabled: true,
     retry: (failureCount, error) => {

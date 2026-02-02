@@ -11,7 +11,6 @@ import { useEffect } from "react";
 
 export default function UserPage() {
   const { result, meta, updatePagination, updateSearch, filter, loading } = useUserTable();
-  console.log("User Page Meta:", meta);
   useEffect(() => {
     updateSearch("");
     filter.setDateFilter(undefined);

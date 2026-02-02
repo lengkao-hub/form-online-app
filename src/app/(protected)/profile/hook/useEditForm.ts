@@ -17,9 +17,9 @@ export interface IProfileData {
   status: string;
   result: IProfile[];
 }
-export const useProfileEditForm = ({ id }: { id: number }) => { 
+export const useProfileEditForm = ({ id }: { id: number }) => {
   const router = useRouter();
-  const { data, isLoading: loading } = useOne<IProfile>({ resource: "profile", id }); 
+  const { data, isLoading: loading } = useOne<IProfile>({ resource: "profile", id });
   const profile = data?.result ?? null;
   const form = useForm<z.infer<typeof profileFormSchema>>({
     resolver: zodResolver(profileFormSchema),
@@ -50,8 +50,8 @@ export const useProfileEditForm = ({ id }: { id: number }) => {
           headers: { "Content-Type": "multipart/form-data" },
         },
       });
-      queryClient.invalidateQueries({ queryKey: ["applications"] });
-      await queryClient.invalidateQueries({ queryKey: ["profiles", id] });
+      await queryClient.invalidateQueries({ queryKey: ["detailFolder"] });
+      await queryClient.invalidateQueries({ queryKey: ["profiles"] });
       showToast({ type: "success", title: "ແກ້ໄຂຂໍ້ມູນບຸກຄົນສໍາເລັດ" });
       router.back();
     } catch {
@@ -96,7 +96,7 @@ const useFormReset = ({
       identityType: profile.identityType,
       identityIssueDate: profile.identityIssueDate ? new Date(profile.identityIssueDate) : undefined,
       identityNumber: profile.identityNumber,
-      identityExpiryDate: profile.identityExpiryDate ? new Date(profile.identityExpiryDate) : undefined, 
+      identityExpiryDate: profile.identityExpiryDate ? new Date(profile.identityExpiryDate) : undefined,
       currentVillageId: profile.currentVillageId ?? 0,
       overseasProvince: profile.overseasProvince || "",
       overseasCountryId: profile.overseasCountryId ?? 0,

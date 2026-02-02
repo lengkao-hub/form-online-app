@@ -18,7 +18,6 @@ export const useUserForm = () => {
   });
   const onSubmit = async (data: z.infer<typeof userSchemaCreate>) => {
     try {
-      console.log("data", data);
       await apiClient.post<IUser>("/register", { data });
       showToast({ type: "success", title: "ສ້າງຜູ້ໃຊ້ງານລະບົບສໍາເລັດ" });
       form.reset();

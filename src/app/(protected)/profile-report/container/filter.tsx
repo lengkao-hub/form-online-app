@@ -12,7 +12,7 @@ import { Label, MultiSelectCombobox, Select, SelectContent, SelectGroup, SelectI
 // import useOfficeCombobox from '../office/hook/useOfficeCombobox';
 import { useEffect, useState } from 'react';
 import useOfficeCombobox from "../../office/hook/useOfficeCombobox";
-import { usenationalitiesCombobox } from "../../nationality/hook/usenationalitiesCombobox";
+import  usenationalitiesCombobox  from "../../nationality/hook/useNationalitiesCombobox";
 import { gender as genderOptions } from "../../profile/container/table/filter";
 import { Combobox } from "@/components/ui/combobox";
 
@@ -40,10 +40,10 @@ interface DataTableToolbarProps {
     setCardType?: React.Dispatch<React.SetStateAction<string>>;
   };
 }
-export function FilterPeopleReport({ filter: { 
-  start, 
-  setStart, 
-  selectedOfficeId, 
+export function FilterPeopleReport({ filter: {
+  start,
+  setStart,
+  selectedOfficeId,
   setSelectedOfficeId,
   end,
   setEnd,
@@ -113,8 +113,8 @@ export function FilterPeopleReport({ filter: {
                   mode="single"
                   selected={start}
                   onSelect={(day) => {
-                    if (!day) { 
-                      return; 
+                    if (!day) {
+                      return;
                     }
                     const now = new Date();
                     const withTime = new Date(day);
@@ -140,8 +140,8 @@ export function FilterPeopleReport({ filter: {
                     mode="single"
                     selected={start}
                     onSelect={(day) => {
-                      if (!day) { 
-                        return; 
+                      if (!day) {
+                        return;
                       }
                       setStart?.(day);
                     }}
@@ -162,8 +162,8 @@ export function FilterPeopleReport({ filter: {
                     mode="single"
                     selected={end}
                     onSelect={(day) => {
-                      if (!day) { 
-                        return; 
+                      if (!day) {
+                        return;
                       }
                       setEnd?.(day);
                     }}

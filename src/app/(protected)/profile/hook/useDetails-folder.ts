@@ -13,7 +13,7 @@ interface IPFolderResponse {
 }
 
 const fetchProfile = async ({
-    id,
+  id,
   page,
   limit,
   search,
@@ -27,32 +27,33 @@ const fetchProfile = async ({
   yearFilter: string;
   dateFilter?: Date;
 }): Promise<IPFolderResponse> => {
-  const params: Record<string, unknown> = { page, limit, search};
+  const params: Record<string, unknown> = { page, limit, search };
 
-  if (yearFilter) params.year = yearFilter;
-  if (dateFilter) params.date = dateFilter;
+  if (yearFilter)
+  { params.year = yearFilter; }
+  if (dateFilter) 
+  { params.date = dateFilter; }
 
-  const response = await apiClient.get<IPFolderResponse>(`/profile/${id}`, { params });
+  const response = await apiClient.get<IPFolderResponse>(`/detail-profile/${id}`, { params });
  
   return response
 };
 
-const useDetailsFolder = ({id}:{id:number}) => { 
+const useDetailsFolder = ({ id }:{id:number}) => {
   const { page, limit, updatePagination, resetPage } = usePaginationStore();
   const { search, updateSearch } = useSearchStore();
 
   const [genderFilter, setGenderFilter] = useState<string>("");
   const [yearFilter, setYearFilter] = useState<string>("");
   const [dateFilter, setDateFilter] = useState<Date | undefined>();
-  const [debouncedSearch] = useDebounce(search, 500);
+  const DEBOUNCE_DELAY_MS = 500;
+  const [debouncedSearch] = useDebounce(search, DEBOUNCE_DELAY_MS);
 
   const query = useQuery<IPFolderResponse, Error>({
-    queryKey: ["profile", page, limit, debouncedSearch, dateFilter, yearFilter, id],
+    queryKey: ["detail-profile", page, limit, debouncedSearch, dateFilter, yearFilter, id],
     queryFn: () =>
       fetchProfile({ page, limit, search: debouncedSearch, yearFilter, dateFilter, id }),
-  });
-  console.log("data111=====>",query);
-  console.log(query)
+  });  
   return {
     result: query.data?.result || [],
     meta: {

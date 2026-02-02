@@ -8,26 +8,20 @@ import { blacklistDefaultValues, blacklistFormCreateSchema, type BlacklistFormCr
 import { useState } from "react";
 import { IFoundResponse } from "../type";
 import { IProfile } from "../../profile/type";
-import  { getRoleUser }  from "@/lib/auth/getRoleUser";
 
 export const useBlacklistProfileForm = ({ handleNext }: { handleNext: () => void }) => {
-  const { role ,id } = getRoleUser();
   const form = useForm<z.infer<typeof checkBlacklistFormSchema>>({
     defaultValues,
     resolver: zodResolver(checkBlacklistFormSchema),
   });
   const onSubmit = async (data: z.infer<typeof checkBlacklistFormSchema>) => {
-    try {
-      const { identityNumber, identityType } = data;
-      const response = await apiClient.get<ApiResponse<string>>("https://fmsbcapi.l-itlaos.com/backlist-check", { params: data });
+    try { 
+      const response = await apiClient.get<ApiResponse<string>>("https://bn.l-itlaos.com/backlist-check", { params: data });
       if (response.status === "exists" || response.status === "blacklisted") {
         form.setError("root", { type: "manual", message: response.message });
       }
-
-      
-      // ສ່ວນນີ້ແມ່ນ check ບຸນຄົນໃນລະບົບວ່າມີຢູ່ແລ້ວບໍ່
-
-
+ 
+      // ສ່ວນນີ້ແມ່ນ check ບຸນຄົນໃນລະບົບວ່າມີຢູ່ແລ້ວບໍ່ 
       // const checkResponse: any = await apiClient.post("/profile-check-existence", {
       //   data: { identityNumber, identityType },
       // });

@@ -1,6 +1,5 @@
 /* eslint-disable no-magic-numbers */
-import { apiClient } from "@/lib/axios";
-import { type MetaState } from "@/lib/interface";
+import { apiClient } from "@/lib/axios"; 
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
@@ -27,8 +26,10 @@ const fetchProfile = async ({
 }): Promise<IPFolderResponse> => {
   const params: Record<string, unknown> = { page, limit, search };
 
-  if (yearFilter) params.year = yearFilter;
-  if (dateFilter) params.date = dateFilter;
+  if (yearFilter)
+  { params.year = yearFilter; }
+  if (dateFilter)
+  { params.date = dateFilter; }
 
   const response = await apiClient.get<IPFolderResponse>("/folder", { params });
  
@@ -49,9 +50,7 @@ const useFolderCard = () => {
     queryFn: () =>
       fetchProfile({ page, limit, search: debouncedSearch, yearFilter, dateFilter }),
   });
-
-  console.log("📦 Folder Data ===> ", query.data?.result);
-
+  
   return {
     result: query.data?.result || [],
     // meta: {
