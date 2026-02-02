@@ -5,10 +5,10 @@ import { Form } from "@/components/containers/form";
 import React, { useState } from "react";
 import { type UseFormReturn } from "react-hook-form";
 import { Button, Card, Separator, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui";
-import { formSchema } from "./schema";
-import usePriceCombobox from "src/app/(protected)/(finance)/price/hook/usePriceCombobox";
+import { formSchema } from "./schema"; 
 import useProfileCombobox from "src/app/(protected)/(user)/profile-user/hook/useProfileCombobox";
 import MultiFileUpload from "src/app/(protected)/(user)/new-card/uploadFile";
+import usePriceCombobox from "../hook/usePriceCombobox";
 
 const formTitle = "ສ້າງແຟ້ມເອກກະສານ";
 const formSubtitle = "ກະລຸນາປ້ອນຂໍ້ມູນຂອງແຟ້ມ";

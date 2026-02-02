@@ -6,6 +6,18 @@ import { ICompany } from "../company/type";
 import { IPosition } from "../position/type";
 import { IProfileGallery } from "../(image)/profileGallery/type";
 
+export interface IPrice {
+    id: number;
+    no: number;
+    code: string;
+    status: boolean;
+    price: string;
+    name: string;
+    type: string;
+    createdAt: string;
+    updatedAt: string;
+    duration: "SIX_MONTHS" | "ONE_YEAR";
+}
 export interface IProfile {
     ethnicity: INationality;
     barcode?: number
