@@ -1,10 +1,9 @@
-import { type IDistrict } from "../(address)/district/type";
-import { type INationality } from "../nationality/type";
-import { type IProvince } from "../(address)/province/type";
-import { IVillage } from "../(address)/village/type";
-import { ICompany } from "../company/type";
-import { IPosition } from "../position/type";
-import { IProfileGallery } from "../(image)/profileGallery/type";
+import { type IDistrict } from "../../(address)/district/type"; 
+import { IProvince } from "../../(address)/province/type";
+import { IVillage } from "../../(address)/village/type";
+import { ICompany } from "../../company/type";
+import { INationality } from "../../nationality/type";
+import { IPosition } from "../../position/type";
 
 export interface IProfile {
     ethnicity: INationality;
@@ -38,8 +37,7 @@ export interface IProfile {
     overseasCountryId: number;
     createdAt: string;
     updatedAt: string;
-    applicationNumber: string;
-    profileGallery: IProfileGallery[]
+    applicationNumber: string; 
 }
 
 export interface Position {

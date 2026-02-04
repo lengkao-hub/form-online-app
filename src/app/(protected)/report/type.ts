@@ -1,11 +1,9 @@
-import { ICurrency } from "../(finance)/currency/type";
-
+ 
 interface Summary {
     name: string;
     sum: {
         total: number;
-        policeTotal: number;
-        currency: ICurrency;
+        policeTotal: number; 
     }[];
     currencyCounts?: {
         THB: number,

@@ -14,9 +14,7 @@ export default function Home() {
     if (status !== "loading") {
       if (status === "unauthenticated") {
         router.push("/login");
-      } else if (status === "authenticated" && role === "VERSIFICATION_OFFICER") {
-        router.push("/folder");
-      }
+      } 
       else if (status === "authenticated") {
         router.push("/dashboard");
       }

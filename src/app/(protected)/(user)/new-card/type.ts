@@ -1,10 +1,8 @@
-import { type IDistrict } from "../(address)/district/type";
-import { type INationality } from "../nationality/type";
-import { type IProvince } from "../(address)/province/type";
-import { IVillage } from "../(address)/village/type";
-import { ICompany } from "../company/type";
-import { IPosition } from "../position/type";
-import { IProfileGallery } from "../(image)/profileGallery/type";
+ 
+import { IDistrict } from "../../(address)/district/type";
+import { IProvince } from "../../(address)/province/type";
+import { IVillage } from "../../(address)/village/type";
+import { INationality } from "../../nationality/type";
 
 export interface IPrice {
     id: number;
@@ -50,7 +48,6 @@ export interface IProfile {
     createdAt: string;
     updatedAt: string;
     applicationNumber: string;
-    profileGallery: IProfileGallery[]
 }
 export interface IFolder {
     id: number;
@@ -65,7 +62,6 @@ export interface IFolder {
     createdAt: string; 
     totalAmount: number;
     totalPrice: number; 
-    company: ICompany;
 }
 export interface Position {
     id: number;
@@ -136,7 +132,5 @@ export interface IHistory {
     expirationDate: string,
     profileId: number,
     type: string,
-    village: IVillage,
-    company: ICompany,
-    position: IPosition
+    village: IVillage, 
 }

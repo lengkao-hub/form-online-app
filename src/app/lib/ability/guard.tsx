@@ -49,13 +49,10 @@ export default function AuthGuard({
     if (isTokenExpired && !isPublicRoute) {
       router.push("/login");
     }
-    const role = session?.user?.role;
 
     if (requireAuth) {
       if (status === "unauthenticated" && !isPublicRoute) {
         router.push(`/login`);
-      } else if (status === "authenticated" && isPublicRoute && session?.user?.accessToken && role === "VERSIFICATION_OFFICER") {
-        router.push("/folder");
       } else if (status === "authenticated" && isPublicRoute && session?.user?.accessToken) {
         router.push("/dashboard");
       } else {

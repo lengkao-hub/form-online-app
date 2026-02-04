@@ -38,11 +38,11 @@ export default function FinancialSummary() {
             <Card key={index} className="bg-card">
               <CardHeader className="pb-2 bg-primary/5">
                 <CardTitle className="text-lg font-medium flex items-center">
-                  {item.currency.symbol} {item.currency.code} Total
+                  {/* {item.currency.symbol} {item.currency.code} Total */}
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-4">
-                <div className="text-3xl font-bold">{formatCurrency(item.policeTotal, item.currency.symbol)}</div>
+                {/* <div className="text-3xl font-bold">{formatCurrency(item.policeTotal, item.currency.symbol)}</div> */}
               </CardContent>
             </Card>
           ))}
@@ -52,11 +52,11 @@ export default function FinancialSummary() {
             <Card key={index} className="bg-card">
               <CardHeader className="pb-2 bg-primary/5">
                 <CardTitle className="text-lg font-medium flex items-center">
-                  {item.currency.symbol} {item.currency.code} Total (ມອບໂຕຈິງຕາມທະນາຄານ)
+                  {/* {item.currency.symbol} {item.currency.code} Total (ມອບໂຕຈິງຕາມທະນາຄານ) */}
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-4">
-                <div className="text-3xl font-bold">{formatCurrency(item.total, item.currency.symbol)}</div>
+                {/* <div className="text-3xl font-bold">{formatCurrency(item.total, item.currency.symbol)}</div> */}
               </CardContent>
             </Card>
           ))}

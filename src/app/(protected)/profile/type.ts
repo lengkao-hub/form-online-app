@@ -1,5 +1,6 @@
 import { IVillage } from "../(address)/village/type";
 import { ICompany } from "../company/type";
+import { INationality } from "../nationality/type";
 import { IPosition } from "../position/type"; 
 export interface IFolder {
     id: number
@@ -35,6 +36,7 @@ export interface IProfile {
     gender: "MALE" | "FEMALE" | string
     status: "PENDING" | "APPROVED" | "REJECTED" | string
     nationalityId: number
+    nationality: INationality
     ethnicityId: number
     identityType: string
     identityNumber: string

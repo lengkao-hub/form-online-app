@@ -8,7 +8,6 @@ import { getIdentityLabel } from "../../lib";
 import { ImageViewer } from "@/components/containers/image-viewer";
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui';
-import { IProfileGallery } from "src/app/(protected)/(image)/profileGallery/type";
 const FullNameCell = ({ row }: IProfileColumns) => (
   <span>{`${row.original?.firstName} ${row.original?.lastName}`}</span>
 );
@@ -47,17 +46,10 @@ export const columnsProfile: Array<ColumnDef<IProfile>> = [
   {
     accessorKey: "image",
     header: "ຮູບ​",
-    cell: ({ row }) => {
-      const profileGallery = row.original as object as IProfileGallery[] || [];
+    cell: ({ row }) => { 
       return (
-        <>
-          {profileGallery.length > 0 ? (
-            profileGallery.map((item) => (
-              <ImageViewer key={item?.id} src={item?.gallery.image} className="my-1 h-14 w-14" />
-            ))
-          ) : (
-            <ImageViewer src={row.original?.image} className="my-1 h-14 w-14" />
-          )}
+        <> 
+          <ImageViewer src={row.original?.image} className="my-1 h-14 w-14" /> 
         </>
       )
     },
