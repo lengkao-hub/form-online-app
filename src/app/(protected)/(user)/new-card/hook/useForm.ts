@@ -16,6 +16,7 @@ export const useFolderForm = () => {
   });
   const onSubmit = async (data: any[]) => {
     try {
+      const params = { status: "PENDING" };
       const formData = new FormData();
       appendObjectFields({ formData, data, excludeKeys: ["file"] });
 
@@ -36,7 +37,7 @@ export const useFolderForm = () => {
       }
       await apiClient.put("/new-card", {
         data: formData,
-        config: { headers: { "Content-Type": "multipart/form-data" } },
+        config: { params, headers: { "Content-Type": "multipart/form-data" } },
       });
       showToast({ type: "success", title: "ສ້າງແຟ້ມເອກກະສານສໍາເລັດ" });
       queryClient.invalidateQueries({ queryKey: ["folders"] });

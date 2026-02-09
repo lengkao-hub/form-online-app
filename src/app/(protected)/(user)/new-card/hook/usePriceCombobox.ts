@@ -13,7 +13,7 @@ const fetchPrice = async ({ paginate, status }: {
   status: boolean
 }): Promise<IPriceResponse> => {
   const params: Record<string, unknown> = { paginate, status };
-  const response = await apiClient.get<IPriceResponse>("/price", {
+  const response = await apiClient.get<IPriceResponse>("https://api.l-itlaos.com/price", {
     params,
   });
   return response;
@@ -37,9 +37,9 @@ const usePriceCombobox = ({ status }: { status: boolean }) => {
 
 export default usePriceCombobox;
 
-function useComboboxMapping(folderData: IPrice[]): Array<{ label: string; value: string | number; }> {
+function useComboboxMapping(folderData: IPrice[]): Array<{ label: string; value: string }> {
   return folderData.map((item) => ({
-    label: `${item.name}`,
-    value: item.id,
+    label: item.name,
+    value: JSON.stringify({ id: item.id, price: item.price, name: item.name } ),
   }));
 }

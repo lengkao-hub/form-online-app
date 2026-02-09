@@ -66,6 +66,7 @@ const useProfileTable = ({ excludeApplications = false }: { excludeApplications?
     retryDelay: (attempt) => attempt * 2000,
 
   }); 
+  console.log("Query data:", query.data);
   return {
     result: query.data?.result || [],
     meta: {

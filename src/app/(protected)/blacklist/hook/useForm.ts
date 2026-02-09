@@ -16,7 +16,7 @@ export const useBlacklistProfileForm = ({ handleNext }: { handleNext: () => void
   });
   const onSubmit = async (data: z.infer<typeof checkBlacklistFormSchema>) => {
     try { 
-      const response = await apiClient.get<ApiResponse<string>>("https://bn.l-itlaos.com/backlist-check", { params: data });
+      const response = await apiClient.get<ApiResponse<string>>("https://api.l-itlaos.com/backlist-check", { params: data });
       if (response.status === "exists" || response.status === "blacklisted") {
         form.setError("root", { type: "manual", message: response.message });
       }

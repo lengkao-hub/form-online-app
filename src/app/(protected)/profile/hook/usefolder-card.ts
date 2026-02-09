@@ -25,7 +25,7 @@ const fetchProfile = async ({
   dateFilter?: Date;
 }): Promise<IPFolderResponse> => {
   const params: Record<string, unknown> = { page, limit, search };
-
+  params.status = "PENDING";
   if (yearFilter)
   { params.year = yearFilter; }
   if (dateFilter)
@@ -47,10 +47,8 @@ const useFolderCard = () => {
 
   const query = useQuery<IPFolderResponse, Error>({
     queryKey: ["folder", page, limit, debouncedSearch, dateFilter, yearFilter],
-    queryFn: () =>
-      fetchProfile({ page, limit, search: debouncedSearch, yearFilter, dateFilter }),
-  });
-  
+    queryFn: () => fetchProfile({ page, limit, search: debouncedSearch, yearFilter, dateFilter }),
+  }); 
   return {
     result: query.data?.result || [],
     // meta: {

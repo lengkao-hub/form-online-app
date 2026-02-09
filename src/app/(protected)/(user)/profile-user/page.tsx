@@ -10,7 +10,7 @@ import { DataTableToolbar } from "./container/table/filter";
 import useProfileTable from "./hook/useTable"; 
 
 export default function UserPage() {
-  const { result, meta, updatePagination, updateSearch, filter, loading } = useProfileTable({ state: "WAITING" });
+  const { result, meta, updatePagination, updateSearch, filter, loading } = useProfileTable();
   return (
     <div className="pl-4 space-y-2">
       <div className="flex justify-between items-center">

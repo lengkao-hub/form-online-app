@@ -45,7 +45,7 @@ export const useProfileEditForm = ({ id }: { id: number }) => {
         },
       });
       queryClient.invalidateQueries({ queryKey: ["applications"] });
-      await queryClient.invalidateQueries({ queryKey: ["profiles", id] });
+      await queryClient.invalidateQueries({ queryKey: ["profile"] });
       showToast({ type: "success", title: "ແກ້ໄຂຂໍ້ມູນບຸກຄົນສໍາເລັດ" });
       router.back();
     } catch {

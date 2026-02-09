@@ -24,53 +24,14 @@ export const FolderForm: React.FC<FolderFormProps> = ({ form, onSubmit, isEdit =
   // eslint-disable-next-line no-unused-vars
   const { result: priceOptions } = usePriceCombobox({ status: true });
   const { result: profileOption } = useProfileCombobox();
-  const formRef = React.useRef<HTMLFormElement>(null);
-  const price = [
-    {
-      value: JSON.stringify({
-        id: "1",
-        name: "ບັດໜື່ງປີ",
-        price: "100",
-      }),
-      label: "ບັດໜື່ງປີ",
-    },
-    {
-      value: JSON.stringify({
-        id: "2",
-        name: "ບັດ6ເດືອນ",
-        price: "60",
-      }),
-      label: "ບັດ6ເດືອນ",
-    },
-    {
-      value: JSON.stringify({
-        id: "3",
-        name: "ບັດ3ເດືອນ",
-        price: "30",
-      }),
-      label: "ບັດ3ເດືອນ",
-    },
-  ];
+  const formRef = React.useRef<HTMLFormElement>(null);  
 
   const [savedData, setSavedData] = useState<any[]>([]);
   const [selectedValue, setSelectedValue] = useState<string | number>("");
   const [priceValue, setPriceValue] = useState<string | number>("");
   const [show, setShow] = useState<boolean>(false)
   const [files, setFiles] = useState<File[]>([]);
-
-  // const handlePriceChange = (
-  //   groupIndex: number,
-  //   itemIndex: number,
-  //   value: string | number
-  // ) => {
-  //   let parsed: any = {};
-
-  //   if (typeof value === "string") {
-  //     try {
-  //       parsed = JSON.parse(value);
-  //     } catch { }
-  //   }
-
+  
   const handleProfileChange = (value: string | number) => {
     if (typeof value === "string") {
       try {
@@ -86,45 +47,21 @@ export const FolderForm: React.FC<FolderFormProps> = ({ form, onSubmit, isEdit =
       }
     }
   };
-  // const handlePriceChange = (value: string | number) => {
-  //   if (typeof value === "string") {
-  //     try {
-  //       const parsed = JSON.parse(value);
-  //       console.log("parsed", parsed);
-  //       setPriceValue(value); // ເກັບ string ທີ່ຍັງເປັນ JSON
-
-  //       form.setValue("priceId", parsed.id, { shouldValidate: true });
-  //       form.setValue("price", parsed.price);
-  //       form.setValue("priceName", parsed.name);
-  //     } catch (error) {
-  //       console.error("JSON parse error", error);
-  //     }
-  //   }
-  // };
   const handlePriceChange = (value: string | number) => {
     if (typeof value === "string") {
       try {
-        const parsed = JSON.parse(value);
+        const parsed = JSON.parse(value); 
+        setPriceValue(value); // ເກັບ string ທີ່ຍັງເປັນ JSON
 
-        setPriceValue(value); // ເກັບ JSON string
-
-        form.setValue("priceId", Number(parsed.id), {
-          shouldValidate: true,
-        });
-
-        form.setValue("price", parsed.price, {
-          shouldValidate: true,
-        });
-
-        form.setValue("priceName", parsed.name, {
-          shouldValidate: true,
-        });
+        form.setValue("priceId", parsed.id, { shouldValidate: true });
+        form.setValue("price", parsed.price);
+        form.setValue("priceName", parsed.name);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error("JSON parse error", error);
       }
     }
-  };
+  }; 
   const onSubmitSuccess = (data: any) => {
     const fullData = {
       ...data,
@@ -180,7 +117,7 @@ export const FolderForm: React.FC<FolderFormProps> = ({ form, onSubmit, isEdit =
                 <Form.Input.Combobox placeholder="ເລື່ອກບຸກຄົນ" disabled={isEdit} options={profileOption} value={selectedValue} onChange={handleProfileChange} />
               </Form.Field>
               <Form.Field name="priceId" control={form.control} label="ປະເພດບັດ" >
-                <Form.Input.Combobox placeholder="ປະເພດບັດ" className="w-full" options={price} value={priceValue} onChange={handlePriceChange} disabled={isEdit} formRef={formRef} />
+                <Form.Input.Combobox placeholder="ປະເພດບັດ" className="w-full" options={priceOptions} value={priceValue} onChange={handlePriceChange} disabled={isEdit} formRef={formRef} />
               </Form.Field>
               <MultiFileUpload
                 files={files}

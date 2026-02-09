@@ -34,8 +34,8 @@ const fetchFolder = async ({ page, limit, search, genderFilter, yearFilter, date
   if (status) {
     params.status = status;
   }
-  
-  const response = await apiClient.get<IProfileResponse>("/approved-user",{
+
+  const response = await apiClient.get<IProfileResponse>("/approved-profile", {
     params,
   });
   return response;

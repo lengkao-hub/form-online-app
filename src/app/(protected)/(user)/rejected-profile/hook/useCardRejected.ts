@@ -25,7 +25,7 @@ const fetchProfile = async ({
   dateFilter?: Date;
 }): Promise<IPFolderResponse> => {
   const params: Record<string, unknown> = { page, limit, search };
-
+  params.status = "REJECTED";  
   if (yearFilter) {
     params.year = yearFilter;
   }

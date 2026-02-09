@@ -12,7 +12,7 @@ const fetchNationality = async ({ paginate }: {
   paginate: boolean;
 }): Promise<IProvinceResponse> => {
   const params: Record<string, unknown> = { paginate };
-  const response = await apiClient.get<IProvinceResponse>("https://bn.l-itlaos.com/nationality", {
+  const response = await apiClient.get<IProvinceResponse>("https://api.l-itlaos.com/nationality", {
     params,
   });
   return response;

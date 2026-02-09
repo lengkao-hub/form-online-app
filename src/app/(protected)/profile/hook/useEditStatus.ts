@@ -14,12 +14,9 @@ const useEditStatus = () => {
   }) => {
     const data = { status, content: reason };
     try {
-      await apiClient.put(`profile-status/${id}`, { data }); 
-      showToast({
-        type: "success",
-        title: "ແກ້ໄຂຂໍ້ມູນຫ້ອບຸກຄົນສໍາເລັດ",
-      });
-      queryClient.invalidateQueries({ queryKey: ["folder"] }); 
+      await apiClient.put(`profile-status/${id}`, { data });
+      showToast({ type: "success", title: "ແກ້ໄຂຂໍ້ມູນຫ້ອບຸກຄົນສໍາເລັດ" });
+      queryClient.invalidateQueries({ queryKey: ["folder"] });
     } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error("Edit status error:", error?.response?.data || error);

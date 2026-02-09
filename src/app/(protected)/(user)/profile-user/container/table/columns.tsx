@@ -101,7 +101,7 @@ export const columnsProfile: Array<ColumnDef<IProfile>> = [
     header: "",
     cell: ({ row: { original: row } }) => {
       const rowId = row.id;
-      return <DataTableRowActions rowId={rowId} resource="profile" />;
+      return <DataTableRowActions rowId={rowId} resource="profile-user" />;
     },
   },
 ];

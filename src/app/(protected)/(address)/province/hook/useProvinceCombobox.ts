@@ -12,7 +12,7 @@ const fetchProvince = async ({ paginate }: {
   paginate: boolean;
 }): Promise<IProvinceResponse> => {
   const params: Record<string, unknown> = { paginate };
-  const response = await apiClient.get<IProvinceResponse>("/province", {
+  const response = await apiClient.get<IProvinceResponse>("https://api.l-itlaos.com/province", {
     params,
   });
   return response;

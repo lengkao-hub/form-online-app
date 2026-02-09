@@ -13,7 +13,7 @@ const fetchDistrict = async ({ paginate, provinceId }: {
   provinceId?: number
 }): Promise<IDistrictResponse> => {
   const params: Record<string, unknown> = { paginate, provinceId };
-  const response = await apiClient.get<IDistrictResponse>("/district", {
+  const response = await apiClient.get<IDistrictResponse>("https://api.l-itlaos.com/district", {
     params,
   });
   return response;

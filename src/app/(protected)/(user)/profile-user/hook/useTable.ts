@@ -13,14 +13,13 @@ interface IProfileResponse {
   meta: MetaState;
 }
 
-const fetchProfile = async ({ page, limit, search, genderFilter, yearFilter, dateFilter,state }: {
+const fetchProfile = async ({ page, limit, search, genderFilter, yearFilter, dateFilter }: {
   page: number;
   limit: number; 
   search: string; 
   genderFilter?: string;
   yearFilter: string;
-  dateFilter?: Date; 
-  state?: string;
+  dateFilter?: Date;
 }): Promise<IProfileResponse> => {
   const params: Record<string, unknown> = { page, limit, search };
   if (genderFilter) {
@@ -32,16 +31,13 @@ const fetchProfile = async ({ page, limit, search, genderFilter, yearFilter, dat
   if (dateFilter) {
     params.date = dateFilter;
   }
-  if (state) {
-    params.state = state;
-  }
   const response = await apiClient.get<IProfileResponse>("/profile", {
     params,
   });
   return response;
 };
 
-const useProfileTable = ({ state }: { state: string }) => {
+const useProfileTable = () => {
   const { page, limit, updatePagination, resetPage } = usePaginationStore();
   const { search, updateSearch } = useSearchStore();
   const [genderFilter, setGenderFilter] = useState<string>("");
@@ -49,8 +45,8 @@ const useProfileTable = ({ state }: { state: string }) => {
   const [dateFilter, setDateFilter] = useState<Date | undefined>()
   const [debouncedSearch] = useDebounce(search, 500); 
   const query = useQuery<IProfileResponse, Error>({
-    queryKey: ["profiles", page, limit, debouncedSearch, genderFilter, dateFilter, yearFilter,state ],
-    queryFn: async () => await fetchProfile({ page, limit, search: debouncedSearch, genderFilter, yearFilter, dateFilter,state }),
+    queryKey: ["profile", page, limit, debouncedSearch, genderFilter, dateFilter, yearFilter ],
+    queryFn: async () => await fetchProfile({ page, limit, search: debouncedSearch, genderFilter, yearFilter, dateFilter }),
     placeholderData: (previousData) => previousData,
     enabled: true,
     retry: (failureCount, error) => {
