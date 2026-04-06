@@ -13,7 +13,7 @@ export default function UserPage() {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <TitleLabel title='ລໍຖ້າອະນຸມັດ' subtitle='ນີ່ແມ່ນລາຍການຂໍ້ມູນລົງທະບຽນບຸກຄົນທີ່ລໍຖ້າອະນຸມັດ' /> 
+        <TitleLabel title='ລໍຖ້າອະນຸມັດ' subtitle='ນີ່ແມ່ນລາຍການຂໍ້ມູນອະນຸມັດ' /> 
       </div>
       <Tab.Group>
         <Tab.Panels>

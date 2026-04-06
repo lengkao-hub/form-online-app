@@ -1,15 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { type UseFormReset } from "react-hook-form";
 
-export interface RoleLabels {
-  STAFF: string;
+export interface RoleLabels { 
   ADMIN: string;
-  SUPER_ADMIN: string;
-  FINANCE: string
-  POLICE_OFFICER: string
-  POLICE_COMMANDER: string
-  POLICE_PRODUCTION: string
-  VERSIFICATION_OFFICER: string
+  USER: string;
 }
 
 export interface IUser {

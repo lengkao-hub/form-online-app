@@ -6,13 +6,14 @@ import { useState } from "react";
 import { useDebounce } from "use-debounce";
 import { type IProfile } from "../type";
 import { usePaginationStore, useSearchStore } from "../../../profile/hook/pagination-search";
-import { AxiosError } from "axios";
+import { AxiosError } from "axios"; 
+import { useSession } from "next-auth/react";
 interface IProfileResponse {
   result: IProfile[];
   meta: MetaState;
 }
 
-const fetchProfile = async ({ page, limit, search, excludeApplications, genderFilter, yearFilter, dateFilter, officeId, officeIds,status }: {
+const fetchProfile = async ({ page, limit, search, excludeApplications, genderFilter, yearFilter, dateFilter, officeId, officeIds,status, userId }: {
   page: number;
   limit: number;
   officeId?: number;
@@ -23,7 +24,8 @@ const fetchProfile = async ({ page, limit, search, excludeApplications, genderFi
   dateFilter?: Date;
   officeIds?: string;
   id?:string;
-  status?: string;
+  status?: string[];
+  userId?: number | string;
 }): Promise<IProfileResponse> => {
   const params: Record<string, unknown> = { page, limit, search, excludeApplications, officeId };
   params.status = status;
@@ -39,7 +41,10 @@ const fetchProfile = async ({ page, limit, search, excludeApplications, genderFi
   if (officeIds) {
     params.officeIds = officeIds;
   }
-  const response = await apiClient.get<IProfileResponse>(`/approved-profile`, {
+  if (userId) {
+    params.userId = userId;
+  }
+  const response = await apiClient.get<IProfileResponse>(`/status-profile`, {
     params,
   });
   return response;
@@ -52,10 +57,12 @@ const useProfileTable = ({ excludeApplications = false }: { excludeApplications?
   const [yearFilter, setYearFilter] = useState<string>("")
   const [dateFilter, setDateFilter] = useState<Date | undefined>()
   const [debouncedSearch] = useDebounce(search, 500);
-  const status ="PENDING";
+  const { data } = useSession()
+  const userId = data?.user.id
+  const status =["PENDING"];
   const query = useQuery<IProfileResponse, Error>({
-    queryKey: ["approved-profile", page, limit, debouncedSearch, excludeApplications, genderFilter, dateFilter, yearFilter, status ],
-    queryFn: async () => await fetchProfile({ page, limit, search: debouncedSearch, excludeApplications, genderFilter, yearFilter, dateFilter, status }),
+    queryKey: ["status-profile", page, limit, debouncedSearch, excludeApplications, genderFilter, dateFilter, yearFilter, status, userId],
+    queryFn: async () => await fetchProfile({ page, limit, search: debouncedSearch, excludeApplications, genderFilter, yearFilter, dateFilter, status, userId }),
     placeholderData: (previousData) => previousData,
     enabled: true,
     retry: (failureCount, error) => {
@@ -66,7 +73,7 @@ const useProfileTable = ({ excludeApplications = false }: { excludeApplications?
     retryDelay: (attempt) => attempt * 2000,
 
   }); 
-  console.log("Query data:", query.data);
+  // console.log("Query data:", query.data);
   return {
     result: query.data?.result || [],
     meta: {

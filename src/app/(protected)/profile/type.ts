@@ -8,6 +8,7 @@ export interface IFolder {
     content: string,
     createdAt: string
     updatedAt: string
+    status: string
     user: IUser
     profile: IProfile[]
     folderPrice:IFolderPrice[]
@@ -55,6 +56,7 @@ export interface IProfile {
     companyId: number | null
     userId: number
     folderId: number
+    folder: IFolder;
 }
 
 export interface Position {

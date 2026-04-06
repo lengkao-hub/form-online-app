@@ -16,6 +16,7 @@ export const useFolderForm = () => {
   });
   const onSubmit = async (data: any[]) => {
     try {
+      // console.log("Form Data:", data); // ເພີ່ມການ log ຂໍ້ມູນເພື່ອ debug
       const params = { status: "PENDING" };
       const formData = new FormData();
       appendObjectFields({ formData, data, excludeKeys: ["file"] });
@@ -42,7 +43,7 @@ export const useFolderForm = () => {
       showToast({ type: "success", title: "ສ້າງແຟ້ມເອກກະສານສໍາເລັດ" });
       queryClient.invalidateQueries({ queryKey: ["folders"] });
       form.reset();
-
+      return true;
     } catch (error) {
       const axiosError = error as { data: { message: string } };
       if (axiosError?.data?.message === "Office not found") {

@@ -13,7 +13,7 @@ const fetchVillage = async ({ paginate, districtId }: {
   districtId?: number
 }): Promise<IVillageResponse> => {
   const params: Record<string, unknown> = { paginate, districtId };
-  const response = await apiClient.get<IVillageResponse>("https://api.l-itlaos.com/village", {
+  const response = await apiClient.get<IVillageResponse>("https://fmsbcapi.l-itlaos.com/village", {
     params,
   });
   return response;

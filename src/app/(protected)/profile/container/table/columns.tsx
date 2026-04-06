@@ -5,9 +5,7 @@ import { Badge } from "@/components/ui";
 import { type ColumnDef } from "@tanstack/react-table";
 import { type IProfile, type IProfileColumns } from "../../type"; 
 import { getIdentityLabel } from "../../lib";
-import { ImageViewer } from "@/components/containers/image-viewer";
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui';
+import { ImageViewer } from "@/components/containers/image-viewer"; 
 const FullNameCell = ({ row }: IProfileColumns) => (
   <span>{`${row.original?.firstName} ${row.original?.lastName}`}</span>
 );
@@ -27,18 +25,6 @@ const GenderCell = ({ row }: IProfileColumns) => {
   const gender = row.original?.gender ?? "";
   return (
     <Badge variant={gender === "ຊາຍ" ? "outline" : "secondary"}>{`${gender}`}</Badge>
-  );
-};
-const ProfileLinkCell = ({ item }: any) => {
-  const router = useRouter();
-  const hasProfile = item.profileGallery && item.profileGallery.length > 0;
-  const pushTo = hasProfile ? `/profileGallery/edit/${item.id}` : `/profileGallery/create/0/${item.id}`;
-  return (
-    <div>
-      <Button variant="outline" size="sm" className="h-9 w-10" onClick={() => router.push(pushTo)}>
-        Link
-      </Button>
-    </div>
   );
 }; 
 
@@ -87,12 +73,12 @@ export const columnsProfile: Array<ColumnDef<IProfile>> = [
   {
     accessorKey: "nationality.code",
     header: "ສັນຊາດ",
-  },
+  }, 
   {
     accessorKey: "status",
     header: "ສະຖານະ",
     cell: ({ row }) => {
-      const status = row.original?.status ?? "ບໍ່ຮູ້ສະຖານະ";
+      const status = row.original?.folder?.status ?? "ບໍ່ຮູ້ສະຖານະ";
       let colorClass = "";
       switch (status) {
         case "PENDING":
@@ -119,12 +105,7 @@ export const columnsProfile: Array<ColumnDef<IProfile>> = [
   },
   {
     accessorKey: "id",
-    header: "ຮູບພາບ",
-    cell: ({ row }) => <ProfileLinkCell item={row.original} />,
-  },
-  {
-    accessorKey: "id",
-    header: "",
+    header: "ແກ້ໄຂ",
     cell: ({ row: { original: row } }) => {
       const rowId = row.id;
       return <DataTableRowActions rowId={rowId} resource="profile" />;

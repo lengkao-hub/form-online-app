@@ -93,7 +93,7 @@ export const columnsProfile: Array<ColumnDef<IProfile>> = [
     accessorKey: "status",
     header: "ສະຖານະ",
     cell: ({ row }) => {
-      const status = row.original?.status ?? "ບໍ່ຮູ້ສະຖານະ";
+      const status = row.original?.folder.status ?? "ບໍ່ຮູ້ສະຖານະ";
       let colorClass = "";
       switch (status) {
         case "PENDING":

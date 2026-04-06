@@ -48,6 +48,7 @@ export interface IProfile {
     createdAt: string;
     updatedAt: string;
     applicationNumber: string;
+    folder: IFolder;
 }
 export interface IFolder {
     id: number;

@@ -86,8 +86,7 @@ export const FolderForm: React.FC<FolderFormProps> = ({ form, onSubmit, isEdit =
       console.log("❌ Validation errors:", errors);
     }
   };
-
-  // Now handleSave has no nested callbacks
+ 
   const handleSave = form.handleSubmit(onSubmitSuccess, onSubmitError);
 
   const handleDelete = (index: any) => {
@@ -96,8 +95,8 @@ export const FolderForm: React.FC<FolderFormProps> = ({ form, onSubmit, isEdit =
   const onsubmit = async () => {
     const result = await onSubmit(savedData)
     if (result) { // ຖ້າ validation ຜ່ານ
-      // setShow(false)
-      // setSavedData([])
+      setShow(false)
+      setSavedData([])
     }
   }
 

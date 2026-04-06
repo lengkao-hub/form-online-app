@@ -27,7 +27,7 @@ export const useProfileForm = ({ handleReset }: { handleReset: () => void }) => 
         config: { headers: { "Content-Type": "multipart/form-data" } },
       }); 
       showToast({ type: "success", title: "ລົງທະບຽນບຸກຄົນໃໝ່ສໍາເລັດ" });
-      queryClient.invalidateQueries({ queryKey: ["profiles"] });
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
       form.reset();
       form.setValue("phoneNumber", data.phoneNumber);
       form.setValue("overseasProvince", data.overseasProvince);

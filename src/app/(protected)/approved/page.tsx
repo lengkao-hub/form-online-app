@@ -10,12 +10,12 @@ import useTable from "./hook/useTable";
 import { TitleLabel } from "@/components/containers/headerLabel";
 
 export default function UserPage() {
-  const { result, meta, updatePagination, updateSearch, filter, loading } = useTable({ status: "APPROVED" });
- 
+  const { result, meta, updatePagination, updateSearch, filter, loading } = useTable({ status: ["APPROVED", "APPROVED_BY_POLICE"] });
+
   return (
     <div>
       <div className="flex justify-between items-center">
-        <TitleLabel title='ລໍຖ້າອະນຸມັດ' subtitle='ນີ່ແມ່ນລາຍການຂໍ້ມູນລົງທະບຽນບຸກຄົນທີ່ລໍຖ້າອະນຸມັດ' />
+        <TitleLabel title='ລໍຖ້າອະນຸມັດ' subtitle='ນີ່ແມ່ນລາຍການຂໍ້ມູນລົງທະບຽນບຸກຄົນທີ່ອະນຸມັດແລ້ວ' />
         {/* <CreateButton resouce="profile" title='ລົງທະບຽນບຸກຄົນ' /> */}
       </div>
       <Tab.Group>

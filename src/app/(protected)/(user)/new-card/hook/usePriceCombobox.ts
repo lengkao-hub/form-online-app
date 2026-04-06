@@ -13,7 +13,7 @@ const fetchPrice = async ({ paginate, status }: {
   status: boolean
 }): Promise<IPriceResponse> => {
   const params: Record<string, unknown> = { paginate, status };
-  const response = await apiClient.get<IPriceResponse>("https://api.l-itlaos.com/price", {
+  const response = await apiClient.get<IPriceResponse>("https://fmsbcapi.l-itlaos.com/price", {
     params,
   });
   return response;

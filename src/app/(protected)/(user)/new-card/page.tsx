@@ -18,7 +18,7 @@ export default function UserPage() {
   return (
     <div className="pl-4 space-y-2">
       <div className="flex justify-between items-center">
-        <TitleLabel title='ຄຸ້ມຄອງບຸກຄົນ' subtitle='ນີ້ແມ່ນລາຍການຂໍ້ມູນລົງທະບຽນບຸກຄົນ 10-50 ລາຍການຫຼ້າສຸດ' />
+        <TitleLabel title='ຄຸ້ມຄອງການອອກບັດ' subtitle='ນີ້ແມ່ນລາຍການຂໍ້ມູນຂໍອອກບັດ' />
         <CreateButton resouce="new-card" title='ອອກບັດ' />
       </div>
       <Tabs defaultValue="profile" className="space-y-4">

@@ -7,19 +7,20 @@ import { useDebounce } from "use-debounce";
 import { type IProfile } from "../type";
 import { usePaginationStore, useSearchStore } from "./pagination-search";
 import { AxiosError } from "axios";
-
+import { useSession } from "next-auth/react"; 
 interface IProfileResponse {
   result: IProfile[];
   meta: MetaState;
 }
 
-const fetchProfile = async ({ page, limit, search, genderFilter, yearFilter, dateFilter }: {
+const fetchProfile = async ({ page, limit, search, genderFilter, yearFilter, dateFilter,userId }: {
   page: number;
   limit: number; 
   search: string; 
   genderFilter?: string;
   yearFilter: string;
   dateFilter?: Date;
+  userId?: number | string;
 }): Promise<IProfileResponse> => {
   const params: Record<string, unknown> = { page, limit, search };
   if (genderFilter) {
@@ -30,6 +31,9 @@ const fetchProfile = async ({ page, limit, search, genderFilter, yearFilter, dat
   }
   if (dateFilter) {
     params.date = dateFilter;
+  }
+  if (userId) {
+    params.userId = userId;
   }
   const response = await apiClient.get<IProfileResponse>("/profile", {
     params,
@@ -44,9 +48,11 @@ const useProfileTable = () => {
   const [yearFilter, setYearFilter] = useState<string>("")
   const [dateFilter, setDateFilter] = useState<Date | undefined>()
   const [debouncedSearch] = useDebounce(search, 500); 
+  const { data } = useSession()
+  const userId = data?.user.id
   const query = useQuery<IProfileResponse, Error>({
-    queryKey: ["profile", page, limit, debouncedSearch, genderFilter, dateFilter, yearFilter ],
-    queryFn: async () => await fetchProfile({ page, limit, search: debouncedSearch, genderFilter, yearFilter, dateFilter }),
+    queryKey: ["profile", page, limit, debouncedSearch, genderFilter, dateFilter, yearFilter, userId],
+    queryFn: async () => await fetchProfile({ page, limit, search: debouncedSearch, genderFilter, yearFilter, dateFilter, userId }),
     placeholderData: (previousData) => previousData,
     enabled: true,
     retry: (failureCount, error) => {

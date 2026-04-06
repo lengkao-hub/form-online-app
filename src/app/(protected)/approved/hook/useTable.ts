@@ -20,7 +20,7 @@ const fetchFolder = async ({ page, limit, search, genderFilter, yearFilter, date
   genderFilter?: string;
   yearFilter: string;
   dateFilter?: Date;
-  status:string;
+  status:string[];
 }): Promise<IProfileResponse> => {
   const params: Record<string, unknown> = { page, limit, search };
   if (genderFilter) {
@@ -35,13 +35,14 @@ const fetchFolder = async ({ page, limit, search, genderFilter, yearFilter, date
   if (status) {
     params.status = status;
   }
-  const response = await apiClient.get<IProfileResponse>("/approved",{
+  const response = await apiClient.get<IProfileResponse>("/status-profile", {
     params,
   });
   return response;
 };
 
-const useTable = ({ status }:{status:string}) => {
+const useTable = ({ status }:{status:string[]}) => {
+  // console.log("useTable called with status:", status);
   const { page, limit, updatePagination, resetPage } = usePaginationStore();
   const { search, updateSearch } = useSearchStore();
   const [genderFilter, setGenderFilter] = useState<string>("");
