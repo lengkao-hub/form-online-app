@@ -6,7 +6,7 @@ export function NewProfile({ profile }: { profile: IProfile[] }) {
   return (
     <Card className='col-span-1 lg:col-span-3'>
       <CardHeader>
-        <CardTitle>ຄົນຂໍອອກບັດໃໝ່</CardTitle>
+        <CardTitle>ຄົນບັນທືກເຂົ້າໃໝ່</CardTitle>
       </CardHeader>
       <CardContent>
         <div className='space-y-8'>
